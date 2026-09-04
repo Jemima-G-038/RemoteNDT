@@ -1,0 +1,1311 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+rndt:LOG_0001 a owl:NamedIndividual ;
+    rndt:logDate "2026-02-15"^^xsd:date ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logsActivity rndt:SelectNDTMethodAndTechnique .
+
+rndt:LOG_0002 a owl:NamedIndividual ;
+    rndt:logDate "2026-02-15"^^xsd:date ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logsActivity rndt:PrepareRNDTProcedure .
+
+rndt:LOG_0003 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0004 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0005 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0006 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0007 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0008 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0009 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0010 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0011 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0012 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0013 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0014 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0015 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0016 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0017 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-04"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_001 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0018 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0019 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0020 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0021 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0022 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0023 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0024 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0025 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0026 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0027 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0028 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0029 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0030 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0031 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0032 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-11"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_002 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0033 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0034 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0035 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0036 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0037 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0038 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0039 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0040 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0041 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0042 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0043 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0044 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0045 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Reject" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0046 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0047 a owl:NamedIndividual ;
+    rndt:logDate "2026-03-18"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_003 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0048 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0049 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0050 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0051 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0052 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0053 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0054 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0055 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0056 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0057 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0058 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0059 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0060 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0061 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0062 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-02"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_004 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0063 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0064 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0065 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0066 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0067 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0068 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0069 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0070 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0071 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0072 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0073 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0074 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0075 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0076 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0077 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-09"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_005 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0078 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0079 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0080 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0081 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0082 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0083 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0084 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0085 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_OP_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0086 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0087 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0088 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0089 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0090 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Reject" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0091 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0092 a owl:NamedIndividual ;
+    rndt:logDate "2026-04-23"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_006 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0093 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0094 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0095 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0096 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0097 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0098 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0099 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0100 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0101 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0102 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0103 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0104 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0105 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_INS_02 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0106 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0107 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-07"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_007 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:LOG_0108 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0109 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0110 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0111 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0112 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0113 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfigureExposureParameters .
+
+rndt:LOG_0114 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreImage .
+
+rndt:LOG_0115 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_OP_02 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferImage .
+
+rndt:LOG_0116 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0117 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "No indications found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0118 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0119 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedImages .
+
+rndt:LOG_0120 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0121 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0122 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-14"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_008 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:PROC_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_001)"@en ;
+    rndt:belongsToInspection rndt:INSP_001 ;
+    rndt:derivedFrom rndt:RAW_001 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_001/processed" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:PROC_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_002)"@en ;
+    rndt:belongsToInspection rndt:INSP_002 ;
+    rndt:derivedFrom rndt:RAW_002 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_002/processed" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:PROC_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_003)"@en ;
+    rndt:belongsToInspection rndt:INSP_003 ;
+    rndt:derivedFrom rndt:RAW_003 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:hasIndication rndt:IND_001 ;
+    rndt:storageLocation "/rndt-archive/INSP_003/processed" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:PROC_004 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_004)"@en ;
+    rndt:belongsToInspection rndt:INSP_004 ;
+    rndt:derivedFrom rndt:RAW_004 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_004/processed" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:PROC_005 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_005)"@en ;
+    rndt:belongsToInspection rndt:INSP_005 ;
+    rndt:derivedFrom rndt:RAW_005 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_005/processed" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:PROC_006 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_006)"@en ;
+    rndt:belongsToInspection rndt:INSP_006 ;
+    rndt:derivedFrom rndt:RAW_006 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:hasIndication rndt:IND_002 ;
+    rndt:storageLocation "/rndt-archive/INSP_006/processed" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:PROC_007 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_007)"@en ;
+    rndt:belongsToInspection rndt:INSP_007 ;
+    rndt:derivedFrom rndt:RAW_007 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_007/processed" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:PROC_008 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed radiographic image (INSP_008)"@en ;
+    rndt:belongsToInspection rndt:INSP_008 ;
+    rndt:derivedFrom rndt:RAW_008 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_008/processed" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:REPORT_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_001)"@en ;
+    rndt:belongsToInspection rndt:INSP_001 .
+
+rndt:REPORT_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_002)"@en ;
+    rndt:belongsToInspection rndt:INSP_002 .
+
+rndt:REPORT_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_003)"@en ;
+    rndt:belongsToInspection rndt:INSP_003 .
+
+rndt:REPORT_004 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_004)"@en ;
+    rndt:belongsToInspection rndt:INSP_004 .
+
+rndt:REPORT_005 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_005)"@en ;
+    rndt:belongsToInspection rndt:INSP_005 .
+
+rndt:REPORT_006 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_006)"@en ;
+    rndt:belongsToInspection rndt:INSP_006 .
+
+rndt:REPORT_007 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_007)"@en ;
+    rndt:belongsToInspection rndt:INSP_007 .
+
+rndt:REPORT_008 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_008)"@en ;
+    rndt:belongsToInspection rndt:INSP_008 .
+
+rndt:SIG_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_001)"@en ;
+    rndt:belongsToInspection rndt:INSP_001 .
+
+rndt:SIG_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_002)"@en ;
+    rndt:belongsToInspection rndt:INSP_002 .
+
+rndt:SIG_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_003)"@en ;
+    rndt:belongsToInspection rndt:INSP_003 .
+
+rndt:SIG_004 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_004)"@en ;
+    rndt:belongsToInspection rndt:INSP_004 .
+
+rndt:SIG_005 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_005)"@en ;
+    rndt:belongsToInspection rndt:INSP_005 .
+
+rndt:SIG_006 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_006)"@en ;
+    rndt:belongsToInspection rndt:INSP_006 .
+
+rndt:SIG_007 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_007)"@en ;
+    rndt:belongsToInspection rndt:INSP_007 .
+
+rndt:SIG_008 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_008)"@en ;
+    rndt:belongsToInspection rndt:INSP_008 .
+
+rndt:C_001 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Turbine Blade Casting"@en ;
+    rndt:partNumber "TB-4471-A" ;
+    rndt:serialNumber "SN00123" .
+
+rndt:C_002 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Compressor Disk"@en ;
+    rndt:partNumber "CD-2205-B" ;
+    rndt:serialNumber "SN00456" .
+
+rndt:C_003 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Fuel Line Bracket"@en ;
+    rndt:partNumber "FL-1190-W" ;
+    rndt:serialNumber "SN00789" .
+
+rndt:C_004 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Turbine Blade Casting"@en ;
+    rndt:partNumber "TB-4471-A" ;
+    rndt:serialNumber "SN00124" .
+
+rndt:C_005 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Landing Gear Bracket"@en ;
+    rndt:partNumber "LG-3302-C" ;
+    rndt:serialNumber "SN00234" .
+
+rndt:C_006 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Compressor Disk"@en ;
+    rndt:partNumber "CD-2205-B" ;
+    rndt:serialNumber "SN00457" .
+
+rndt:C_007 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Turbine Blade Casting"@en ;
+    rndt:partNumber "TB-4471-A" ;
+    rndt:serialNumber "SN00125" .
+
+rndt:C_008 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Engine Casing Section"@en ;
+    rndt:partNumber "EC-5510-D" ;
+    rndt:serialNumber "SN00891" .
+
+rndt:IND_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Linear indication, 4.2 mm, root region"@en ;
+    rndt:appliesAcceptanceCriteria rndt:AC_001 .
+
+rndt:IND_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Cluster porosity indication, 2.1 mm"@en ;
+    rndt:appliesAcceptanceCriteria rndt:AC_001 .
+
+rndt:RAW_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_001)"@en ;
+    rndt:belongsToInspection rndt:INSP_001 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_001/raw" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:RAW_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_002)"@en ;
+    rndt:belongsToInspection rndt:INSP_002 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_002/raw" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:RAW_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_003)"@en ;
+    rndt:belongsToInspection rndt:INSP_003 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_003/raw" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:RAW_004 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_004)"@en ;
+    rndt:belongsToInspection rndt:INSP_004 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_004/raw" ;
+    rndt:viewedWithSoftware rndt:SW_001 .
+
+rndt:RAW_005 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_005)"@en ;
+    rndt:belongsToInspection rndt:INSP_005 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_005/raw" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:RAW_006 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_006)"@en ;
+    rndt:belongsToInspection rndt:INSP_006 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_006/raw" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:RAW_007 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_007)"@en ;
+    rndt:belongsToInspection rndt:INSP_007 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_007/raw" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:RAW_008 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw radiographic image (INSP_008)"@en ;
+    rndt:belongsToInspection rndt:INSP_008 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_008/raw" ;
+    rndt:viewedWithSoftware rndt:SW_002 .
+
+rndt:AC_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Welds acceptance criteria ACC-WELD-A"@en .
+
+rndt:EQ_001 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digital radiography system DR-4500"@en .
+
+rndt:EQ_002 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Portable X-ray generator XG-220"@en .
+
+rndt:FAC_001 a rndt:Facility,
+        owl:NamedIndividual ;
+    rdfs:label "Remote NDT inspection cell A"@en .
+
+rndt:FAC_002 a rndt:Facility,
+        owl:NamedIndividual ;
+    rdfs:label "Partner interpretation centre"@en .
+
+rndt:PROCEDURE_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Remote digital radiography procedure RNDT-DR-001"@en ;
+    rndt:approvedBy rndt:P_VER_01 ;
+    rndt:procedureRevision "Rev C" .
+
+rndt:PROCEDURE_002 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Remote digital radiography procedure RNDT-DR-002"@en ;
+    rndt:approvedBy rndt:P_VER_01 ;
+    rndt:procedureRevision "Rev A" .
+
+rndt:AC_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Castings acceptance criteria ACC-CAST-B"@en .
+
+rndt:SPEC_001 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "NANDTB/29 remote NDT requirements"@en .
+
+rndt:SW_001 a rndt:Software,
+        owl:NamedIndividual ;
+    rdfs:label "DICONDE image viewer v4.2"@en .
+
+rndt:SW_002 a rndt:Software,
+        owl:NamedIndividual ;
+    rdfs:label "RNDT interpretation suite v2.1"@en .
+
+rndt:P_INS_02 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "Helena Novak"@en ;
+    rndt:hasRole "Inspector" ;
+    rndt:memberOfAuthorityClass rndt:Level2TechnicalEvaluationAuthority .
+
+rndt:P_OP_03 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "Aisha Rahman"@en ;
+    rndt:hasRole "Operator" ;
+    rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
+
+rndt:P_OP_01 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "Sarah Chen"@en ;
+    rndt:hasRole "Operator" ;
+    rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
+
+rndt:P_OP_02 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "Marcus Reid"@en ;
+    rndt:hasRole "Operator" ;
+    rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
+
+rndt:INSP_001 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_001"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-03-04"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_001 ;
+    rndt:usesAcceptanceCriteria rndt:AC_001 ;
+    rndt:usesEntity rndt:C_001 ;
+    rndt:usesEquipment rndt:EQ_001 ;
+    rndt:usesProcedure rndt:PROCEDURE_001 .
+
+rndt:INSP_002 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_002"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-03-11"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_001 ;
+    rndt:usesAcceptanceCriteria rndt:AC_001 ;
+    rndt:usesEntity rndt:C_002 ;
+    rndt:usesEquipment rndt:EQ_001 ;
+    rndt:usesProcedure rndt:PROCEDURE_001 .
+
+rndt:INSP_003 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_003"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Reject" ;
+    rndt:inspectionDate "2026-03-18"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_001 ;
+    rndt:usesAcceptanceCriteria rndt:AC_001 ;
+    rndt:usesEntity rndt:C_003 ;
+    rndt:usesEquipment rndt:EQ_001 ;
+    rndt:usesProcedure rndt:PROCEDURE_001 .
+
+rndt:INSP_004 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_004"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-04-02"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_001 ;
+    rndt:usesAcceptanceCriteria rndt:AC_001 ;
+    rndt:usesEntity rndt:C_004 ;
+    rndt:usesEquipment rndt:EQ_001 ;
+    rndt:usesProcedure rndt:PROCEDURE_001 .
+
+rndt:INSP_005 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_005"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-04-09"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_002 ;
+    rndt:usesAcceptanceCriteria rndt:AC_002 ;
+    rndt:usesEntity rndt:C_005 ;
+    rndt:usesEquipment rndt:EQ_002 ;
+    rndt:usesProcedure rndt:PROCEDURE_002 .
+
+rndt:INSP_006 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_006"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Reject" ;
+    rndt:inspectionDate "2026-04-23"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_002 ;
+    rndt:usesAcceptanceCriteria rndt:AC_002 ;
+    rndt:usesEntity rndt:C_006 ;
+    rndt:usesEquipment rndt:EQ_002 ;
+    rndt:usesProcedure rndt:PROCEDURE_002 .
+
+rndt:INSP_007 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_007"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-05-07"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_002 ;
+    rndt:usesAcceptanceCriteria rndt:AC_002 ;
+    rndt:usesEntity rndt:C_007 ;
+    rndt:usesEquipment rndt:EQ_002 ;
+    rndt:usesProcedure rndt:PROCEDURE_002 .
+
+rndt:INSP_008 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Digital Radiography inspection INSP_008"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-05-14"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_002 ;
+    rndt:usesAcceptanceCriteria rndt:AC_002 ;
+    rndt:usesEntity rndt:C_008 ;
+    rndt:usesEquipment rndt:EQ_002 ;
+    rndt:usesProcedure rndt:PROCEDURE_002 .
+
+rndt:P_INS_01 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "David Whitfield"@en ;
+    rndt:hasRole "Inspector" ;
+    rndt:memberOfAuthorityClass rndt:Level2TechnicalEvaluationAuthority .
+
+rndt:P_VER_01 a rndt:Participant,
+        owl:NamedIndividual ;
+    rdfs:label "Thomas Okafor"@en ;
+    rndt:hasRole "Verifier" ;
+    rndt:memberOfAuthorityClass rndt:Level3GovernanceAndAssuranceAuthority .
+
