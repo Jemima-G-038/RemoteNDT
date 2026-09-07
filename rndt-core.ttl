@@ -1,0 +1,896 @@
+@prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.cranfield.ac.uk/rndt-ontology> rdf:type owl:Ontology ;
+    rdfs:label "Remote NDT Ontology — Core"@en ;
+    rdfs:comment "A generic ontology of the Remote Non-Destructive Testing (RNDT) process. This core module defines method-agnostic classes, properties and a baseline taxonomy of process stages, actions, activities, capabilities, authority levels and participant roles. Method-specific extension modules (e.g. rndt-dr.ttl for Digital Radiography) add flavoured Activity/Capability individuals on top of this module via owl:imports, without altering it, so extensions for other methods (e.g. Ultrasonic Testing) can plug in the same way."@en .
+
+#################################################################
+#    Classes
+#################################################################
+
+rndt:RemoteNDTProcess rdf:type owl:Class ;
+    rdfs:label "RemoteNDTProcess"@en ;
+    rdfs:comment "The top-level remote non-destructive testing process instance being modelled (e.g. a specific inspection process, regardless of NDE method)."@en .
+
+rndt:ProcessStage rdf:type owl:Class ;
+    rdfs:label "ProcessStage"@en ;
+    rdfs:comment "A major temporal stage of a Remote NDT Process (e.g. Data Acquisition, Evaluation, Oversight)."@en .
+
+rndt:MajorAction rdf:type owl:Class ;
+    rdfs:label "MajorAction"@en ;
+    rdfs:comment "A cognitive/functional action (aligned to the Sense-Act-Analyse-Verify-Decision-Sentence-Acquire authority model) through which a Process Stage is realised."@en .
+
+rndt:ActionArea rdf:type owl:Class ;
+    rdfs:label "ActionArea"@en ;
+    rdfs:comment "A functional grouping of related activities nested beneath a Major Action."@en .
+
+rndt:Activity rdf:type owl:Class ;
+    rdfs:label "Activity"@en ;
+    rdfs:comment "A concrete, performable task within an Action Area, typically carried out by a Participant."@en .
+
+rndt:Capability rdf:type owl:Class ;
+    rdfs:label "Capability"@en ;
+    rdfs:comment "A technical capability required to support one or more activities."@en .
+
+rndt:RequirementConcept rdf:type owl:Class ;
+    rdfs:label "RequirementConcept"@en ;
+    rdfs:comment "A requirement or condition that must be satisfied as part of a process element (e.g. a documentation requirement)."@en .
+
+rndt:PhysicalEntity rdf:type owl:Class ;
+    rdfs:label "PhysicalEntity"@en ;
+    rdfs:comment "A physical object or component involved in or produced by the process."@en .
+
+rndt:InformationEntity rdf:type owl:Class ;
+    rdfs:label "InformationEntity"@en ;
+    rdfs:comment "A data or information artefact produced, transformed, or consumed by the process (e.g. images, records)."@en .
+
+rndt:Procedure rdf:type owl:Class ;
+    rdfs:subClassOf rndt:InformationEntity ;
+    rdfs:label "Procedure"@en ;
+    rdfs:comment "A procedure or work instruction governing how a Remote NDT Process is carried out. Promoted to its own subclass of InformationEntity (rather than left as a generically-typed one, like Specification/AcceptanceCriteria/Report) so that method-specific extensions have a domain-correct place to attach approved-technique properties (e.g. DR's IQI type, radiographic technique, source-to-detector/object distances)."@en .
+
+rndt:AuthorityClass rdf:type owl:Class ;
+    rdfs:label "AuthorityClass"@en ;
+    rdfs:comment "A defined level of inspection/evaluation/governance authority (e.g. Level 1, 2, 3) that authorises Major Actions."@en .
+
+rndt:Participant rdf:type owl:Class ;
+    rdfs:label "Participant"@en ;
+    rdfs:comment "A human role that performs Activities (e.g. Operator, Inspector, Verifier)."@en .
+
+rndt:Software rdf:type owl:Class ;
+    rdfs:label "Software"@en ;
+    rdfs:comment "A software application used to view, process or interpret inspection data (e.g. an image viewer, waveform-analysis tool, or reporting application). Introduced to answer CQ-10; no existing class fits, since Software is neither a physical component nor an information artefact produced by the process."@en .
+
+rndt:Facility rdf:type owl:Class ;
+    rdfs:label "Facility"@en ;
+    rdfs:comment "An organisational site at which an inspection or interpretation is carried out. Introduced to answer CQ-23; Participant is reserved for human roles, so a facility has no existing home."@en .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+rndt:relationshipFamily rdf:type owl:AnnotationProperty ;
+    rdfs:label "relationshipFamily"@en ;
+    rdfs:comment "Groups an object property into one of the five relationship families used in the knowledge-graph visualisation: backbone (taxonomy), authority, role, evidence/info, sequence."@en .
+
+rndt:exactSourceTerm rdf:type owl:AnnotationProperty ;
+    rdfs:label "exactSourceTerm"@en ;
+    rdfs:comment "Records the verbatim wording of a term as it appears in the source Draw.io view and the Taxonomy Term Register, where rdfs:label carries a normalised preferred term instead. Preserves the register's rule that exact source wording is never deleted."@en .
+
+#################################################################
+#    Datatype properties
+#################################################################
+
+rndt:termId rdf:type owl:DatatypeProperty ;
+    rdfs:label "termId"@en ;
+    rdfs:comment "The controlled-vocabulary term identifier (e.g. TERM-nnnn, AUTH-nnn) assigned to this individual in the RNDT terminology register."@en ;
+    rdfs:range xsd:string .
+
+rndt:procedureRevision rdf:type owl:DatatypeProperty ;
+    rdfs:label "procedureRevision"@en ;
+    rdfs:comment "The revision identifier of the procedure or work instruction applied to an inspection (CQ-05)."@en ;
+    rdfs:range xsd:string .
+
+rndt:storageLocation rdf:type owl:DatatypeProperty ;
+    rdfs:label "storageLocation"@en ;
+    rdfs:comment "The repository path or archive location at which a digital image or record is held (CQ-15)."@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range xsd:string .
+
+rndt:fileFormat rdf:type owl:DatatypeProperty ;
+    rdfs:label "fileFormat"@en ;
+    rdfs:comment "The file format of a stored digital image or record, e.g. DICONDE, CSV, PDF, or a proprietary scan format (CQ-16)."@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range xsd:string .
+
+rndt:partNumber rdf:type owl:DatatypeProperty ;
+    rdfs:label "partNumber"@en ;
+    rdfs:comment "The part number of a physical component under inspection."@en ;
+    rdfs:domain rndt:PhysicalEntity ;
+    rdfs:range xsd:string .
+
+rndt:serialNumber rdf:type owl:DatatypeProperty ;
+    rdfs:label "serialNumber"@en ;
+    rdfs:comment "The serial number uniquely identifying an individual physical component (CQ-17)."@en ;
+    rdfs:domain rndt:PhysicalEntity ;
+    rdfs:range xsd:string .
+
+rndt:hasRole rdf:type owl:DatatypeProperty ;
+    rdfs:label "hasRole"@en ;
+    rdfs:comment "The role a Participant occupies, e.g. Operator, Inspector, Verifier."@en ;
+    rdfs:domain rndt:Participant ;
+    rdfs:range xsd:string .
+
+rndt:inspectionDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "inspectionDate"@en ;
+    rdfs:comment "The date on which a Remote NDT Process was carried out."@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range xsd:date .
+
+rndt:disposition rdf:type owl:DatatypeProperty ;
+    rdfs:label "disposition"@en ;
+    rdfs:comment "The sentencing outcome of an inspection, e.g. Accept or Reject (CQ-11, CQ-20)."@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range xsd:string .
+
+rndt:logDate rdf:type owl:DatatypeProperty ;
+    rdfs:label "logDate"@en ;
+    rdfs:comment "The date on which the activity recorded by an activity-log entry was performed."@en ;
+    rdfs:range xsd:date .
+
+rndt:logResult rdf:type owl:DatatypeProperty ;
+    rdfs:label "logResult"@en ;
+    rdfs:comment "The outcome recorded against an activity-log entry, e.g. Complete, No indications found."@en ;
+    rdfs:range xsd:string .
+
+#################################################################
+#    Object properties
+#################################################################
+
+# ---- Relationship family: backbone (taxonomy) ----
+
+rndt:hasProcessStage rdf:type owl:ObjectProperty ;
+    rdfs:label "hasProcessStage"@en ;
+    rdfs:comment "Relates a Remote NDT Process to one of its constituent Process Stages."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:ProcessStage .
+
+rndt:realisedThrough rdf:type owl:ObjectProperty ;
+    rdfs:label "realisedThrough"@en ;
+    rdfs:comment "Relates a Process Stage to the Major Action(s) through which it is functionally realised."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:ProcessStage ;
+    rdfs:range rndt:MajorAction .
+
+rndt:hasSubActivity rdf:type owl:ObjectProperty ;
+    rdfs:label "hasSubActivity"@en ;
+    rdfs:comment "Relates a Major Action to a subordinate Action Area it decomposes into."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:MajorAction ;
+    rdfs:range rndt:ActionArea .
+
+rndt:requiresAction rdf:type owl:ObjectProperty ;
+    rdfs:label "requiresAction"@en ;
+    rdfs:comment "Relates an Action Area to a concrete Activity it requires to be performed."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:ActionArea ;
+    rdfs:range rndt:Activity .
+
+rndt:requiresCapability rdf:type owl:ObjectProperty ;
+    rdfs:label "requiresCapability"@en ;
+    rdfs:comment "Relates an Action Area to a Capability it depends on."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:ActionArea ;
+    rdfs:range rndt:Capability .
+
+rndt:hasRequirement rdf:type owl:ObjectProperty ;
+    rdfs:label "hasRequirement"@en ;
+    rdfs:comment "Relates an Action Area to a Requirement Concept that constrains it."@en ;
+    rndt:relationshipFamily "backbone (taxonomy)"@en ;
+    rdfs:domain rndt:ActionArea ;
+    rdfs:range rndt:RequirementConcept .
+
+# ---- Relationship family: authority ----
+
+rndt:authorisedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "authorisedBy"@en ;
+    rdfs:comment "Relates a Major Action to the Authority Class that authorises its performance."@en ;
+    rndt:relationshipFamily "authority"@en ;
+    rdfs:domain rndt:MajorAction ;
+    rdfs:range rndt:AuthorityClass .
+
+rndt:associatedWithAuthority rdf:type owl:ObjectProperty ;
+    rdfs:label "associatedWithAuthority"@en ;
+    rdfs:comment "Relates a Process Stage to the Authority Class with overall responsibility for it."@en ;
+    rndt:relationshipFamily "authority"@en ;
+    rdfs:domain rndt:ProcessStage ;
+    rdfs:range rndt:AuthorityClass .
+
+rndt:memberOfAuthorityClass rdf:type owl:ObjectProperty ;
+    rdfs:label "memberOfAuthorityClass"@en ;
+    rdfs:comment "Relates a Participant to the Authority Class they are certified to, i.e. their certification level (CQ-03, CQ-07)."@en ;
+    rndt:relationshipFamily "authority"@en ;
+    rdfs:domain rndt:Participant ;
+    rdfs:range rndt:AuthorityClass .
+
+# ---- Relationship family: role ----
+
+rndt:performedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "performedBy"@en ;
+    rdfs:comment "Relates an Activity to the Participant role that carries it out."@en ;
+    rndt:relationshipFamily "role"@en ;
+    rdfs:domain rndt:Activity ;
+    rdfs:range rndt:Participant .
+
+# ---- Relationship family: evidence / info ----
+
+rndt:producesEvidence rdf:type owl:ObjectProperty ;
+    rdfs:label "producesEvidence"@en ;
+    rdfs:comment "Relates an Activity to an Information Entity it generates as evidence."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:Activity ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:usesEntity rdf:type owl:ObjectProperty ;
+    rdfs:label "usesEntity"@en ;
+    rdfs:comment "Relates an Action Area to a Physical Entity it acts upon."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:ActionArea ;
+    rdfs:range rndt:PhysicalEntity .
+
+rndt:usesInformation rdf:type owl:ObjectProperty ;
+    rdfs:label "usesInformation"@en ;
+    rdfs:comment "Relates an Action Area to an Information Entity it consumes or references."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:ActionArea ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:derivedFrom rdf:type owl:ObjectProperty ;
+    rdfs:label "derivedFrom"@en ;
+    rdfs:comment "Relates an Information Entity to another Information Entity it was derived from."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:supports rdf:type owl:ObjectProperty ;
+    rdfs:label "supports"@en ;
+    rdfs:comment "Relates a Capability to the Activity it technically supports."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:Capability ;
+    rdfs:range rndt:Activity .
+
+rndt:belongsToInspection rdf:type owl:ObjectProperty ;
+    rdfs:label "belongsToInspection"@en ;
+    rdfs:comment "Relates an Information Entity (image, record or report) to the Remote NDT Process it was produced for (CQ-01, CQ-12, CQ-17)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:RemoteNDTProcess .
+
+# ---- Relationship family: evidence / info (competency-question extension) ----
+# Because Procedure, Specification, Acceptance Criteria, Inspection Report and
+# Indication are modelled as individuals of rndt:InformationEntity rather than as
+# their own classes, the predicate is what distinguishes them. Each property below
+# therefore names the kind of artefact it points at.
+
+rndt:usesProcedure rdf:type owl:ObjectProperty ;
+    rdfs:label "usesProcedure"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the procedure or work instruction it was carried out under (CQ-04)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:approvedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "approvedBy"@en ;
+    rdfs:comment "Relates a procedure or other controlled document to the Participant who approved it (CQ-06)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:Participant .
+
+rndt:usesAcceptanceCriteria rdf:type owl:ObjectProperty ;
+    rdfs:label "usesAcceptanceCriteria"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the acceptance criteria applied to it (CQ-08)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:appliesAcceptanceCriteria rdf:type owl:ObjectProperty ;
+    rdfs:label "appliesAcceptanceCriteria"@en ;
+    rdfs:comment "Relates an individual indication to the acceptance criteria used to evaluate it (CQ-21)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:usesEquipment rdf:type owl:ObjectProperty ;
+    rdfs:label "usesEquipment"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the equipment used to perform it (CQ-09). Deliberately distinct from usesEntity, which is reserved for the component under inspection."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:PhysicalEntity .
+
+rndt:viewedWithSoftware rdf:type owl:ObjectProperty ;
+    rdfs:label "viewedWithSoftware"@en ;
+    rdfs:comment "Relates a digital image or record to the Software used to view or interpret it (CQ-10)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:Software .
+
+rndt:appliesSpecification rdf:type owl:ObjectProperty ;
+    rdfs:label "appliesSpecification"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the governing specification, code or standard that applies to it (CQ-14)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:InformationEntity .
+
+rndt:performedAtFacility rdf:type owl:ObjectProperty ;
+    rdfs:label "performedAtFacility"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the Facility at which it was performed or interpreted (CQ-23)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt:Facility .
+
+rndt:hasIndication rdf:type owl:ObjectProperty ;
+    rdfs:label "hasIndication"@en ;
+    rdfs:comment "Relates an image or record to an individual indication identified within it (CQ-22)."@en ;
+    rndt:relationshipFamily "evidence / info"@en ;
+    rdfs:domain rndt:InformationEntity ;
+    rdfs:range rndt:InformationEntity .
+
+# ---- Relationship family: audit / provenance ----
+# An activity-log entry reifies "who did which activity, on which inspection, when".
+# It is what allows a named person to be traced to a named activity on a named
+# inspection, and is what CQ-02, CQ-03, CQ-13, CQ-18 and CQ-19 depend on.
+
+rndt:logsActivity rdf:type owl:ObjectProperty ;
+    rdfs:label "logsActivity"@en ;
+    rdfs:comment "Relates an activity-log entry to the Activity it records."@en ;
+    rndt:relationshipFamily "audit / provenance"@en ;
+    rdfs:range rndt:Activity .
+
+rndt:logForInspection rdf:type owl:ObjectProperty ;
+    rdfs:label "logForInspection"@en ;
+    rdfs:comment "Relates an activity-log entry to the Remote NDT Process it was performed on."@en ;
+    rndt:relationshipFamily "audit / provenance"@en ;
+    rdfs:range rndt:RemoteNDTProcess .
+
+rndt:logPerformedBy rdf:type owl:ObjectProperty ;
+    rdfs:label "logPerformedBy"@en ;
+    rdfs:comment "Relates an activity-log entry to the Participant who performed the activity. Unlike performedBy, which attributes an Activity to a role at the schema level, this attributes a specific occurrence to a named individual."@en ;
+    rndt:relationshipFamily "audit / provenance"@en ;
+    rdfs:range rndt:Participant .
+
+# ---- Relationship family: sequence ----
+
+rndt:precedes rdf:type owl:ObjectProperty ;
+    rdfs:label "precedes"@en ;
+    rdfs:comment "Relates a Process Stage to the Process Stage that temporally follows it."@en ;
+    rndt:relationshipFamily "sequence"@en ;
+    rdfs:domain rndt:ProcessStage ;
+    rdfs:range rndt:ProcessStage .
+
+
+#################################################################
+#    Individuals
+#################################################################
+# Generic, method-agnostic reference taxonomy. Method-specific vocabulary (e.g.
+# Digital Radiography's exposure-configuration activity) lives in the relevant
+# extension module instead — see rndt-dr.ttl.
+
+rndt:Acquire rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-003" ;
+    rdfs:label "Acquire"@en .
+
+rndt:Act rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-001" ;
+    rdfs:label "Act"@en .
+
+rndt:Analyse rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-005" ;
+    rdfs:label "Analyse"@en .
+
+rndt:ApproveInspectionReport rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0095" ;
+    rdfs:label "Approve inspection report"@en .
+
+rndt:ApproveTechnicalValidation rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0247" ;
+    rdfs:label "Approve technical validation"@en .
+
+rndt:AssureElectronicSignatureSecurity rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0258" ;
+    rdfs:label "Assure electronic-signature security and authenticity"@en .
+
+rndt:AuditAndRecordCompliance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Audit and Record Compliance"@en .
+
+rndt:AuditTestConditions rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0259" ;
+    rdfs:label "Audit test conditions"@en .
+
+rndt:AuthoriseRelease rdf:type owl:NamedIndividual , rndt:RequirementConcept ;
+    rndt:termId "TERM-0097" ;
+    rdfs:label "Authorise release"@en .
+
+rndt:CompetencyRequirements rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Competency Requirements"@en .
+
+rndt:ComplianceOversight rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "TERM-0228 / AUTH-009" ;
+    rdfs:label "Compliance Oversight"@en .
+
+rndt:ConfirmComplianceNANDTB29 rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0250" ;
+    rdfs:label "Confirm compliance with NANDTB/29 and higher-level requirements"@en .
+
+rndt:ContinuousImprovement rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "TERM-0231 / AUTH-012" ;
+    rdfs:label "Continuous Improvement"@en .
+
+rndt:ControlledTechnicalKnowledge rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Controlled Technical Knowledge"@en .
+
+rndt:CorrectiveActionManagement rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Corrective Action Management"@en .
+
+rndt:DataAcquisition rdf:type owl:NamedIndividual , rndt:ProcessStage ;
+    rndt:termId "TERM-0232" ;
+    rdfs:label "Data Acquisition"@en .
+
+rndt:DataIntegrityAssessment rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Data Integrity Assessment"@en .
+
+rndt:DataIntegrityPerformance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Data Integrity Performance"@en .
+
+rndt:DataTransfer rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Data Transfer"@en .
+
+rndt:Decision rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-006" ;
+    rdfs:label "Decision"@en .
+
+rndt:DefineCorrectiveAction rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0304" ;
+    rdfs:label "Define corrective action"@en .
+
+rndt:DigitallySignInspectionRecord rdf:type owl:NamedIndividual , rndt:InformationEntity ;
+    rndt:termId "TERM-0099" ;
+    rdfs:label "Digitally sign inspection record"@en .
+
+rndt:Documentation rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Documentation"@en .
+
+rndt:EquipmentPreparation rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Equipment Preparation"@en .
+
+rndt:EquipmentStatusMonitoring rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Equipment Status Monitoring"@en .
+
+rndt:Evaluation rdf:type owl:NamedIndividual , rndt:ProcessStage ;
+    rdfs:label "Evaluation"@en .
+
+rndt:EvidencePackageReview rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Evidence Package Review"@en .
+
+rndt:IdentifyAdversePerformanceTrends rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0284" ;
+    rdfs:label "Identify adverse performance trends"@en .
+
+rndt:IdentifyIndications rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0105" ;
+    rdfs:label "Identify indications"@en .
+
+rndt:AcquiredDataQualityAssessmentL1 rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rndt:exactSourceTerm "Image Quality Assessment" ;
+    rdfs:comment "Level 1 (Sense) Acquired Data Quality Assessment, AREA-009. Distinguished by the L1 suffix from the Level 2 (Analyse) area of the same name, AREA-024."@en ;
+    rdfs:label "Acquired Data Quality Assessment"@en .
+
+rndt:IndicationRecord rdf:type owl:NamedIndividual , rndt:InformationEntity ;
+    rdfs:label "Indication record"@en .
+
+rndt:InspectionAndVerificationPerformance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Inspection and Verification Performance"@en .
+
+rndt:InspectionDisposition rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Inspection Disposition"@en .
+
+rndt:InspectionEnviroment rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rndt:exactSourceTerm "Inspection Enviroment" ;
+    rdfs:comment "The spelling 'Enviroment' is reproduced verbatim from the source Draw.io view and AREA-008 of the register; it is retained rather than silently corrected."@en ;
+    rdfs:label "Inspection Enviroment"@en .
+
+rndt:InspectionKnowledgeAndOrganisationalLearning rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Inspection Knowledge and Organisational Learning"@en .
+
+rndt:InspectionPreparation rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Inspection Preparation"@en .
+
+rndt:InspectionReadiness rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Inspection Readiness"@en .
+
+rndt:Inspector rdf:type owl:NamedIndividual , rndt:Participant ;
+    rdfs:label "Inspector"@en .
+
+rndt:InvestigateVerificationFailures rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0302" ;
+    rdfs:label "Investigate verification failures"@en .
+
+rndt:KnowledgeManagement rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "TERM-0230 / AUTH-011" ;
+    rdfs:label "Knowledge Management"@en .
+
+rndt:Level1InspectionExecutionAuthority rdf:type owl:NamedIndividual , rndt:AuthorityClass ;
+    rdfs:label "Level 1 Inspection Execution Authority"@en .
+
+rndt:Level2TechnicalEvaluationAuthority rdf:type owl:NamedIndividual , rndt:AuthorityClass ;
+    rdfs:label "Level 2 Technical Evaluation Authority"@en .
+
+rndt:Level3GovernanceAndAssuranceAuthority rdf:type owl:NamedIndividual , rndt:AuthorityClass ;
+    rdfs:label "Level 3 Governance and Assurance Authority"@en .
+
+rndt:MaintainAcceptanceCriteria rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0288" ;
+    rdfs:label "Maintain acceptance criteria"@en .
+
+rndt:MaintainCertificationRecords rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0292" ;
+    rdfs:label "Maintain certification records"@en .
+
+rndt:MaintainCodesStandardsAndControllingDocuments rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0285" ;
+    rdfs:label "Maintain codes, standards and controlling documents"@en .
+
+rndt:MaintainCurrentProceduresAndWorkInstructions rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0287" ;
+    rdfs:label "Maintain current procedures and work instructions"@en .
+
+rndt:MaintainReportsAndDecisions rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0299" ;
+    rdfs:label "Maintain reports and decisions"@en .
+
+rndt:MaintainRoleAndAuthorityRecords rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0294" ;
+    rdfs:label "Maintain role and authority records"@en .
+
+rndt:MethodAndTechniqueControl rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Method and Technique Control"@en .
+
+rndt:MethodGovernance rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "TERM-0227 / AUTH-008" ;
+    rdfs:label "Method Governance"@en .
+
+rndt:MonitorChecksumAndAuditTrailFailures rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0278" ;
+    rdfs:label "Monitor checksum and audit-trail failures"@en .
+
+rndt:MonitorDataAttribution rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0272" ;
+    rdfs:label "Monitor data attribution"@en .
+
+rndt:MonitorEquipmentAndSystemCapability rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0279" ;
+    rdfs:label "Monitor equipment and system capability"@en .
+
+rndt:MonitorInspectionSensitivity rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0265" ;
+    rdfs:label "Monitor inspection sensitivity"@en .
+
+rndt:MonitorVerificationFailures rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0269" ;
+    rdfs:label "Monitor verification failures"@en .
+
+rndt:ObserveArtefacts rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0040" ;
+    rdfs:label "Observe artefacts"@en .
+
+rndt:ObserveControlledAreaStatus rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0033" ;
+    rdfs:label "Observe controlled area status"@en .
+
+rndt:ObserveSensorPosition rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0020" ;
+    rndt:exactSourceTerm "Observe detector position" ;
+    rdfs:label "Observe sensor position"@en .
+
+rndt:ObserveSensorStatus rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0029" ;
+    rndt:exactSourceTerm "Observe detector status" ;
+    rdfs:label "Observe sensor status"@en .
+
+rndt:ObserveEnvironmentalConditions rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0036" ;
+    rdfs:label "Observe environmental conditions"@en .
+
+rndt:ObserveAcquiredDataQuality rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0037" ;
+    rndt:exactSourceTerm "Observe image quality" ;
+    rdfs:label "Observe acquired data quality"@en .
+
+rndt:ObserveEnergySourcePosition rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0019" ;
+    rndt:exactSourceTerm "Observe source position" ;
+    rdfs:label "Observe energy source position"@en .
+
+rndt:ObserveSystemAlarms rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0031" ;
+    rdfs:label "Observe system alarms"@en .
+
+rndt:OperationalAndHumanPerformance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Operational and Human Performance"@en .
+
+rndt:Operator rdf:type owl:NamedIndividual , rndt:Participant ;
+    rdfs:label "Operator"@en .
+
+rndt:Oversight rdf:type owl:NamedIndividual , rndt:ProcessStage ;
+    rndt:termId "TERM-0234" ;
+    rdfs:label "Oversight"@en .
+
+rndt:PerformanceMonitoring rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "TERM-0229 / AUTH-010" ;
+    rdfs:label "Performance Monitoring"@en .
+
+rndt:PersonnelAndAuthorityRecords rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Personnel and Authority Records"@en .
+
+rndt:PowerUpEquipment rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0009" ;
+    rdfs:label "Power up equipment"@en .
+
+rndt:PrepareRNDTProcedure rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0239" ;
+    rdfs:label "Prepare RNDT procedure"@en .
+
+rndt:ProcedureAndWorkInstructionControl rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Procedure and Work Instruction Control"@en .
+
+rndt:ProcessReassessment rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Process Reassessment"@en .
+
+rndt:ReassessVerificationModel rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0309" ;
+    rdfs:label "Reassess verification model"@en .
+
+rndt:RegulatoryAndPersonnelCompliance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Regulatory and Personnel Compliance"@en .
+
+rndt:RetainOriginalInspectionData rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0297" ;
+    rdfs:label "Retain original inspection data"@en .
+
+rndt:ReviewAndApproveRNDTTaskRiskAssessment rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0254" ;
+    rdfs:label "Review and approve RNDT task risk assessment"@en .
+
+rndt:ReviewAttachedEvidence rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0052" ;
+    rndt:exactSourceTerm "Review attached images" ;
+    rdfs:label "Review attached evidence"@en .
+
+rndt:ReviewInspectionPackage rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0051" ;
+    rdfs:label "Review inspection package"@en .
+
+rndt:RiskQMSAndSecurityAssurance rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Risk, QMS and Security Assurance"@en .
+
+rndt:SelectComponent rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0005" ;
+    rdfs:label "Select component"@en .
+
+rndt:SelectNDTMethodAndTechnique rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0236" ;
+    rdfs:label "Select NDT method and technique"@en .
+
+rndt:SelectVerificationModel rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0244" ;
+    rdfs:label "Select verification model"@en .
+
+rndt:Sense rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-002" ;
+    rdfs:label "Sense"@en .
+
+rndt:Sentence rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-007" ;
+    rdfs:label "Sentence"@en .
+
+rndt:SetupVerification rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Setup Verification"@en .
+
+rndt:StoreAcquiredData rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0001" ;
+    rndt:exactSourceTerm "Store image" ;
+    rdfs:label "Store acquired data"@en .
+
+rndt:TechnicalInterpretation rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Technical Interpretation"@en .
+
+rndt:TechnologyAndChangeControl rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Technology and Change Control"@en .
+
+rndt:TransferAcquiredData rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0002" ;
+    rndt:exactSourceTerm "Transfer image" ;
+    rdfs:label "Transfer acquired data"@en .
+
+rndt:UpdateProcedureOrWorkInstruction rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0312" ;
+    rdfs:label "Update procedure or work instruction"@en .
+
+rndt:ValidateNewEquipment rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0314" ;
+    rdfs:label "Validate new equipment"@en .
+
+rndt:ValidateNewSoftware rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0315" ;
+    rdfs:label "Validate new software"@en .
+
+rndt:VerificationModelAndTechnicalApproval rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rdfs:label "Verification Model and Technical Approval"@en .
+
+rndt:Verifier rdf:type owl:NamedIndividual , rndt:Participant ;
+    rdfs:label "Verifier"@en .
+
+rndt:Verify rdf:type owl:NamedIndividual , rndt:MajorAction ;
+    rndt:termId "AUTH-004" ;
+    rdfs:label "Verify"@en .
+
+rndt:VerifyAcceptanceCriteria rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0071" ;
+    rdfs:label "Verify acceptance criteria"@en .
+
+rndt:VerifyComponentIdentityL1 rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0006" ;
+    rdfs:label "Verify component identity"@en .
+
+rndt:VerifyEnduringInspectionRecords rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0262" ;
+    rdfs:label "Verify enduring inspection records"@en .
+
+rndt:VerifyImageProvenance rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0092" ;
+    rdfs:label "Verify image provenance"@en .
+
+rndt:VerifyInspectionRequest rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0067" ;
+    rdfs:label "Verify inspection request"@en .
+
+rndt:VerifyPersonnelTraining rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0252" ;
+    rdfs:label "Verify personnel training, qualification and certification"@en .
+
+#################################################################
+#    Relationship assertions (edges)
+#################################################################
+
+rndt:Evaluation rndt:realisedThrough rndt:Analyse .
+rndt:SelectComponent rndt:performedBy rndt:Operator .
+rndt:DataTransfer rndt:requiresAction rndt:TransferAcquiredData .
+rndt:RegulatoryAndPersonnelCompliance rndt:requiresAction rndt:VerifyPersonnelTraining .
+rndt:VerifyAcceptanceCriteria rndt:performedBy rndt:Verifier .
+rndt:Documentation rndt:requiresAction rndt:ApproveInspectionReport .
+rndt:Analyse rndt:hasSubActivity rndt:DataIntegrityAssessment .
+rndt:DataAcquisition rndt:associatedWithAuthority rndt:Level1InspectionExecutionAuthority .
+rndt:TransferAcquiredData rndt:performedBy rndt:Operator .
+rndt:Evaluation rndt:associatedWithAuthority rndt:Level2TechnicalEvaluationAuthority .
+rndt:Evaluation rndt:precedes rndt:Oversight .
+rndt:Oversight rndt:realisedThrough rndt:MethodGovernance .
+rndt:Act rndt:authorisedBy rndt:Level1InspectionExecutionAuthority .
+rndt:Sense rndt:authorisedBy rndt:Level1InspectionExecutionAuthority .
+rndt:IdentifyIndications rndt:producesEvidence rndt:IndicationRecord .
+rndt:InspectionPreparation rndt:requiresAction rndt:SelectComponent .
+rndt:VerifyComponentIdentityL1 rndt:performedBy rndt:Operator .
+rndt:DataAcquisition rndt:realisedThrough rndt:Sense .
+rndt:Act rndt:hasSubActivity rndt:EquipmentPreparation .
+rndt:ApproveInspectionReport rndt:performedBy rndt:Inspector .
+rndt:Oversight rndt:associatedWithAuthority rndt:Level3GovernanceAndAssuranceAuthority .
+rndt:Evaluation rndt:realisedThrough rndt:Sentence .
+rndt:Evaluation rndt:realisedThrough rndt:Decision .
+rndt:Sentence rndt:hasSubActivity rndt:InspectionDisposition .
+rndt:EvidencePackageReview rndt:requiresAction rndt:ReviewInspectionPackage .
+rndt:Verify rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
+rndt:Acquire rndt:hasSubActivity rndt:CompetencyRequirements .
+rndt:VerifyImageProvenance rndt:performedBy rndt:Verifier .
+rndt:DataAcquisition rndt:realisedThrough rndt:Act .
+rndt:Acquire rndt:authorisedBy rndt:Level1InspectionExecutionAuthority .
+rndt:IdentifyIndications rndt:performedBy rndt:Inspector .
+rndt:Decision rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
+rndt:MethodGovernance rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
+rndt:Analyse rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
+rndt:PowerUpEquipment rndt:performedBy rndt:Operator .
+rndt:Verify rndt:hasSubActivity rndt:InspectionReadiness .
+rndt:TechnicalInterpretation rndt:requiresAction rndt:IdentifyIndications .
+rndt:DataIntegrityAssessment rndt:requiresAction rndt:VerifyImageProvenance .
+rndt:InspectionReadiness rndt:requiresAction rndt:VerifyInspectionRequest .
+rndt:DataTransfer rndt:requiresAction rndt:StoreAcquiredData .
+rndt:StoreAcquiredData rndt:performedBy rndt:Operator .
+rndt:ComplianceOversight rndt:hasSubActivity rndt:RegulatoryAndPersonnelCompliance .
+rndt:VerifyInspectionRequest rndt:performedBy rndt:Verifier .
+rndt:InspectionPreparation rndt:requiresAction rndt:VerifyComponentIdentityL1 .
+rndt:RegulatoryAndPersonnelCompliance rndt:requiresAction rndt:ConfirmComplianceNANDTB29 .
+rndt:EquipmentPreparation rndt:requiresAction rndt:PowerUpEquipment .
+rndt:Analyse rndt:hasSubActivity rndt:TechnicalInterpretation .
+rndt:ReviewInspectionPackage rndt:performedBy rndt:Inspector .
+rndt:Oversight rndt:realisedThrough rndt:ComplianceOversight .
+rndt:Documentation rndt:hasRequirement rndt:AuthoriseRelease .
+rndt:ComplianceOversight rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
+rndt:Evaluation rndt:realisedThrough rndt:Verify .
+rndt:Act rndt:hasSubActivity rndt:InspectionPreparation .
+rndt:ProcedureAndWorkInstructionControl rndt:requiresAction rndt:PrepareRNDTProcedure .
+rndt:Decision rndt:hasSubActivity rndt:EvidencePackageReview .
+rndt:EvidencePackageReview rndt:requiresAction rndt:ReviewAttachedEvidence .
+rndt:MethodAndTechniqueControl rndt:requiresAction rndt:SelectNDTMethodAndTechnique .
+rndt:Sentence rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
+rndt:Acquire rndt:hasSubActivity rndt:DataTransfer .
+rndt:Documentation rndt:usesInformation rndt:DigitallySignInspectionRecord .
+rndt:MethodGovernance rndt:hasSubActivity rndt:ProcedureAndWorkInstructionControl .
+rndt:DataAcquisition rndt:realisedThrough rndt:Acquire .
+rndt:Sentence rndt:hasSubActivity rndt:Documentation .
+rndt:DataAcquisition rndt:precedes rndt:Evaluation .
+rndt:MethodGovernance rndt:hasSubActivity rndt:MethodAndTechniqueControl .
+rndt:InspectionReadiness rndt:requiresAction rndt:VerifyAcceptanceCriteria .
+rndt:ReviewAttachedEvidence rndt:performedBy rndt:Inspector .
+
+# ---- Level 3 governance functions (AUTH-010/011/012; register TERM-0229/0230/0231) ----
+rndt:Oversight rndt:realisedThrough rndt:PerformanceMonitoring .
+rndt:PerformanceMonitoring rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
+rndt:Oversight rndt:realisedThrough rndt:KnowledgeManagement .
+rndt:KnowledgeManagement rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
+rndt:Oversight rndt:realisedThrough rndt:ContinuousImprovement .
+rndt:ContinuousImprovement rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
+
+# ---- Action Areas (AREA-005/007/008/009, 052, 054, 055, 056-064) ----
+rndt:Sense rndt:hasSubActivity rndt:SetupVerification .  # AREA-005
+rndt:Sense rndt:hasSubActivity rndt:EquipmentStatusMonitoring .  # AREA-007
+rndt:Sense rndt:hasSubActivity rndt:InspectionEnviroment .  # AREA-008
+rndt:Sense rndt:hasSubActivity rndt:AcquiredDataQualityAssessmentL1 .  # AREA-009
+rndt:MethodGovernance rndt:hasSubActivity rndt:VerificationModelAndTechnicalApproval .  # AREA-052
+rndt:ComplianceOversight rndt:hasSubActivity rndt:RiskQMSAndSecurityAssurance .  # AREA-054
+rndt:ComplianceOversight rndt:hasSubActivity rndt:AuditAndRecordCompliance .  # AREA-055
+rndt:PerformanceMonitoring rndt:hasSubActivity rndt:InspectionAndVerificationPerformance .  # AREA-056
+rndt:PerformanceMonitoring rndt:hasSubActivity rndt:DataIntegrityPerformance .  # AREA-057
+rndt:PerformanceMonitoring rndt:hasSubActivity rndt:OperationalAndHumanPerformance .  # AREA-058
+rndt:KnowledgeManagement rndt:hasSubActivity rndt:ControlledTechnicalKnowledge .  # AREA-059
+rndt:KnowledgeManagement rndt:hasSubActivity rndt:PersonnelAndAuthorityRecords .  # AREA-060
+rndt:KnowledgeManagement rndt:hasSubActivity rndt:InspectionKnowledgeAndOrganisationalLearning .  # AREA-061
+rndt:ContinuousImprovement rndt:hasSubActivity rndt:CorrectiveActionManagement .  # AREA-062
+rndt:ContinuousImprovement rndt:hasSubActivity rndt:ProcessReassessment .  # AREA-063
+rndt:ContinuousImprovement rndt:hasSubActivity rndt:TechnologyAndChangeControl .  # AREA-064
+
+# ---- Contained activities ----
+rndt:SetupVerification rndt:requiresAction rndt:ObserveEnergySourcePosition .  # TERM-0019
+rndt:SetupVerification rndt:requiresAction rndt:ObserveSensorPosition .  # TERM-0020
+rndt:EquipmentStatusMonitoring rndt:requiresAction rndt:ObserveSensorStatus .  # TERM-0029
+rndt:EquipmentStatusMonitoring rndt:requiresAction rndt:ObserveSystemAlarms .  # TERM-0031
+rndt:InspectionEnviroment rndt:requiresAction rndt:ObserveControlledAreaStatus .  # TERM-0033
+rndt:InspectionEnviroment rndt:requiresAction rndt:ObserveEnvironmentalConditions .  # TERM-0036
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt:ObserveAcquiredDataQuality .  # TERM-0037
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt:ObserveArtefacts .  # TERM-0040
+rndt:VerificationModelAndTechnicalApproval rndt:requiresAction rndt:SelectVerificationModel .  # TERM-0244
+rndt:VerificationModelAndTechnicalApproval rndt:requiresAction rndt:ApproveTechnicalValidation .  # TERM-0247
+rndt:RiskQMSAndSecurityAssurance rndt:requiresAction rndt:ReviewAndApproveRNDTTaskRiskAssessment .  # TERM-0254
+rndt:RiskQMSAndSecurityAssurance rndt:requiresAction rndt:AssureElectronicSignatureSecurity .  # TERM-0258
+rndt:AuditAndRecordCompliance rndt:requiresAction rndt:AuditTestConditions .  # TERM-0259
+rndt:AuditAndRecordCompliance rndt:requiresAction rndt:VerifyEnduringInspectionRecords .  # TERM-0262
+rndt:InspectionAndVerificationPerformance rndt:requiresAction rndt:MonitorInspectionSensitivity .  # TERM-0265
+rndt:InspectionAndVerificationPerformance rndt:requiresAction rndt:MonitorVerificationFailures .  # TERM-0269
+rndt:DataIntegrityPerformance rndt:requiresAction rndt:MonitorDataAttribution .  # TERM-0272
+rndt:DataIntegrityPerformance rndt:requiresAction rndt:MonitorChecksumAndAuditTrailFailures .  # TERM-0278
+rndt:OperationalAndHumanPerformance rndt:requiresAction rndt:MonitorEquipmentAndSystemCapability .  # TERM-0279
+rndt:OperationalAndHumanPerformance rndt:requiresAction rndt:IdentifyAdversePerformanceTrends .  # TERM-0284
+rndt:ControlledTechnicalKnowledge rndt:requiresAction rndt:MaintainCodesStandardsAndControllingDocuments .  # TERM-0285
+rndt:ControlledTechnicalKnowledge rndt:requiresAction rndt:MaintainCurrentProceduresAndWorkInstructions .  # TERM-0287
+rndt:ControlledTechnicalKnowledge rndt:requiresAction rndt:MaintainAcceptanceCriteria .  # TERM-0288
+rndt:PersonnelAndAuthorityRecords rndt:requiresAction rndt:MaintainCertificationRecords .  # TERM-0292
+rndt:PersonnelAndAuthorityRecords rndt:requiresAction rndt:MaintainRoleAndAuthorityRecords .  # TERM-0294
+rndt:InspectionKnowledgeAndOrganisationalLearning rndt:requiresAction rndt:RetainOriginalInspectionData .  # TERM-0297
+rndt:InspectionKnowledgeAndOrganisationalLearning rndt:requiresAction rndt:MaintainReportsAndDecisions .  # TERM-0299
+rndt:CorrectiveActionManagement rndt:requiresAction rndt:InvestigateVerificationFailures .  # TERM-0302
+rndt:CorrectiveActionManagement rndt:requiresAction rndt:DefineCorrectiveAction .  # TERM-0304
+rndt:ProcessReassessment rndt:requiresAction rndt:ReassessVerificationModel .  # TERM-0309
+rndt:ProcessReassessment rndt:requiresAction rndt:UpdateProcedureOrWorkInstruction .  # TERM-0312
+rndt:TechnologyAndChangeControl rndt:requiresAction rndt:ValidateNewEquipment .  # TERM-0314
+rndt:TechnologyAndChangeControl rndt:requiresAction rndt:ValidateNewSoftware .  # TERM-0315

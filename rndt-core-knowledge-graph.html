@@ -1,0 +1,293 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<title>RNDT Core Graph</title>
+<style>
+  :root {
+    --ground:#fbfaf7; --surface:#ffffff; --surface-2:#f4f2ea;
+    --line:#e4e1d8; --line-soft:#efede4;
+    --ink:#1a1a18; --ink-2:#3a3934; --ink-3:#57554c; --ink-4:#78766c; --ink-5:#9a9789;
+    --accent:#a34a1e; --chip:#eeece2; --hover:#f0eee6;
+    --sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#191713; --surface:#211f1a; --surface-2:#262319;
+      --line:#35322a; --line-soft:#2b2822;
+      --ink:#f0ede4; --ink-2:#ded9cc; --ink-3:#c4bfb1; --ink-4:#a09a8b; --ink-5:#8f8a7c;
+      --accent:#e08a5a; --chip:#2b2822; --hover:#2b2822;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#191713; --surface:#211f1a; --surface-2:#262319;
+    --line:#35322a; --line-soft:#2b2822;
+    --ink:#f0ede4; --ink-2:#ded9cc; --ink-3:#c4bfb1; --ink-4:#a09a8b; --ink-5:#8f8a7c;
+    --accent:#e08a5a; --chip:#2b2822; --hover:#2b2822;
+  }
+  body { background: var(--ground); color: var(--ink); font-family: var(--sans); margin: 0; padding: 20px; }
+
+  #kg-wrap { font-family: var(--sans); color: var(--ink); background: var(--ground); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 1180px; margin: 0 auto; }
+  #kg-header { padding: 14px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  #kg-header h2 { font-size: 15px; font-weight: 600; margin: 0; color: var(--ink); }
+  #kg-header .kg-sub { font-size: 11.5px; color: var(--ink-4); font-family: var(--mono); }
+  #kg-body { display: flex; }
+  #kg-canvas-wrap { flex: 1; min-width: 0; position: relative; }
+  #kg-svg { display: block; width: 100%; height: 580px; cursor: grab; }
+  #kg-svg:active { cursor: grabbing; }
+  #kg-side { width: 236px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px; font-size: 12px; max-height: 580px; overflow-y: auto; }
+  #kg-side h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-5); margin: 0 0 8px; font-weight: 600; }
+  .kg-legend-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; cursor: pointer; user-select: none; border-radius: 6px; color: var(--ink-2); }
+  .kg-legend-row:hover { background: var(--hover); }
+  .kg-legend-row.kg-off { opacity: .35; }
+  .kg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .kg-legend-label { flex: 1; }
+  .kg-legend-count { color: var(--ink-5); font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .kg-edge-row { display: flex; align-items: center; gap: 7px; padding: 2px 0; font-size: 11px; color: var(--ink-3); }
+  .kg-edge-swatch { width: 16px; height: 0; border-top-width: 2px; border-top-style: solid; flex-shrink: 0; }
+  #kg-detail { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); min-height: 70px; }
+  #kg-detail .kg-empty { color: var(--ink-5); font-size: 12px; }
+  #kg-detail .kg-name { font-size: 13px; font-weight: 600; margin: 0 0 3px; color: var(--ink); }
+  #kg-detail .kg-type { font-size: 11px; color: var(--ink-4); margin: 0 0 6px; }
+  #kg-detail .kg-term { display: inline-block; font-size: 10px; font-family: var(--mono); background: var(--chip); color: var(--ink-3); padding: 1px 6px; border-radius: 4px; margin-bottom: 8px; }
+  #kg-detail .kg-conn-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-5); margin: 8px 0 3px; }
+  #kg-detail .kg-conn { font-size: 11.5px; color: var(--ink-2); padding: 2px 0; cursor: pointer; }
+  #kg-detail .kg-conn:hover { color: var(--accent); }
+  #kg-detail .kg-conn .kg-rel { color: var(--ink-5); font-family: var(--mono); }
+  #kg-controls { padding: 8px 18px; border-top: 1px solid var(--line); display: flex; gap: 14px; align-items: center; font-size: 11.5px; color: var(--ink-4); flex-wrap: wrap; }
+  #kg-controls button { font-size: 11.5px; padding: 4px 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; cursor: pointer; color: var(--ink-2); font-family: var(--sans); }
+  #kg-controls button:hover { background: var(--hover); }
+  .kg-node text { pointer-events: none; font-size: 9px; fill: var(--ink-2); font-family: var(--sans); }
+  .kg-node.kg-dim { opacity: .12; }
+  .kg-link.kg-dim { opacity: .06; }
+  .kg-node.kg-dim text { display: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 640px) {
+    #kg-body { flex-direction: column; }
+    #kg-side { width: auto; border-left: none; border-top: 1px solid var(--line); max-height: 260px; }
+    #kg-svg { height: 440px; }
+  }
+</style>
+
+<div id="kg-wrap">
+  <div id="kg-header">
+    <h2>RNDT core ontology — knowledge graph</h2>
+    <span class="kg-sub">102 individuals &middot; 122 relationships &middot; 9 populated classes &middot; method-agnostic</span>
+  </div>
+  <div id="kg-body">
+    <div id="kg-canvas-wrap">
+      <svg id="kg-svg"></svg>
+    </div>
+    <div id="kg-side">
+      <h3>Node types</h3>
+      <div id="kg-legend"></div>
+      <h3 style="margin-top:14px">Relationships</h3>
+      <div id="kg-edge-legend"></div>
+      <div id="kg-detail"><div class="kg-empty">Click any node to inspect it and trace its connections.</div></div>
+    </div>
+  </div>
+  <div id="kg-controls">
+    <button id="kg-reset">Reset view</button>
+    <button id="kg-clear">Clear selection</button>
+    <span>Drag nodes &middot; scroll to zoom &middot; click a node to trace connections</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function() {
+  const data = {"nodes":[{"id":"Acquire","label":"Acquire","type":"MajorAction","termId":"AUTH-003"},{"id":"Act","label":"Act","type":"MajorAction","termId":"AUTH-001"},{"id":"Analyse","label":"Analyse","type":"MajorAction","termId":"AUTH-005"},{"id":"ApproveInspectionReport","label":"Approve inspection report","type":"Activity","termId":"TERM-0095"},{"id":"ApproveTechnicalValidation","label":"Approve technical validation","type":"Activity","termId":"TERM-0247"},{"id":"AssureElectronicSignatureSecurity","label":"Assure electronic-signature security and authenticity","type":"Activity","termId":"TERM-0258"},{"id":"AuditAndRecordCompliance","label":"Audit and Record Compliance","type":"ActionArea","termId":""},{"id":"AuditTestConditions","label":"Audit test conditions","type":"Activity","termId":"TERM-0259"},{"id":"AuthoriseRelease","label":"Authorise release","type":"RequirementConcept","termId":"TERM-0097"},{"id":"CompetencyRequirements","label":"Competency Requirements","type":"ActionArea","termId":""},{"id":"ComplianceOversight","label":"Compliance Oversight","type":"MajorAction","termId":"TERM-0228 / AUTH-009"},{"id":"ConfirmComplianceNANDTB29","label":"Confirm compliance with NANDTB/29 and higher-level requirements","type":"Activity","termId":"TERM-0250"},{"id":"ContinuousImprovement","label":"Continuous Improvement","type":"MajorAction","termId":"TERM-0231 / AUTH-012"},{"id":"ControlledTechnicalKnowledge","label":"Controlled Technical Knowledge","type":"ActionArea","termId":""},{"id":"CorrectiveActionManagement","label":"Corrective Action Management","type":"ActionArea","termId":""},{"id":"DataAcquisition","label":"Data Acquisition","type":"ProcessStage","termId":"TERM-0232"},{"id":"DataIntegrityAssessment","label":"Data Integrity Assessment","type":"ActionArea","termId":""},{"id":"DataIntegrityPerformance","label":"Data Integrity Performance","type":"ActionArea","termId":""},{"id":"DataTransfer","label":"Data Transfer","type":"ActionArea","termId":""},{"id":"Decision","label":"Decision","type":"MajorAction","termId":"AUTH-006"},{"id":"DefineCorrectiveAction","label":"Define corrective action","type":"Activity","termId":"TERM-0304"},{"id":"DigitallySignInspectionRecord","label":"Digitally sign inspection record","type":"InformationEntity","termId":"TERM-0099"},{"id":"Documentation","label":"Documentation","type":"ActionArea","termId":""},{"id":"EquipmentPreparation","label":"Equipment Preparation","type":"ActionArea","termId":""},{"id":"EquipmentStatusMonitoring","label":"Equipment Status Monitoring","type":"ActionArea","termId":""},{"id":"Evaluation","label":"Evaluation","type":"ProcessStage","termId":""},{"id":"EvidencePackageReview","label":"Evidence Package Review","type":"ActionArea","termId":""},{"id":"IdentifyAdversePerformanceTrends","label":"Identify adverse performance trends","type":"Activity","termId":"TERM-0284"},{"id":"IdentifyIndications","label":"Identify indications","type":"Activity","termId":"TERM-0105"},{"id":"AcquiredDataQualityAssessmentL1","label":"Acquired Data Quality Assessment","type":"ActionArea","termId":""},{"id":"IndicationRecord","label":"Indication record","type":"InformationEntity","termId":""},{"id":"InspectionAndVerificationPerformance","label":"Inspection and Verification Performance","type":"ActionArea","termId":""},{"id":"InspectionDisposition","label":"Inspection Disposition","type":"ActionArea","termId":""},{"id":"InspectionEnviroment","label":"Inspection Enviroment","type":"ActionArea","termId":""},{"id":"InspectionKnowledgeAndOrganisationalLearning","label":"Inspection Knowledge and Organisational Learning","type":"ActionArea","termId":""},{"id":"InspectionPreparation","label":"Inspection Preparation","type":"ActionArea","termId":""},{"id":"InspectionReadiness","label":"Inspection Readiness","type":"ActionArea","termId":""},{"id":"Inspector","label":"Inspector","type":"Participant","termId":""},{"id":"InvestigateVerificationFailures","label":"Investigate verification failures","type":"Activity","termId":"TERM-0302"},{"id":"KnowledgeManagement","label":"Knowledge Management","type":"MajorAction","termId":"TERM-0230 / AUTH-011"},{"id":"Level1InspectionExecutionAuthority","label":"Level 1 Inspection Execution Authority","type":"AuthorityClass","termId":""},{"id":"Level2TechnicalEvaluationAuthority","label":"Level 2 Technical Evaluation Authority","type":"AuthorityClass","termId":""},{"id":"Level3GovernanceAndAssuranceAuthority","label":"Level 3 Governance and Assurance Authority","type":"AuthorityClass","termId":""},{"id":"MaintainAcceptanceCriteria","label":"Maintain acceptance criteria","type":"Activity","termId":"TERM-0288"},{"id":"MaintainCertificationRecords","label":"Maintain certification records","type":"Activity","termId":"TERM-0292"},{"id":"MaintainCodesStandardsAndControllingDocuments","label":"Maintain codes, standards and controlling documents","type":"Activity","termId":"TERM-0285"},{"id":"MaintainCurrentProceduresAndWorkInstructions","label":"Maintain current procedures and work instructions","type":"Activity","termId":"TERM-0287"},{"id":"MaintainReportsAndDecisions","label":"Maintain reports and decisions","type":"Activity","termId":"TERM-0299"},{"id":"MaintainRoleAndAuthorityRecords","label":"Maintain role and authority records","type":"Activity","termId":"TERM-0294"},{"id":"MethodAndTechniqueControl","label":"Method and Technique Control","type":"ActionArea","termId":""},{"id":"MethodGovernance","label":"Method Governance","type":"MajorAction","termId":"TERM-0227 / AUTH-008"},{"id":"MonitorChecksumAndAuditTrailFailures","label":"Monitor checksum and audit-trail failures","type":"Activity","termId":"TERM-0278"},{"id":"MonitorDataAttribution","label":"Monitor data attribution","type":"Activity","termId":"TERM-0272"},{"id":"MonitorEquipmentAndSystemCapability","label":"Monitor equipment and system capability","type":"Activity","termId":"TERM-0279"},{"id":"MonitorInspectionSensitivity","label":"Monitor inspection sensitivity","type":"Activity","termId":"TERM-0265"},{"id":"MonitorVerificationFailures","label":"Monitor verification failures","type":"Activity","termId":"TERM-0269"},{"id":"ObserveArtefacts","label":"Observe artefacts","type":"Activity","termId":"TERM-0040"},{"id":"ObserveControlledAreaStatus","label":"Observe controlled area status","type":"Activity","termId":"TERM-0033"},{"id":"ObserveSensorPosition","label":"Observe sensor position","type":"Activity","termId":"TERM-0020"},{"id":"ObserveSensorStatus","label":"Observe sensor status","type":"Activity","termId":"TERM-0029"},{"id":"ObserveEnvironmentalConditions","label":"Observe environmental conditions","type":"Activity","termId":"TERM-0036"},{"id":"ObserveAcquiredDataQuality","label":"Observe acquired data quality","type":"Activity","termId":"TERM-0037"},{"id":"ObserveEnergySourcePosition","label":"Observe energy source position","type":"Activity","termId":"TERM-0019"},{"id":"ObserveSystemAlarms","label":"Observe system alarms","type":"Activity","termId":"TERM-0031"},{"id":"OperationalAndHumanPerformance","label":"Operational and Human Performance","type":"ActionArea","termId":""},{"id":"Operator","label":"Operator","type":"Participant","termId":""},{"id":"Oversight","label":"Oversight","type":"ProcessStage","termId":"TERM-0234"},{"id":"PerformanceMonitoring","label":"Performance Monitoring","type":"MajorAction","termId":"TERM-0229 / AUTH-010"},{"id":"PersonnelAndAuthorityRecords","label":"Personnel and Authority Records","type":"ActionArea","termId":""},{"id":"PowerUpEquipment","label":"Power up equipment","type":"Activity","termId":"TERM-0009"},{"id":"PrepareRNDTProcedure","label":"Prepare RNDT procedure","type":"Activity","termId":"TERM-0239"},{"id":"ProcedureAndWorkInstructionControl","label":"Procedure and Work Instruction Control","type":"ActionArea","termId":""},{"id":"ProcessReassessment","label":"Process Reassessment","type":"ActionArea","termId":""},{"id":"ReassessVerificationModel","label":"Reassess verification model","type":"Activity","termId":"TERM-0309"},{"id":"RegulatoryAndPersonnelCompliance","label":"Regulatory and Personnel Compliance","type":"ActionArea","termId":""},{"id":"RetainOriginalInspectionData","label":"Retain original inspection data","type":"Activity","termId":"TERM-0297"},{"id":"ReviewAndApproveRNDTTaskRiskAssessment","label":"Review and approve RNDT task risk assessment","type":"Activity","termId":"TERM-0254"},{"id":"ReviewAttachedEvidence","label":"Review attached evidence","type":"Activity","termId":"TERM-0052"},{"id":"ReviewInspectionPackage","label":"Review inspection package","type":"Activity","termId":"TERM-0051"},{"id":"RiskQMSAndSecurityAssurance","label":"Risk, QMS and Security Assurance","type":"ActionArea","termId":""},{"id":"SelectComponent","label":"Select component","type":"Activity","termId":"TERM-0005"},{"id":"SelectNDTMethodAndTechnique","label":"Select NDT method and technique","type":"Activity","termId":"TERM-0236"},{"id":"SelectVerificationModel","label":"Select verification model","type":"Activity","termId":"TERM-0244"},{"id":"Sense","label":"Sense","type":"MajorAction","termId":"AUTH-002"},{"id":"Sentence","label":"Sentence","type":"MajorAction","termId":"AUTH-007"},{"id":"SetupVerification","label":"Setup Verification","type":"ActionArea","termId":""},{"id":"StoreAcquiredData","label":"Store acquired data","type":"Activity","termId":"TERM-0001"},{"id":"TechnicalInterpretation","label":"Technical Interpretation","type":"ActionArea","termId":""},{"id":"TechnologyAndChangeControl","label":"Technology and Change Control","type":"ActionArea","termId":""},{"id":"TransferAcquiredData","label":"Transfer acquired data","type":"Activity","termId":"TERM-0002"},{"id":"UpdateProcedureOrWorkInstruction","label":"Update procedure or work instruction","type":"Activity","termId":"TERM-0312"},{"id":"ValidateNewEquipment","label":"Validate new equipment","type":"Activity","termId":"TERM-0314"},{"id":"ValidateNewSoftware","label":"Validate new software","type":"Activity","termId":"TERM-0315"},{"id":"VerificationModelAndTechnicalApproval","label":"Verification Model and Technical Approval","type":"ActionArea","termId":""},{"id":"Verifier","label":"Verifier","type":"Participant","termId":""},{"id":"Verify","label":"Verify","type":"MajorAction","termId":"AUTH-004"},{"id":"VerifyAcceptanceCriteria","label":"Verify acceptance criteria","type":"Activity","termId":"TERM-0071"},{"id":"VerifyComponentIdentityL1","label":"Verify component identity","type":"Activity","termId":"TERM-0006"},{"id":"VerifyEnduringInspectionRecords","label":"Verify enduring inspection records","type":"Activity","termId":"TERM-0262"},{"id":"VerifyImageProvenance","label":"Verify image provenance","type":"Activity","termId":"TERM-0092"},{"id":"VerifyInspectionRequest","label":"Verify inspection request","type":"Activity","termId":"TERM-0067"},{"id":"VerifyPersonnelTraining","label":"Verify personnel training, qualification and certification","type":"Activity","termId":"TERM-0252"}],"edges":[{"source":"DataAcquisition","target":"Evaluation","rel":"precedes"},{"source":"MethodGovernance","target":"VerificationModelAndTechnicalApproval","rel":"hasSubActivity"},{"source":"EvidencePackageReview","target":"ReviewInspectionPackage","rel":"requiresAction"},{"source":"InspectionReadiness","target":"VerifyInspectionRequest","rel":"requiresAction"},{"source":"PerformanceMonitoring","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy"},{"source":"ComplianceOversight","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy"},{"source":"TechnologyAndChangeControl","target":"ValidateNewEquipment","rel":"requiresAction"},{"source":"StoreAcquiredData","target":"Operator","rel":"performedBy"},{"source":"PersonnelAndAuthorityRecords","target":"MaintainCertificationRecords","rel":"requiresAction"},{"source":"Sentence","target":"InspectionDisposition","rel":"hasSubActivity"},{"source":"RegulatoryAndPersonnelCompliance","target":"ConfirmComplianceNANDTB29","rel":"requiresAction"},{"source":"InspectionReadiness","target":"VerifyAcceptanceCriteria","rel":"requiresAction"},{"source":"Evaluation","target":"Analyse","rel":"realisedThrough"},{"source":"VerifyInspectionRequest","target":"Verifier","rel":"performedBy"},{"source":"Verify","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy"},{"source":"DataAcquisition","target":"Act","rel":"realisedThrough"},{"source":"ContinuousImprovement","target":"TechnologyAndChangeControl","rel":"hasSubActivity"},{"source":"PersonnelAndAuthorityRecords","target":"MaintainRoleAndAuthorityRecords","rel":"requiresAction"},{"source":"VerifyAcceptanceCriteria","target":"Verifier","rel":"performedBy"},{"source":"ContinuousImprovement","target":"ProcessReassessment","rel":"hasSubActivity"},{"source":"Acquire","target":"DataTransfer","rel":"hasSubActivity"},{"source":"VerificationModelAndTechnicalApproval","target":"SelectVerificationModel","rel":"requiresAction"},{"source":"InspectionEnviroment","target":"ObserveEnvironmentalConditions","rel":"requiresAction"},{"source":"OperationalAndHumanPerformance","target":"MonitorEquipmentAndSystemCapability","rel":"requiresAction"},{"source":"KnowledgeManagement","target":"ControlledTechnicalKnowledge","rel":"hasSubActivity"},{"source":"DataAcquisition","target":"Sense","rel":"realisedThrough"},{"source":"InspectionPreparation","target":"VerifyComponentIdentityL1","rel":"requiresAction"},{"source":"EquipmentPreparation","target":"PowerUpEquipment","rel":"requiresAction"},{"source":"AuditAndRecordCompliance","target":"VerifyEnduringInspectionRecords","rel":"requiresAction"},{"source":"PowerUpEquipment","target":"Operator","rel":"performedBy"},{"source":"OperationalAndHumanPerformance","target":"IdentifyAdversePerformanceTrends","rel":"requiresAction"},{"source":"CorrectiveActionManagement","target":"DefineCorrectiveAction","rel":"requiresAction"},{"source":"Oversight","target":"Level3GovernanceAndAssuranceAuthority","rel":"associatedWithAuthority"},{"source":"ComplianceOversight","target":"AuditAndRecordCompliance","rel":"hasSubActivity"},{"source":"Analyse","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy"},{"source":"KnowledgeManagement","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy"},{"source":"InspectionEnviroment","target":"ObserveControlledAreaStatus","rel":"requiresAction"},{"source":"AuditAndRecordCompliance","target":"AuditTestConditions","rel":"requiresAction"},{"source":"TechnicalInterpretation","target":"IdentifyIndications","rel":"requiresAction"},{"source":"DataIntegrityPerformance","target":"MonitorChecksumAndAuditTrailFailures","rel":"requiresAction"},{"source":"Sense","target":"SetupVerification","rel":"hasSubActivity"},{"source":"DataTransfer","target":"StoreAcquiredData","rel":"requiresAction"},{"source":"Decision","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy"},{"source":"ControlledTechnicalKnowledge","target":"MaintainCodesStandardsAndControllingDocuments","rel":"requiresAction"},{"source":"DataIntegrityAssessment","target":"VerifyImageProvenance","rel":"requiresAction"},{"source":"ContinuousImprovement","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy"},{"source":"Sense","target":"AcquiredDataQualityAssessmentL1","rel":"hasSubActivity"},{"source":"KnowledgeManagement","target":"InspectionKnowledgeAndOrganisationalLearning","rel":"hasSubActivity"},{"source":"Oversight","target":"ContinuousImprovement","rel":"realisedThrough"},{"source":"Verify","target":"InspectionReadiness","rel":"hasSubActivity"},{"source":"ComplianceOversight","target":"RiskQMSAndSecurityAssurance","rel":"hasSubActivity"},{"source":"SetupVerification","target":"ObserveSensorPosition","rel":"requiresAction"},{"source":"Act","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy"},{"source":"InspectionKnowledgeAndOrganisationalLearning","target":"MaintainReportsAndDecisions","rel":"requiresAction"},{"source":"Evaluation","target":"Verify","rel":"realisedThrough"},{"source":"Sentence","target":"Documentation","rel":"hasSubActivity"},{"source":"AcquiredDataQualityAssessmentL1","target":"ObserveArtefacts","rel":"requiresAction"},{"source":"IdentifyIndications","target":"Inspector","rel":"performedBy"},{"source":"IdentifyIndications","target":"IndicationRecord","rel":"producesEvidence"},{"source":"InspectionPreparation","target":"SelectComponent","rel":"requiresAction"},{"source":"ApproveInspectionReport","target":"Inspector","rel":"performedBy"},{"source":"TechnologyAndChangeControl","target":"ValidateNewSoftware","rel":"requiresAction"},{"source":"ReviewAttachedEvidence","target":"Inspector","rel":"performedBy"},{"source":"DataIntegrityPerformance","target":"MonitorDataAttribution","rel":"requiresAction"},{"source":"EquipmentStatusMonitoring","target":"ObserveSensorStatus","rel":"requiresAction"},{"source":"Documentation","target":"AuthoriseRelease","rel":"hasRequirement"},{"source":"Sense","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy"},{"source":"RiskQMSAndSecurityAssurance","target":"ReviewAndApproveRNDTTaskRiskAssessment","rel":"requiresAction"},{"source":"InspectionAndVerificationPerformance","target":"MonitorVerificationFailures","rel":"requiresAction"},{"source":"KnowledgeManagement","target":"PersonnelAndAuthorityRecords","rel":"hasSubActivity"},{"source":"Acquire","target":"CompetencyRequirements","rel":"hasSubActivity"},{"source":"Oversight","target":"MethodGovernance","rel":"realisedThrough"},{"source":"Documentation","target":"ApproveInspectionReport","rel":"requiresAction"},{"source":"Oversight","target":"ComplianceOversight","rel":"realisedThrough"},{"source":"Evaluation","target":"Oversight","rel":"precedes"},{"source":"Oversight","target":"PerformanceMonitoring","rel":"realisedThrough"},{"source":"ControlledTechnicalKnowledge","target":"MaintainAcceptanceCriteria","rel":"requiresAction"},{"source":"DataTransfer","target":"TransferAcquiredData","rel":"requiresAction"},{"source":"Evaluation","target":"Decision","rel":"realisedThrough"},{"source":"ProcessReassessment","target":"UpdateProcedureOrWorkInstruction","rel":"requiresAction"},{"source":"EvidencePackageReview","target":"ReviewAttachedEvidence","rel":"requiresAction"},{"source":"ProcessReassessment","target":"ReassessVerificationModel","rel":"requiresAction"},{"source":"Sentence","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy"},{"source":"PerformanceMonitoring","target":"InspectionAndVerificationPerformance","rel":"hasSubActivity"},{"source":"SetupVerification","target":"ObserveEnergySourcePosition","rel":"requiresAction"},{"source":"Sense","target":"EquipmentStatusMonitoring","rel":"hasSubActivity"},{"source":"Oversight","target":"KnowledgeManagement","rel":"realisedThrough"},{"source":"PerformanceMonitoring","target":"OperationalAndHumanPerformance","rel":"hasSubActivity"},{"source":"VerifyImageProvenance","target":"Verifier","rel":"performedBy"},{"source":"EquipmentStatusMonitoring","target":"ObserveSystemAlarms","rel":"requiresAction"},{"source":"InspectionKnowledgeAndOrganisationalLearning","target":"RetainOriginalInspectionData","rel":"requiresAction"},{"source":"ComplianceOversight","target":"RegulatoryAndPersonnelCompliance","rel":"hasSubActivity"},{"source":"Sense","target":"InspectionEnviroment","rel":"hasSubActivity"},{"source":"Evaluation","target":"Sentence","rel":"realisedThrough"},{"source":"Acquire","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy"},{"source":"Analyse","target":"DataIntegrityAssessment","rel":"hasSubActivity"},{"source":"InspectionAndVerificationPerformance","target":"MonitorInspectionSensitivity","rel":"requiresAction"},{"source":"SelectComponent","target":"Operator","rel":"performedBy"},{"source":"PerformanceMonitoring","target":"DataIntegrityPerformance","rel":"hasSubActivity"},{"source":"Act","target":"EquipmentPreparation","rel":"hasSubActivity"},{"source":"ContinuousImprovement","target":"CorrectiveActionManagement","rel":"hasSubActivity"},{"source":"Decision","target":"EvidencePackageReview","rel":"hasSubActivity"},{"source":"ProcedureAndWorkInstructionControl","target":"PrepareRNDTProcedure","rel":"requiresAction"},{"source":"VerificationModelAndTechnicalApproval","target":"ApproveTechnicalValidation","rel":"requiresAction"},{"source":"RiskQMSAndSecurityAssurance","target":"AssureElectronicSignatureSecurity","rel":"requiresAction"},{"source":"Act","target":"InspectionPreparation","rel":"hasSubActivity"},{"source":"Analyse","target":"TechnicalInterpretation","rel":"hasSubActivity"},{"source":"RegulatoryAndPersonnelCompliance","target":"VerifyPersonnelTraining","rel":"requiresAction"},{"source":"VerifyComponentIdentityL1","target":"Operator","rel":"performedBy"},{"source":"DataAcquisition","target":"Level1InspectionExecutionAuthority","rel":"associatedWithAuthority"},{"source":"MethodGovernance","target":"MethodAndTechniqueControl","rel":"hasSubActivity"},{"source":"ControlledTechnicalKnowledge","target":"MaintainCurrentProceduresAndWorkInstructions","rel":"requiresAction"},{"source":"MethodGovernance","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy"},{"source":"MethodAndTechniqueControl","target":"SelectNDTMethodAndTechnique","rel":"requiresAction"},{"source":"ReviewInspectionPackage","target":"Inspector","rel":"performedBy"},{"source":"MethodGovernance","target":"ProcedureAndWorkInstructionControl","rel":"hasSubActivity"},{"source":"Documentation","target":"DigitallySignInspectionRecord","rel":"usesInformation"},{"source":"TransferAcquiredData","target":"Operator","rel":"performedBy"},{"source":"Evaluation","target":"Level2TechnicalEvaluationAuthority","rel":"associatedWithAuthority"},{"source":"DataAcquisition","target":"Acquire","rel":"realisedThrough"},{"source":"CorrectiveActionManagement","target":"InvestigateVerificationFailures","rel":"requiresAction"},{"source":"AcquiredDataQualityAssessmentL1","target":"ObserveAcquiredDataQuality","rel":"requiresAction"}]};
+
+  const typeColor = {
+    ProcessStage: "#185fa5",
+    MajorAction: "#378add",
+    ActionArea: "#5dcaa5",
+    Activity: "#0f6e56",
+    Capability: "#ef9f27",
+    RequirementConcept: "#ba7517",
+    InformationEntity: "#993c1d",
+    AuthorityClass: "#7f77dd",
+    Participant: "#534ab7"
+  };
+  const typeOrder = ["ProcessStage","MajorAction","ActionArea","Activity","Capability","RequirementConcept","InformationEntity","AuthorityClass","Participant"];
+  const typeRadius = { ProcessStage: 10, MajorAction: 8, ActionArea: 7, AuthorityClass: 8, Participant: 8, Activity: 5, Capability: 6, RequirementConcept: 6, InformationEntity: 6 };
+
+  const relGroups = {
+    "backbone (taxonomy)": { rels: ["hasProcessStage","realisedThrough","hasSubActivity","requiresAction","requiresCapability","hasRequirement"], color: "#8d8878", dash: "0" },
+    "authority": { rels: ["authorisedBy","associatedWithAuthority"], color: "#7f77dd", dash: "0" },
+    "role": { rels: ["performedBy"], color: "#534ab7", dash: "3,2" },
+    "evidence / info": { rels: ["producesEvidence","usesInformation"], color: "#d85a30", dash: "3,2" },
+    "sequence": { rels: ["precedes"], color: "#0f6e56", dash: "1,3" }
+  };
+  const relToGroup = {};
+  Object.entries(relGroups).forEach(([g, def]) => def.rels.forEach(r => relToGroup[r] = g));
+
+  const nodeById = new Map(data.nodes.map(n => [n.id, n]));
+  const neighbors = new Map(data.nodes.map(n => [n.id, new Set()]));
+  const nodeEdges = new Map(data.nodes.map(n => [n.id, []]));
+  data.edges.forEach(e => {
+    neighbors.get(e.source).add(e.target);
+    neighbors.get(e.target).add(e.source);
+    nodeEdges.get(e.source).push(e);
+    nodeEdges.get(e.target).push(e);
+  });
+
+  const activeTypes = new Set(typeOrder);
+  let selected = null;
+
+  const svg = d3.select("#kg-svg");
+  const wrap = document.getElementById("kg-canvas-wrap");
+  let width = wrap.clientWidth, height = 580;
+
+  const g = svg.append("g");
+  const zoomBehavior = d3.zoom().scaleExtent([0.06, 6]).on("zoom", (ev) => g.attr("transform", ev.transform));
+  svg.call(zoomBehavior);
+
+  // A 100+ node force layout naturally spreads well past the canvas at 1:1 —
+  // this fits either the whole graph or a given node subset into view instead
+  // of leaving stray nodes outside the visible area.
+  function fitToView(ids, duration) {
+    const pts = ids ? data.nodes.filter(n => ids.has(n.id)) : data.nodes;
+    if (!pts.length) return;
+    const x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x));
+    const y0 = Math.min(...pts.map(p => p.y)), y1 = Math.max(...pts.map(p => p.y));
+    const pad = 50;
+    const bw = Math.max(x1 - x0, 20) + pad * 2, bh = Math.max(y1 - y0, 20) + pad * 2;
+    const scale = Math.max(0.06, Math.min(4, Math.min(width / bw, height / bh)));
+    const transform = d3.zoomIdentity
+      .translate(width / 2, height / 2)
+      .scale(scale)
+      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
+    svg.transition().duration(duration ?? 0).call(zoomBehavior.transform, transform);
+  }
+
+  const simulation = d3.forceSimulation(data.nodes)
+    .force("link", d3.forceLink(data.edges).id(d => d.id).distance(d => relToGroup[d.rel] === "backbone (taxonomy)" ? 46 : 70).strength(0.5))
+    .force("charge", d3.forceManyBody().strength(-140))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collide", d3.forceCollide().radius(d => (typeRadius[d.type] || 6) + 14));
+
+  const link = g.append("g").selectAll("line")
+    .data(data.edges).join("line")
+    .attr("class", "kg-link")
+    .attr("stroke", d => relGroups[relToGroup[d.rel]].color)
+    .attr("stroke-dasharray", d => relGroups[relToGroup[d.rel]].dash)
+    .attr("stroke-width", 1)
+    .attr("stroke-opacity", 0.55);
+
+  const node = g.append("g").selectAll("g")
+    .data(data.nodes).join("g")
+    .attr("class", "kg-node")
+    .style("cursor", "pointer")
+    .call(d3.drag()
+      .on("start", (ev, d) => { if (!ev.active) simulation.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
+      .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
+      .on("end", (ev, d) => { if (!ev.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+  // Invisible, larger hit-circle under every node so a small 5-8px dot still
+  // has a comfortably clickable target (mouse and touch alike).
+  node.append("circle")
+    .attr("r", d => (typeRadius[d.type] || 6) + 10)
+    .attr("fill", "transparent")
+    .attr("pointer-events", "all");
+
+  node.append("circle")
+    .attr("r", d => typeRadius[d.type] || 6)
+    .attr("fill", d => typeColor[d.type])
+    .attr("stroke", "var(--ground)")
+    .attr("stroke-width", 1.5)
+    .attr("pointer-events", "none");
+
+  node.append("text")
+    .attr("x", d => (typeRadius[d.type] || 6) + 4)
+    .attr("y", 3)
+    .text(d => d.label.length > 26 ? d.label.slice(0, 24) + "…" : d.label);
+
+  node.on("click", (ev, d) => { ev.stopPropagation(); selectNode(d.id); });
+  svg.on("click", () => selectNode(null));
+
+  simulation.on("tick", () => {
+    link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+    node.attr("transform", d => `translate(${d.x},${d.y})`);
+  });
+
+  function applyFilter() {
+    node.classed("kg-dim", d => !activeTypes.has(d.type));
+    link.classed("kg-dim", d => !activeTypes.has(nodeById.get(d.source.id || d.source).type) || !activeTypes.has(nodeById.get(d.target.id || d.target).type));
+  }
+
+  function selectNode(id) {
+    selected = id;
+    const detail = document.getElementById("kg-detail");
+    if (!id) {
+      applyFilter();
+      detail.innerHTML = '<div class="kg-empty">Click any node to inspect it and trace its connections.</div>';
+      return;
+    }
+    const ns = neighbors.get(id);
+    node.classed("kg-dim", d => d.id !== id && !ns.has(d.id));
+    link.classed("kg-dim", d => (d.source.id || d.source) !== id && (d.target.id || d.target) !== id);
+
+    const n = nodeById.get(id);
+    const edges = nodeEdges.get(id).map(e => {
+      const outgoing = (e.source.id || e.source) === id;
+      const otherId = outgoing ? (e.target.id || e.target) : (e.source.id || e.source);
+      const other = nodeById.get(otherId);
+      return { rel: e.rel, outgoing, other };
+    }).sort((a, b) => a.rel.localeCompare(b.rel));
+
+    let html = `<p class="kg-name">${n.label}</p><p class="kg-type">${n.type}</p>`;
+    if (n.termId) html += `<span class="kg-term">${n.termId}</span>`;
+    html += `<div class="kg-conn-label">${edges.length} connection${edges.length === 1 ? '' : 's'}</div>`;
+    edges.forEach(e => {
+      html += `<div class="kg-conn" data-id="${e.other.id}">${e.outgoing ? '→' : '←'} <span class="kg-rel">${e.rel}</span> ${e.other.label}</div>`;
+    });
+    detail.innerHTML = html;
+    detail.querySelectorAll(".kg-conn").forEach(el => {
+      el.addEventListener("click", () => selectNode(el.dataset.id));
+    });
+  }
+
+  const counts = {};
+  data.nodes.forEach(n => counts[n.type] = (counts[n.type] || 0) + 1);
+  const legend = document.getElementById("kg-legend");
+  typeOrder.forEach(t => {
+    if (!counts[t]) return;
+    const row = document.createElement("div");
+    row.className = "kg-legend-row";
+    row.innerHTML = `<span class="kg-dot" style="background:${typeColor[t]}"></span><span class="kg-legend-label">${t}</span><span class="kg-legend-count">${counts[t]}</span>`;
+    row.addEventListener("click", () => {
+      if (activeTypes.has(t)) { activeTypes.delete(t); row.classList.add("kg-off"); }
+      else { activeTypes.add(t); row.classList.remove("kg-off"); }
+      selected = null;
+      applyFilter();
+      document.getElementById("kg-detail").innerHTML = '<div class="kg-empty">Click any node to inspect it and trace its connections.</div>';
+    });
+    legend.appendChild(row);
+  });
+
+  const edgeCounts = {};
+  data.edges.forEach(e => edgeCounts[relToGroup[e.rel]] = (edgeCounts[relToGroup[e.rel]] || 0) + 1);
+  const edgeLegend = document.getElementById("kg-edge-legend");
+  Object.entries(relGroups).forEach(([g2, def]) => {
+    const row = document.createElement("div");
+    row.className = "kg-edge-row";
+    row.innerHTML = `<span class="kg-edge-swatch" style="border-top-color:${def.color};border-top-style:${def.dash === "0" ? "solid" : "dashed"}"></span><span>${g2} (${edgeCounts[g2] || 0})</span>`;
+    edgeLegend.appendChild(row);
+  });
+
+  document.getElementById("kg-reset").addEventListener("click", () => fitToView(null, 400));
+  document.getElementById("kg-clear").addEventListener("click", () => selectNode(null));
+
+  let settled = false;
+  simulation.on("end", () => { if (!settled) { settled = true; fitToView(null, 500); } });
+
+  new ResizeObserver(() => {
+    const w = wrap.clientWidth;
+    if (Math.abs(w - width) > 20) {
+      width = w;
+      simulation.force("center", d3.forceCenter(width / 2, height / 2));
+      simulation.alpha(0.3).restart();
+    }
+  }).observe(wrap);
+})();
+</script>
