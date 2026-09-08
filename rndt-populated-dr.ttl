@@ -2,18 +2,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
 @prefix rndt-dr: <http://www.cranfield.ac.uk/rndt-ontology/dr#> .
-@prefix rndt-ut: <http://www.cranfield.ac.uk/rndt-ontology/ut#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-rndt:LOG_0001 a owl:NamedIndividual ;
-    rndt:logDate "2026-02-15"^^xsd:date ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logsActivity rndt:SelectNDTMethodAndTechnique .
-
-rndt:LOG_0002 a owl:NamedIndividual ;
-    rndt:logDate "2026-02-15"^^xsd:date ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logsActivity rndt:PrepareRNDTProcedure .
 
 rndt:LOG_0003 a owl:NamedIndividual ;
     rndt:logDate "2026-03-04"^^xsd:date ;
@@ -1016,167 +1005,6 @@ rndt:LOG_0145 a owl:NamedIndividual ;
     rndt:logResult "Complete" ;
     rndt:logsActivity rndt:VerifyPersonnelTraining .
 
-rndt:LOG_0146 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:VerifyInspectionRequest .
-
-rndt:LOG_0147 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
-
-rndt:LOG_0148 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:SelectComponent .
-
-rndt:LOG_0149 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
-
-rndt:LOG_0150 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:PowerUpEquipment .
-
-rndt:LOG_0151 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:CalibrateUTSystem .
-
-rndt:LOG_0152 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:ApplyTCGCurve .
-
-rndt:LOG_0153 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:PositionProbe .
-
-rndt:LOG_0154 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:SetBeamAngle .
-
-rndt:LOG_0155 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:ObserveSensorPosition .
-
-rndt:LOG_0156 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:ObserveSensorStatus .
-
-rndt:LOG_0157 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:PerformUTScan .
-
-rndt:LOG_0158 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt-ut:VerifyCalibrationVerification .
-
-rndt:LOG_0159 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:StoreAcquiredData .
-
-rndt:LOG_0160 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_OP_03 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:TransferAcquiredData .
-
-rndt:LOG_0161 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:VerifyImageProvenance .
-
-rndt:LOG_0162 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_INS_01 ;
-    rndt:logResult "Indication found" ;
-    rndt:logsActivity rndt:IdentifyIndications .
-
-rndt:LOG_0163 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_INS_01 ;
-    rndt:logResult "Sized 1.8 mm, within acceptance criteria" ;
-    rndt:logsActivity rndt-ut:SizeIndication .
-
-rndt:LOG_0164 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_INS_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:ReviewInspectionPackage .
-
-rndt:LOG_0165 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_INS_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:ReviewAttachedEvidence .
-
-rndt:LOG_0166 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_INS_01 ;
-    rndt:logResult "Accept" ;
-    rndt:logsActivity rndt:ApproveInspectionReport .
-
-rndt:LOG_0167 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
-
-rndt:LOG_0168 a owl:NamedIndividual ;
-    rndt:logDate "2026-05-28"^^xsd:date ;
-    rndt:logForInspection rndt:INSP_010 ;
-    rndt:logPerformedBy rndt:P_VER_01 ;
-    rndt:logResult "Complete" ;
-    rndt:logsActivity rndt:VerifyPersonnelTraining .
-
 rndt:PROC_001 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Processed radiographic image (INSP_001)"@en ;
@@ -1260,16 +1088,6 @@ rndt:PROC_009 a rndt:InformationEntity,
     rndt:storageLocation "/rndt-archive/INSP_009/processed" ;
     rndt:viewedWithSoftware rndt:SW_002 .
 
-rndt:PROC_010 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Processed C-scan image (INSP_010)"@en ;
-    rndt:belongsToInspection rndt:INSP_010 ;
-    rndt:derivedFrom rndt:RAW_010 ;
-    rndt:fileFormat "DICONDE" ;
-    rndt:hasIndication rndt:IND_003 ;
-    rndt:storageLocation "/rndt-archive/INSP_010/processed" ;
-    rndt:viewedWithSoftware rndt:SW_003 .
-
 rndt:REPORT_001 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Inspection report (INSP_001)"@en ;
@@ -1315,11 +1133,6 @@ rndt:REPORT_009 a rndt:InformationEntity,
     rdfs:label "Inspection report (INSP_009)"@en ;
     rndt:belongsToInspection rndt:INSP_009 .
 
-rndt:REPORT_010 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Inspection report (INSP_010)"@en ;
-    rndt:belongsToInspection rndt:INSP_010 .
-
 rndt:SIG_001 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Digitally signed inspection record (INSP_001)"@en ;
@@ -1364,11 +1177,6 @@ rndt:SIG_009 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Digitally signed inspection record (INSP_009)"@en ;
     rndt:belongsToInspection rndt:INSP_009 .
-
-rndt:SIG_010 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Digitally signed inspection record (INSP_010)"@en ;
-    rndt:belongsToInspection rndt:INSP_010 .
 
 rndt:C_001 a rndt:PhysicalEntity,
         owl:NamedIndividual ;
@@ -1424,20 +1232,6 @@ rndt:C_009 a rndt:PhysicalEntity,
     rndt:partNumber "TD-6620-E" ;
     rndt:serialNumber "SN01002" .
 
-rndt:C_010 a rndt:PhysicalEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Compressor Disk Forging"@en ;
-    rndt:partNumber "CDF-7740-F" ;
-    rndt:serialNumber "SN01003" .
-
-rndt:EQ_003 a rndt:PhysicalEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Phased array flaw detector PA-3200"@en .
-
-rndt:FAC_003 a rndt:Facility,
-        owl:NamedIndividual ;
-    rdfs:label "Remote UT inspection cell"@en .
-
 rndt:IND_001 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Linear indication, 4.2 mm, root region"@en ;
@@ -1447,19 +1241,6 @@ rndt:IND_002 a rndt:InformationEntity,
         owl:NamedIndividual ;
     rdfs:label "Cluster porosity indication, 2.1 mm"@en ;
     rndt:appliesAcceptanceCriteria rndt:AC_001 .
-
-rndt:IND_003 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Point indication, 1.8 mm, sized within criteria"@en ;
-    rndt:appliesAcceptanceCriteria rndt:AC_003 .
-
-rndt:PROCEDURE_003 a rndt:InformationEntity,
-        rndt:Procedure,
-        owl:NamedIndividual ;
-    rdfs:label "Remote UT disk inspection procedure RNDT-UT-001"@en ;
-    rndt:approvedBy rndt:P_VER_01 ;
-    rndt:procedureRevision "Rev A" ;
-    rndt-ut:usesUTMethod rndt-ut:PulseEcho .
 
 rndt:RAW_001 a rndt:InformationEntity,
         owl:NamedIndividual ;
@@ -1533,25 +1314,10 @@ rndt:RAW_009 a rndt:InformationEntity,
     rndt:storageLocation "/rndt-archive/INSP_009/raw" ;
     rndt:viewedWithSoftware rndt:SW_002 .
 
-rndt:RAW_010 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Raw A-scan/waveform dataset (INSP_010)"@en ;
-    rndt:belongsToInspection rndt:INSP_010 ;
-    rndt:fileFormat "DICONDE" ;
-    rndt:storageLocation "/rndt-archive/INSP_010/raw" ;
-    rndt:viewedWithSoftware rndt:SW_003 .
-
-rndt:AC_003 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "Disk UT acceptance criteria ACC-UT-DISK-A"@en .
-
-rndt:SW_003 a rndt:Software,
-        owl:NamedIndividual ;
-    rdfs:label "UT analysis suite TomoView-class v3.0"@en .
-
 rndt:EQ_001 a rndt:PhysicalEntity,
         owl:NamedIndividual ;
-    rdfs:label "Digital radiography system DR-4500"@en .
+    rdfs:label "Digital radiography system DR-4500"@en ;
+    rndt:serialNumber "DR4500-0142" .
 
 rndt:FAC_001 a rndt:Facility,
         owl:NamedIndividual ;
@@ -1563,6 +1329,7 @@ rndt:PROCEDURE_001 a rndt:InformationEntity,
     rdfs:label "Remote digital radiography procedure RNDT-DR-001"@en ;
     rndt:approvedBy rndt:P_VER_01 ;
     rndt:procedureRevision "Rev C" ;
+    rndt-dr:requiredIQISensitivity 2.0 ;
     rndt-dr:sourceToDetectorDistance 700.0 ;
     rndt-dr:sourceToObjectDistance 600.0 ;
     rndt-dr:usesIQIType rndt-dr:WireTypeIQI ;
@@ -1574,7 +1341,8 @@ rndt:AC_002 a rndt:InformationEntity,
 
 rndt:EQ_002 a rndt:PhysicalEntity,
         owl:NamedIndividual ;
-    rdfs:label "Portable X-ray generator XG-220"@en .
+    rdfs:label "Portable X-ray generator XG-220"@en ;
+    rndt:serialNumber "XG220-0311" .
 
 rndt:FAC_002 a rndt:Facility,
         owl:NamedIndividual ;
@@ -1586,6 +1354,7 @@ rndt:PROCEDURE_002 a rndt:InformationEntity,
     rdfs:label "Remote digital radiography procedure RNDT-DR-002"@en ;
     rndt:approvedBy rndt:P_VER_01 ;
     rndt:procedureRevision "Rev A" ;
+    rndt-dr:requiredIQISensitivity 2.0 ;
     rndt-dr:sourceToDetectorDistance 900.0 ;
     rndt-dr:sourceToObjectDistance 450.0 ;
     rndt-dr:usesIQIType rndt-dr:HoleTypeIQI ;
@@ -1598,10 +1367,6 @@ rndt:AC_001 a rndt:InformationEntity,
 rndt:SW_001 a rndt:Software,
         owl:NamedIndividual ;
     rdfs:label "DICONDE image viewer v4.2"@en .
-
-rndt:SPEC_001 a rndt:InformationEntity,
-        owl:NamedIndividual ;
-    rdfs:label "NANDTB/29 remote NDT requirements"@en .
 
 rndt:SW_002 a rndt:Software,
         owl:NamedIndividual ;
@@ -1723,18 +1488,6 @@ rndt:INSP_008 a rndt:RemoteNDTProcess,
     rndt:usesProcedure rndt:PROCEDURE_002 ;
     rndt-dr:iqiSensitivityAchieved 2.1 .
 
-rndt:P_INS_01 a rndt:Participant,
-        owl:NamedIndividual ;
-    rdfs:label "David Whitfield"@en ;
-    rndt:hasRole "Inspector" ;
-    rndt:memberOfAuthorityClass rndt:Level2TechnicalEvaluationAuthority .
-
-rndt:P_OP_03 a rndt:Participant,
-        owl:NamedIndividual ;
-    rdfs:label "Aisha Rahman"@en ;
-    rndt:hasRole "Operator" ;
-    rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
-
 rndt:INSP_009 a rndt:RemoteNDTProcess,
         owl:NamedIndividual ;
     rdfs:label "Digital Radiography inspection INSP_009"@en ;
@@ -1748,27 +1501,9 @@ rndt:INSP_009 a rndt:RemoteNDTProcess,
     rndt:usesProcedure rndt:PROCEDURE_002 ;
     rndt-dr:iqiSensitivityAchieved 1.6 .
 
-rndt:INSP_010 a rndt:RemoteNDTProcess,
-        owl:NamedIndividual ;
-    rdfs:label "Ultrasonic Testing inspection INSP_010"@en ;
-    rndt:appliesSpecification rndt:SPEC_001 ;
-    rndt:disposition "Accept" ;
-    rndt:inspectionDate "2026-05-28"^^xsd:date ;
-    rndt:performedAtFacility rndt:FAC_003 ;
-    rndt:usesAcceptanceCriteria rndt:AC_003 ;
-    rndt:usesEntity rndt:C_010 ;
-    rndt:usesEquipment rndt:EQ_003 ;
-    rndt:usesProcedure rndt:PROCEDURE_003 .
-
 rndt:P_OP_02 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Marcus Reid"@en ;
     rndt:hasRole "Operator" ;
     rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
-
-rndt:P_VER_01 a rndt:Participant,
-        owl:NamedIndividual ;
-    rdfs:label "Thomas Okafor"@en ;
-    rndt:hasRole "Verifier" ;
-    rndt:memberOfAuthorityClass rndt:Level3GovernanceAndAssuranceAuthority .
 

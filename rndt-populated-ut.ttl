@@ -1,0 +1,253 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
+@prefix rndt-ut: <http://www.cranfield.ac.uk/rndt-ontology/ut#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+rndt:LOG_0146 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyInspectionRequest .
+
+rndt:LOG_0147 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyAcceptanceCriteria .
+
+rndt:LOG_0148 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:SelectComponent .
+
+rndt:LOG_0149 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyComponentIdentityL1 .
+
+rndt:LOG_0150 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:PowerUpEquipment .
+
+rndt:LOG_0151 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:CalibrateUTSystem .
+
+rndt:LOG_0152 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:ApplyTCGCurve .
+
+rndt:LOG_0153 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:PositionProbe .
+
+rndt:LOG_0154 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:SetBeamAngle .
+
+rndt:LOG_0155 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ObserveSensorPosition .
+
+rndt:LOG_0156 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ObserveSensorStatus .
+
+rndt:LOG_0157 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:PerformUTScan .
+
+rndt:LOG_0158 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt-ut:VerifyCalibrationVerification .
+
+rndt:LOG_0159 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:StoreAcquiredData .
+
+rndt:LOG_0160 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_OP_03 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:TransferAcquiredData .
+
+rndt:LOG_0161 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyImageProvenance .
+
+rndt:LOG_0162 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Indication found" ;
+    rndt:logsActivity rndt:IdentifyIndications .
+
+rndt:LOG_0163 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Sized 1.8 mm, within acceptance criteria" ;
+    rndt:logsActivity rndt-ut:SizeIndication .
+
+rndt:LOG_0164 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewInspectionPackage .
+
+rndt:LOG_0165 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ReviewAttachedEvidence .
+
+rndt:LOG_0166 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_INS_01 ;
+    rndt:logResult "Accept" ;
+    rndt:logsActivity rndt:ApproveInspectionReport .
+
+rndt:LOG_0167 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:ConfirmComplianceNANDTB29 .
+
+rndt:LOG_0168 a owl:NamedIndividual ;
+    rndt:logDate "2026-05-28"^^xsd:date ;
+    rndt:logForInspection rndt:INSP_010 ;
+    rndt:logPerformedBy rndt:P_VER_01 ;
+    rndt:logResult "Complete" ;
+    rndt:logsActivity rndt:VerifyPersonnelTraining .
+
+rndt:PROC_010 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Processed C-scan image (INSP_010)"@en ;
+    rndt:belongsToInspection rndt:INSP_010 ;
+    rndt:derivedFrom rndt:RAW_010 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:hasIndication rndt:IND_003 ;
+    rndt:storageLocation "/rndt-archive/INSP_010/processed" ;
+    rndt:viewedWithSoftware rndt:SW_003 .
+
+rndt:REPORT_010 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Inspection report (INSP_010)"@en ;
+    rndt:belongsToInspection rndt:INSP_010 .
+
+rndt:SIG_010 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Digitally signed inspection record (INSP_010)"@en ;
+    rndt:belongsToInspection rndt:INSP_010 .
+
+rndt:C_010 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Compressor Disk Forging"@en ;
+    rndt:partNumber "CDF-7740-F" ;
+    rndt:serialNumber "SN01003" .
+
+rndt:EQ_003 a rndt:PhysicalEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Phased array flaw detector PA-3200"@en ;
+    rndt:serialNumber "PA3200-0076" .
+
+rndt:EQ_004 a rndt:PhysicalEntity,
+        rndt-ut:Probe,
+        owl:NamedIndividual ;
+    rdfs:label "Angle-beam probe 5 MHz 10 mm"@en ;
+    rndt:serialNumber "PRB-5510-0087" ;
+    rndt-ut:probeAngle 45.0 ;
+    rndt-ut:probeDiameter 10.0 ;
+    rndt-ut:probeFrequency 5.0 .
+
+rndt:FAC_003 a rndt:Facility,
+        owl:NamedIndividual ;
+    rdfs:label "Remote UT inspection cell"@en .
+
+rndt:IND_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Point indication, 1.8 mm, sized within criteria"@en ;
+    rndt:appliesAcceptanceCriteria rndt:AC_003 .
+
+rndt:PROCEDURE_003 a rndt:InformationEntity,
+        rndt:Procedure,
+        owl:NamedIndividual ;
+    rdfs:label "Remote UT disk inspection procedure RNDT-UT-001"@en ;
+    rndt:approvedBy rndt:P_VER_01 ;
+    rndt:procedureRevision "Rev A" ;
+    rndt-ut:usesUTMethod rndt-ut:PulseEcho .
+
+rndt:RAW_010 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Raw A-scan/waveform dataset (INSP_010)"@en ;
+    rndt:belongsToInspection rndt:INSP_010 ;
+    rndt:fileFormat "DICONDE" ;
+    rndt:storageLocation "/rndt-archive/INSP_010/raw" ;
+    rndt:viewedWithSoftware rndt:SW_003 .
+
+rndt:AC_003 a rndt:InformationEntity,
+        owl:NamedIndividual ;
+    rdfs:label "Disk UT acceptance criteria ACC-UT-DISK-A"@en .
+
+rndt:SW_003 a rndt:Software,
+        owl:NamedIndividual ;
+    rdfs:label "UT analysis suite TomoView-class v3.0"@en .
+
+rndt:INSP_010 a rndt:RemoteNDTProcess,
+        owl:NamedIndividual ;
+    rdfs:label "Ultrasonic Testing inspection INSP_010"@en ;
+    rndt:appliesSpecification rndt:SPEC_001 ;
+    rndt:disposition "Accept" ;
+    rndt:inspectionDate "2026-05-28"^^xsd:date ;
+    rndt:performedAtFacility rndt:FAC_003 ;
+    rndt:usesAcceptanceCriteria rndt:AC_003 ;
+    rndt:usesEntity rndt:C_010 ;
+    rndt:usesEquipment rndt:EQ_003 ;
+    rndt:usesProcedure rndt:PROCEDURE_003 ;
+    rndt-ut:usesProbe rndt:EQ_004 .
+

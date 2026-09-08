@@ -60,9 +60,21 @@ rndt-dr:iqiSensitivityAchieved rdf:type owl:DatatypeProperty ;
     rdfs:domain rndt:RemoteNDTProcess ;
     rdfs:range xsd:decimal .
 
+rndt-dr:requiredIQISensitivity rdf:type owl:DatatypeProperty ;
+    rdfs:label "requiredIQISensitivity"@en ;
+    rdfs:comment "The maximum IQI sensitivity a Procedure's approved technique permits, as a percentage — the threshold that iqiSensitivityAchieved is judged against. A property of the Procedure rather than the inspection, since it is a fixed requirement of the approved technique; the pair is what makes a sensitivity result decidable rather than merely recorded, since a bare achieved figure cannot be called a pass or a fail on its own. Lower is better: an exposure passes when the achieved sensitivity is less than or equal to the required value."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range xsd:decimal .
+
 #################################################################
 #    Individuals
 #################################################################
+# Term IDs are drawn from the block reserved for this module, TERM-0400 to
+# TERM-0419 (rndt-ut holds TERM-0420 to TERM-0439). Extension modules take a
+# reserved block each so newly minted extension terms cannot collide with each
+# other or with the TERM-0001 to TERM-0327 range already issued by the Taxonomy
+# Term Register. TERM-0011 and TERM-0122 below are genuine register terms and
+# keep their original register IDs.
 
 rndt-dr:ConfigureExposureParameters rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0011" ;
@@ -73,39 +85,39 @@ rndt-dr:GenerateExposure rdf:type owl:NamedIndividual , rndt:Capability ;
     rdfs:label "Generate Exposure"@en .
 
 rndt-dr:SelectImagingTechnique rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0316" ;
+    rndt:termId "TERM-0400" ;
     rdfs:label "Select imaging technique"@en .
 
 rndt-dr:PositionEnergySource rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0317" ;
+    rndt:termId "TERM-0401" ;
     rdfs:label "Position source"@en .
 
 rndt-dr:PositionDetector rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0318" ;
+    rndt:termId "TERM-0402" ;
     rdfs:label "Position detector"@en .
 
 rndt-dr:DetermineSourceToDetectorDistance rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0319" ;
+    rndt:termId "TERM-0403" ;
     rdfs:label "Determine source-to-detector distance"@en .
 
 rndt-dr:ObserveDetectorStatus rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0320" ;
+    rndt:termId "TERM-0404" ;
     rdfs:label "Observe detector status"@en .
 
 rndt-dr:ObserveDetectorPosition rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0321" ;
+    rndt:termId "TERM-0405" ;
     rdfs:label "Observe detector position"@en .
 
 rndt-dr:VerifyIQIPlacement rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0322" ;
+    rndt:termId "TERM-0406" ;
     rdfs:label "Verify IQI placement"@en .
 
 rndt-dr:AssessIQISensitivity rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0323" ;
+    rndt:termId "TERM-0407" ;
     rdfs:label "Assess IQI sensitivity achieved"@en .
 
 rndt-dr:CalculateGeometricUnsharpness rdf:type owl:NamedIndividual , rndt:Capability ;
-    rndt:termId "TERM-0324" ;
+    rndt:termId "TERM-0408" ;
     rdfs:label "Calculate geometric unsharpness"@en .
 
 # ---- IQIType individuals (EN 462-1 / ASTM E1025) ----
