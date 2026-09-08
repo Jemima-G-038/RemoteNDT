@@ -33,9 +33,9 @@
   #kg-note b { color: var(--accent); font-weight: 600; }
   #kg-body { display: flex; }
   #kg-canvas-wrap { flex: 1; min-width: 0; position: relative; }
-  #kg-svg { display: block; width: 100%; height: 580px; cursor: grab; }
+  #kg-svg { display: block; width: 100%; height: 780px; cursor: grab; }
   #kg-svg:active { cursor: grabbing; }
-  #kg-side { width: 236px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px; font-size: 12px; max-height: 580px; overflow-y: auto; }
+  #kg-side { width: 236px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px; font-size: 12px; max-height: 780px; overflow-y: auto; }
   #kg-side h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-5); margin: 0 0 8px; font-weight: 600; }
   .kg-legend-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; cursor: pointer; user-select: none; border-radius: 6px; color: var(--ink-2); }
   .kg-legend-row:hover { background: var(--hover); }
@@ -59,7 +59,13 @@
   #kg-controls { padding: 8px 18px; border-top: 1px solid var(--line); display: flex; gap: 14px; align-items: center; font-size: 11.5px; color: var(--ink-4); flex-wrap: wrap; }
   #kg-controls button { font-size: 11.5px; padding: 4px 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; cursor: pointer; color: var(--ink-2); font-family: var(--sans); }
   #kg-controls button:hover { background: var(--hover); }
-  .kg-node text { pointer-events: none; font-size: 9px; fill: var(--ink-2); font-family: var(--sans); }
+  .kg-node text { pointer-events: none; fill: var(--ink-2); font-family: var(--sans);
+                  paint-order: stroke; stroke: var(--ground); stroke-linejoin: round; }
+  /* At low zoom 110 labels collide into an unreadable wall, so the leaf-level
+     ones drop out and only the taxonomy spine stays named. Zoom in past 0.8 and
+     everything is labelled again. Extension nodes always keep their label. */
+  #kg-svg.kg-far .kg-node.kg-minor text { display: none; }
+  #kg-svg.kg-far .kg-node.kg-minor circle { opacity: .55; }
   .kg-node.kg-dim { opacity: .07; }
   .kg-link.kg-dim { opacity: .04; }
   .kg-node.kg-dim text { display: none; }
@@ -67,7 +73,7 @@
   @media (max-width: 640px) {
     #kg-body { flex-direction: column; }
     #kg-side { width: auto; border-left: none; border-top: 1px solid var(--line); max-height: 260px; }
-    #kg-svg { height: 440px; }
+    #kg-svg { height: 560px; }
   }
 </style>
 
@@ -76,7 +82,7 @@
     <h2>RNDT Digital Radiography extension — knowledge graph</h2>
     <span class="kg-sub">11 DR individuals &middot; 18 DR edges &middot; overlaid on 102 shared core individuals</span>
   </div>
-  <div id="kg-note">This module adds only <b>11 individuals</b> (9 <code>Activity</code> + 2 <code>Capability</code>) and <b>18 wiring edges</b> on top of the generic core — the rest of the graph is the full, unmodified shared core, shown at full color so you can browse it in its own right. The accent ring marks exactly what the DR module contributes. A future ultrasonic-testing module would plug into the same core the same way.</div>
+  <div id="kg-note">This module adds only <b>11 individuals</b> (9 <code>Activity</code> + 2 <code>Capability</code>) and <b>18 wiring edges</b> on top of the generic core — the rest of the graph is the full, unmodified shared core, shown at full color so you can browse it in its own right. The accent ring marks exactly what the DR module contributes. The sibling <code>rndt-ut</code> module plugs into this same core the same way, adding 8 individuals of its own without altering anything here.</div>
   <div id="kg-body">
     <div id="kg-canvas-wrap">
       <svg id="kg-svg"></svg>
@@ -143,10 +149,16 @@
 
   const svg = d3.select("#kg-svg");
   const wrap = document.getElementById("kg-canvas-wrap");
-  let width = wrap.clientWidth, height = 580;
+  let width = wrap.clientWidth, height = 780;
 
+  let userMovedView = false;
   const g = svg.append("g");
-  const zoomBehavior = d3.zoom().scaleExtent([0.06, 6]).on("zoom", (ev) => g.attr("transform", ev.transform));
+  const zoomBehavior = d3.zoom().scaleExtent([0.06, 6]).on("zoom", (ev) => {
+    g.attr("transform", ev.transform);
+    svg.classed("kg-far", ev.transform.k < 0.85);
+    scaleLabels(ev.transform.k);
+    if (ev.sourceEvent) userMovedView = true;   // a real gesture, not our own fit
+  });
   svg.call(zoomBehavior);
 
   // A 100+ node force layout naturally spreads well past the canvas at 1:1 —
@@ -157,21 +169,45 @@
     if (!pts.length) return;
     const x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x));
     const y0 = Math.min(...pts.map(p => p.y)), y1 = Math.max(...pts.map(p => p.y));
-    const pad = 60;
-    const bw = Math.max(x1 - x0, 20) + pad * 2, bh = Math.max(y1 - y0, 20) + pad * 2;
-    const scale = Math.max(0.06, Math.min(4, Math.min(width / bw, height / bh)));
+    // Padding is reserved in SCREEN pixels, not graph units, because labels are held
+    // at a constant 11px however far the view is zoomed out. It is asymmetric: a label
+    // is drawn to the right of its node, so the right margin has to hold a whole label
+    // (~140px) while the left only has to clear a dot. Framing the node centres alone
+    // fitted the dots and then clipped every label against the right-hand edge.
+    const padL = 26, padR = 150, padY = 28;
+    const bw = Math.max(x1 - x0, 20), bh = Math.max(y1 - y0, 20);
+    const availW = Math.max(80, width - padL - padR), availH = Math.max(80, height - padY * 2);
+    const scale = Math.max(0.06, Math.min(4, Math.min(availW / bw, availH / bh)));
     const transform = d3.zoomIdentity
-      .translate(width / 2, height / 2)
+      .translate(width / 2 - (padR - padL) / 2, height / 2)
       .scale(scale)
       .translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
     svg.transition().duration(duration ?? 0).call(zoomBehavior.transform, transform);
   }
 
+  const KG_MINOR = new Set(["Activity","Capability","RequirementConcept","InformationEntity"]);
+  const kgAlwaysLabelled = d => !KG_MINOR.has(d.type) || d.module !== "core";
+
+  // Labels sit to the right of each node, so a node really occupies a wide box,
+    // not a small circle. Collide is sized from the drawn label rather than the dot,
+    // which is what stops one label being printed over the next.
+  const labelW = d => 6.1 * Math.min(d.label.length, 22) + 8;
   const simulation = d3.forceSimulation(data.nodes)
-    .force("link", d3.forceLink(data.edges).id(d => d.id).distance(d => relToGroup[d.rel] === "backbone (taxonomy)" ? 46 : 70).strength(0.5))
-    .force("charge", d3.forceManyBody().strength(-140))
+    .force("link", d3.forceLink(data.edges).id(d => d.id)
+      .distance(d => relToGroup[d.rel] === "backbone (taxonomy)" ? 80 : 125).strength(0.32))
+    .force("charge", d3.forceManyBody().strength(-380).distanceMax(700))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide().radius(d => (typeRadius[d.type] || 6) + 14));
+    .force("x", d3.forceX(width / 2).strength(0.012))
+    .force("y", d3.forceY(height / 2).strength(0.022))
+    // Collision is sized by whether a node's label is actually drawn at this zoom.
+    // The spine types stay labelled when zoomed out, so they need room for a whole
+    // label; the 49 leaf Activities are unlabelled out here and can pack tightly.
+    // Zooming in resolves their overlap on its own, because labels are held at a
+    // constant pixel size and so take up less graph space the further in you go.
+    .force("collide", d3.forceCollide()
+      .radius(d => kgAlwaysLabelled(d) ? (typeRadius[d.type] || 6) + 12 + labelW(d) * 0.78
+                                       : (typeRadius[d.type] || 6) + 9 + labelW(d) * 0.16)
+      .strength(0.95).iterations(4));
 
   const link = g.append("g").selectAll("line")
     .data(data.edges).join("line")
@@ -183,7 +219,8 @@
 
   const node = g.append("g").selectAll("g")
     .data(data.nodes).join("g")
-    .attr("class", d => "kg-node" + (d.module === "core" ? " kg-core" : ""))
+    .attr("class", d => "kg-node" + (d.module === "core" ? " kg-core" : "")
+                    + (d.module === "core" && KG_MINOR.has(d.type) ? " kg-minor" : ""))
     .style("cursor", "pointer")
     .call(d3.drag()
       .on("start", (ev, d) => { if (!ev.active) simulation.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
@@ -204,14 +241,25 @@
     .attr("stroke-width", d => d.module === "dr" ? 2.5 : 1.5)
     .attr("pointer-events", "none");
 
-  node.append("text")
+  const labelText = node.append("text")
     .attr("x", d => (typeRadius[d.type] || 6) + (d.module === "dr" ? 3 : 0) + 4)
     .attr("y", 3)
     .attr("font-weight", d => d.module === "dr" ? 600 : 400)
-    .text(d => d.label.length > 26 ? d.label.slice(0, 24) + "…" : d.label);
+    .text(d => d.label.length > 22 ? d.label.slice(0, 21) + "…" : d.label);
 
   node.on("click", (ev, d) => { ev.stopPropagation(); selectNode(d.id); });
   svg.on("click", () => selectNode(null));
+
+  // Run part of the layout before the first paint. Without this the reader watches
+  // a spiral untangle for several seconds; d3 dispatches no tick events for these,
+  // so nothing is drawn until the positions are already sensible.
+  simulation.tick(120);
+
+  const LABEL_PX = 11, HALO_PX = 3.5;
+  function scaleLabels(k) {
+    labelText.attr("font-size", LABEL_PX / k).attr("stroke-width", HALO_PX / k);
+  }
+  scaleLabels(1);
 
   simulation.on("tick", () => {
     link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
@@ -308,12 +356,11 @@
   }
   document.getElementById("kg-focus-dr").addEventListener("click", focusDR);
 
-  let settled = false;
+  let autoFocused = false;
   simulation.on("end", () => {
-    if (settled) return;
-    settled = true;
-    fitToView(null, 500);       // whole graph visible first, guaranteed
-    setTimeout(focusDR, 550);   // then zoom to the DR module specifically
+    if (userMovedView) return;
+    fitToView(null, 500);              // whole graph visible first, guaranteed
+    if (!autoFocused) { autoFocused = true; setTimeout(focusDR, 900); }  // then zoom to the DR module
   });
 
   new ResizeObserver(() => {
