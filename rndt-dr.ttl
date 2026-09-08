@@ -16,7 +16,7 @@
 # Closed, standardised sets (EN 462-1 / ASTM E1025 for IQI type; standard
 # radiographic technique geometries) — modelled as classes with named
 # individuals rather than free-text literals, so they can be queried/grouped
-# the same way AuthorityClass and Participant already are.
+# the same way AuthorityClass and Role already are.
 
 rndt-dr:IQIType rdf:type owl:Class ;
     rdfs:label "IQIType"@en ;
@@ -172,3 +172,16 @@ rndt-dr:SelectImagingTechnique rndt:performedBy rndt:Operator .
 rndt-dr:PositionEnergySource rndt:performedBy rndt:Operator .
 rndt-dr:PositionDetector rndt:performedBy rndt:Operator .
 rndt-dr:DetermineSourceToDetectorDistance rndt:performedBy rndt:Operator .
+
+# Role assignment completed for every Activity. Assigned per Action Area, which is
+# the taxonomy's own grouping, so the rule is reproducible rather than case-by-case:
+# assurance areas take the Verifier (NANDTB/29 scopes that role to assuring test-data
+# integrity), the rest of Data Acquisition takes the Operator, Evaluation takes the
+# Inspector, and Oversight takes the GovernanceAuthority. Note the Verifier appears
+# under both Level 1 and Level 2 authority: role and authority level are independent
+# axes, and this is where that shows. The authority a Role must hold is not asserted
+# anywhere -- it is already derivable from each Activity's place in the taxonomy.
+rndt-dr:VerifyIQIPlacement rndt:performedBy rndt:Verifier .
+rndt-dr:ObserveDetectorPosition rndt:performedBy rndt:Operator .
+rndt-dr:ObserveDetectorStatus rndt:performedBy rndt:Operator .
+rndt-dr:AssessIQISensitivity rndt:performedBy rndt:Inspector .
