@@ -1,0 +1,324 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<title>__TITLE_SHORT__</title>
+<style>
+  :root {
+    --ground:#fbfaf7; --surface:#ffffff; --surface-2:#f4f2ea;
+    --line:#e4e1d8; --line-soft:#efede4;
+    --ink:#1a1a18; --ink-2:#3a3934; --ink-3:#57554c; --ink-4:#78766c; --ink-5:#9a9789;
+    --accent:#a34a1e; --accent-soft:#c96a3a; --chip:#eeece2; --hover:#f0eee6;
+    --sans:"IBM Plex Sans",-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#191713; --surface:#211f1a; --surface-2:#262319;
+      --line:#35322a; --line-soft:#2b2822;
+      --ink:#f0ede4; --ink-2:#ded9cc; --ink-3:#c4bfb1; --ink-4:#a09a8b; --ink-5:#8f8a7c;
+      --accent:#e08a5a; --accent-soft:#c96a3a; --chip:#2b2822; --hover:#2b2822;
+    }
+  }
+  body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 13px; }
+  #kg { border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+        overflow: hidden; margin: 10px; }
+  #kg-header { padding: 13px 18px; border-bottom: 1px solid var(--line); background: var(--surface-2);
+               display: flex; align-items: baseline; justify-content: space-between;
+               flex-wrap: wrap; gap: 8px; }
+  #kg-header h2 { font-size: 15px; font-weight: 600; margin: 0; color: var(--ink); }
+  #kg-header .kg-sub { font-size: 11.5px; color: var(--ink-4); font-family: var(--mono); }
+  #kg-note { padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 12px;
+             color: var(--ink-3); background: var(--surface-2); line-height: 1.5; }
+  #kg-note b { color: var(--accent); font-weight: 600; }
+  #kg-note code { font-family: var(--mono); font-size: 11px; }
+  #kg-body { display: flex; align-items: stretch; }
+  #kg-canvas-wrap { flex: 1; min-width: 0; position: relative; }
+  #kg-svg { display: block; width: 100%; cursor: grab; }
+  #kg-svg:active { cursor: grabbing; }
+  #kg-side { width: 250px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px;
+             font-size: 12px; }
+  #kg-side h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+                color: var(--ink-5); margin: 0 0 8px; font-weight: 600; }
+  #kg-side h3:not(:first-child) { margin-top: 18px; }
+  .kg-row { display: flex; align-items: center; gap: 7px; padding: 3px 5px; border-radius: 5px;
+            cursor: pointer; color: var(--ink-2); }
+  .kg-row:hover { background: var(--hover); }
+  .kg-row.off { opacity: .38; }
+  .kg-row .kg-n { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--ink-5); }
+  .kg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .kg-ring { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+             border: 2.5px solid var(--accent); background: transparent; }
+  #kg-detail { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line);
+               color: var(--ink-4); line-height: 1.55; }
+  #kg-detail .t { font-weight: 600; color: var(--ink); font-size: 13px; }
+  #kg-detail .m { font-family: var(--mono); font-size: 11px; color: var(--ink-4); }
+  #kg-detail ul { margin: 6px 0 0; padding-left: 16px; }
+  #kg-detail li { margin: 2px 0; }
+  #kg-foot { padding: 9px 14px; border-top: 1px solid var(--line); background: var(--surface-2);
+             display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+             font-size: 11.5px; color: var(--ink-4); }
+  .kg-btn { font: inherit; font-size: 12px; color: var(--ink-2); background: var(--surface);
+            border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  .kg-btn:hover { background: var(--hover); }
+  .kg-btn[aria-pressed="true"] { background: var(--chip); border-color: var(--ink-5); color: var(--ink); }
+
+  .kg-col-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
+                 fill: var(--ink-5); font-weight: 600; font-family: var(--sans); }
+  .kg-col-rule { stroke: var(--line-soft); stroke-width: 1; }
+  .kg-tree-link { fill: none; stroke: var(--ink-5); stroke-opacity: .5; stroke-width: 1.2; }
+  .kg-cross-link { fill: none; stroke-width: 1; stroke-opacity: .30; }
+  .kg-node text { font-size: 11px; fill: var(--ink-2); font-family: var(--sans);
+                  pointer-events: none; dominant-baseline: middle; }
+  .kg-node.mod text { font-weight: 600; fill: var(--ink); }
+  .kg-node { cursor: pointer; }
+  .kg-node:hover text { fill: var(--ink); }
+  .kg-faded { opacity: .13; }
+  .kg-hit { fill: transparent; }
+  .kg-sel > text { font-weight: 600; fill: var(--ink); }
+  #kg-svg.hide-cross .kg-cross-link { display: none; }
+  .kg-cross-link.kg-lit { stroke-opacity: .95; stroke-width: 1.8; }
+</style>
+
+<div id="kg">
+  <div id="kg-header">
+    <h2>__TITLE__</h2>
+    <span class="kg-sub">__SUBTITLE__</span>
+  </div>
+  <div id="kg-note">__NOTE__</div>
+  <div id="kg-body">
+    <div id="kg-canvas-wrap"><svg id="kg-svg"></svg></div>
+    <aside id="kg-side">
+      <div id="kg-legend"></div>
+      <div id="kg-detail">Click any node to trace it through the hierarchy.</div>
+    </aside>
+  </div>
+  <div id="kg-foot">
+    __FOCUS_BTN__
+    <button class="kg-btn" id="kg-cross" aria-pressed="true">Role &amp; authority links</button>
+    <button class="kg-btn" id="kg-reset">Reset view</button>
+    <span>Scroll to zoom &middot; drag to pan &middot; click a node to trace its branch</span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(function () {
+  const data = __DATA__;
+  const MODULE = __MODULE__;          // "dr" / "ut", or null on the core page
+
+  // The backbone is a strict tree — every node has at most one backbone parent — so
+  // it is drawn as one, in columns by depth. The earlier force layout ignored that
+  // and scrambled a 4-level taxonomy into a hairball. Everything else (who performs
+  // an activity, what authorises an action) is a cross-link drawn over the top.
+  const BACKBONE = new Set(["hasProcessStage","realisedThrough","hasSubActivity",
+                            "requiresAction","requiresCapability","hasRequirement"]);
+  const typeColor = {
+    ProcessStage:"#185fa5", MajorAction:"#378add", ActionArea:"#5dcaa5", Activity:"#0f6e56",
+    Capability:"#ef9f27", RequirementConcept:"#ba7517", InformationEntity:"#993c1d",
+    AuthorityClass:"#7f77dd", Participant:"#534ab7" };
+  const crossColor = {
+    performedBy:"#534ab7", authorisedBy:"#7f77dd", associatedWithAuthority:"#7f77dd",
+    precedes:"#0f6e56", producesEvidence:"#d85a30", usesInformation:"#d85a30",
+    usesEntity:"#d85a30", supports:"#ef9f27", derivedFrom:"#d85a30" };
+  const COLUMNS = ["Process stage", "Major action", "Action area", "Activity / capability"];
+  const ASIDE_COL = "Roles & authority";
+
+  const byId = new Map(data.nodes.map(n => [n.id, n]));
+  const treeEdges  = data.edges.filter(e => BACKBONE.has(e.rel));
+  const crossEdges = data.edges.filter(e => !BACKBONE.has(e.rel));
+
+  const kids = new Map(), parent = new Map();
+  for (const e of treeEdges) {
+    if (!kids.has(e.source)) kids.set(e.source, []);
+    kids.get(e.source).push(e.target);
+    parent.set(e.target, e.source);
+  }
+  const roots = data.nodes.filter(n => n.type === "ProcessStage").map(n => n.id).sort();
+  // Anything the backbone never reaches — the people and authority levels the
+  // cross-links point at — gets its own column rather than being dropped.
+  const inTree = new Set();
+  const markTree = id => { inTree.add(id); (kids.get(id) || []).forEach(markTree); };
+  roots.forEach(markTree);
+  const aside = data.nodes.filter(n => !inTree.has(n.id));
+
+  const ROW = 19, COL = 290, PAD_T = 54, PAD_L = 26;
+  const build = id => ({ id, children: (kids.get(id) || []).sort().map(build) });
+  const root = d3.hierarchy({ id: "__root", children: roots.map(build) });
+  d3.tree().nodeSize([ROW, COL]).separation((a, b) => a.parent === b.parent ? 1 : 1.35)(root);
+
+  const pos = new Map();
+  let minX = Infinity, maxX = -Infinity, maxDepth = 0;
+  root.each(d => {
+    if (d.data.id === "__root") return;
+    pos.set(d.data.id, { x: (d.depth - 1) * COL, y: d.x });
+    minX = Math.min(minX, d.x); maxX = Math.max(maxX, d.x);
+    maxDepth = Math.max(maxDepth, d.depth - 1);
+  });
+  // The aside column sits after the deepest tree column, evenly spread down it.
+  const asideX = (maxDepth + 1) * COL;
+  aside.sort((a, b) => (a.type + a.label).localeCompare(b.type + b.label))
+       .forEach((n, i) => pos.set(n.id, { x: asideX, y: minX + (i + 0.5) * ((maxX - minX) / aside.length) }));
+
+  const contentH = (maxX - minX) + PAD_T + 40;
+  const contentW = asideX + COL;
+  const svg = d3.select("#kg-svg").attr("height", Math.max(560, contentH));
+  const wrap = document.getElementById("kg-canvas-wrap");
+  const g = svg.append("g");
+  const shiftY = d => d - minX + PAD_T;
+
+  // Column guides, so the four levels of the taxonomy read as levels.
+  const heads = COLUMNS.slice(0, maxDepth + 1).concat(aside.length ? [ASIDE_COL] : []);
+  const gh = g.append("g");
+  heads.forEach((t, i) => {
+    const x = i * COL;
+    gh.append("text").attr("class", "kg-col-head").attr("x", x + PAD_L - 8).attr("y", 20).text(t);
+    if (i) gh.append("line").attr("class", "kg-col-rule")
+      .attr("x1", x - 26).attr("x2", x - 26).attr("y1", 30).attr("y2", contentH - 10);
+  });
+
+  const linkGen = d3.linkHorizontal().x(d => d.x + PAD_L).y(d => shiftY(d.y));
+  const gLinks = g.append("g");
+  const treeSel = gLinks.selectAll("path.kg-tree-link")
+    .data(treeEdges.filter(e => pos.has(e.source) && pos.has(e.target))).join("path")
+    .attr("class", "kg-tree-link")
+    .attr("d", e => linkGen({ source: pos.get(e.source), target: pos.get(e.target) }));
+
+  // Cross-links arc back through open space instead of cutting across the columns.
+  const crossSel = gLinks.selectAll("path.kg-cross-link")
+    .data(crossEdges.filter(e => pos.has(e.source) && pos.has(e.target))).join("path")
+    .attr("class", "kg-cross-link")
+    .attr("stroke", e => crossColor[e.rel] || "#8d8878")
+    .attr("stroke-dasharray", e => e.rel === "precedes" ? "2,3" : "3,3")
+    .attr("d", e => {
+      const s = pos.get(e.source), t = pos.get(e.target);
+      const x1 = s.x + PAD_L, y1 = shiftY(s.y), x2 = t.x + PAD_L, y2 = shiftY(t.y);
+      const bow = Math.min(150, 40 + Math.abs(y2 - y1) * 0.16);
+      return `M${x1},${y1}C${x1 + bow},${y1} ${x2 + bow},${y2} ${x2},${y2}`;
+    });
+
+  const node = g.append("g").selectAll("g").data(data.nodes.filter(n => pos.has(n.id))).join("g")
+    .attr("class", d => "kg-node" + (MODULE && d.module === MODULE ? " mod" : ""))
+    .attr("transform", d => `translate(${pos.get(d.id).x + PAD_L},${shiftY(pos.get(d.id).y)})`);
+  node.append("rect").attr("class", "kg-hit").attr("x", -9).attr("y", -9)
+      .attr("width", COL - 18).attr("height", 18);
+  node.append("circle")
+      .attr("r", d => (MODULE && d.module === MODULE) ? 6 : 4.5)
+      .attr("fill", d => typeColor[d.type] || "#8d8878")
+      .attr("stroke", d => (MODULE && d.module === MODULE) ? "var(--accent)" : "var(--surface)")
+      .attr("stroke-width", d => (MODULE && d.module === MODULE) ? 2.5 : 1.2);
+  node.append("text").attr("x", 11)
+      .text(d => d.label.length > 34 ? d.label.slice(0, 33) + "…" : d.label);
+
+  // ---- legend -------------------------------------------------------------
+  const counts = {};
+  data.nodes.forEach(n => counts[n.type] = (counts[n.type] || 0) + 1);
+  const active = new Set(Object.keys(counts));
+  const side = d3.select("#kg-legend");
+  if (MODULE) {
+    side.append("h3").text("Module");
+    const modN = data.nodes.filter(n => n.module === MODULE).length;
+    const r1 = side.append("div").attr("class", "kg-row");
+    r1.append("span").attr("class", "kg-ring");
+    r1.append("span").text(MODULE.toUpperCase() + " extension");
+    r1.append("span").attr("class", "kg-n").text(modN);
+    const r2 = side.append("div").attr("class", "kg-row");
+    r2.append("span").attr("class", "kg-dot").style("background", "#8d8878").style("opacity", .5);
+    r2.append("span").text("Shared core");
+    r2.append("span").attr("class", "kg-n").text(data.nodes.length - modN);
+  }
+  side.append("h3").text("Node types");
+  Object.keys(typeColor).filter(t => counts[t]).forEach(t => {
+    const r = side.append("div").attr("class", "kg-row").attr("data-type", t)
+      .on("click", function () {
+        active.has(t) ? active.delete(t) : active.add(t);
+        d3.select(this).classed("off", !active.has(t));
+        applyFilter();
+      });
+    r.append("span").attr("class", "kg-dot").style("background", typeColor[t]);
+    r.append("span").text(t);
+    r.append("span").attr("class", "kg-n").text(counts[t]);
+  });
+  const crossCounts = {};
+  crossEdges.forEach(e => crossCounts[e.rel] = (crossCounts[e.rel] || 0) + 1);
+  if (Object.keys(crossCounts).length) {
+    side.append("h3").text("Cross-links");
+    Object.entries(crossCounts).sort((a, b) => b[1] - a[1]).forEach(([rel, n]) => {
+      const r = side.append("div").attr("class", "kg-row");
+      r.append("span").attr("class", "kg-dot").style("background", crossColor[rel] || "#8d8878");
+      r.append("span").text(rel);
+      r.append("span").attr("class", "kg-n").text(n);
+    });
+  }
+
+  function applyFilter() {
+    node.classed("kg-faded", d => !active.has(d.type));
+    treeSel.classed("kg-faded", e => !active.has(byId.get(e.source).type) || !active.has(byId.get(e.target).type));
+    crossSel.classed("kg-faded", e => !active.has(byId.get(e.source).type) || !active.has(byId.get(e.target).type));
+  }
+
+  // ---- selection ----------------------------------------------------------
+  const detail = document.getElementById("kg-detail");
+  function ancestry(id) { const out = []; let c = parent.get(id); while (c) { out.unshift(c); c = parent.get(c); } return out; }
+  function selectNode(id) {
+    node.classed("kg-sel", false);
+    if (!id) {
+      crossSel.classed("kg-lit", false);
+      applyFilter();
+      detail.innerHTML = "Click any node to trace it through the hierarchy.";
+      return;
+    }
+    const line = new Set([...ancestry(id), id]);
+    (function down(i) { (kids.get(i) || []).forEach(c => { line.add(c); down(c); }); })(id);
+    const linked = crossEdges.filter(e => e.source === id || e.target === id);
+    linked.forEach(e => { line.add(e.source); line.add(e.target); });
+    node.classed("kg-faded", d => !line.has(d.id)).classed("kg-sel", d => d.id === id);
+    treeSel.classed("kg-faded", e => !(line.has(e.source) && line.has(e.target)));
+    crossSel.classed("kg-faded", e => !(e.source === id || e.target === id))
+            .classed("kg-lit", e => e.source === id || e.target === id);
+
+    const n = byId.get(id);
+    const path = ancestry(id).map(a => byId.get(a).label);
+    detail.innerHTML =
+      `<div class="t">${n.label}</div><div class="m">${n.type}${n.termId ? " &middot; " + n.termId : ""}</div>` +
+      (path.length ? `<ul>${path.map(p => `<li>${p}</li>`).join("")}</ul>` : "") +
+      (linked.length ? `<h3>Cross-links</h3><ul>${linked.map(e =>
+        `<li>${e.rel} &rarr; ${byId.get(e.source === id ? e.target : e.source).label}</li>`).join("")}</ul>` : "");
+  }
+  node.on("click", (ev, d) => { ev.stopPropagation(); selectNode(d.id); });
+  svg.on("click", () => selectNode(null));
+
+  // ---- zoom / fit ---------------------------------------------------------
+  let W = wrap.clientWidth, H = Math.max(560, contentH);
+  const zoomBehavior = d3.zoom().scaleExtent([0.15, 4]).on("zoom", ev => g.attr("transform", ev.transform));
+  svg.call(zoomBehavior);
+  function fit(ids, dur) {
+    const pts = (ids ? data.nodes.filter(n => ids.has(n.id)) : data.nodes)
+      .filter(n => pos.has(n.id)).map(n => pos.get(n.id));
+    if (!pts.length) return;
+    const x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x)) + COL * 0.75;
+    const y0 = Math.min(...pts.map(p => shiftY(p.y))), y1 = Math.max(...pts.map(p => shiftY(p.y)));
+    const k = Math.max(0.15, Math.min(2, Math.min(W / (x1 - x0 + 60), H / (y1 - y0 + 70))));
+    svg.transition().duration(dur ?? 0).call(zoomBehavior.transform, d3.zoomIdentity
+      .translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  }
+  fit(null, 0);
+
+  document.getElementById("kg-reset").addEventListener("click", () => { selectNode(null); fit(null, 400); });
+  const crossBtn = document.getElementById("kg-cross");
+  crossBtn.addEventListener("click", () => {
+    const on = crossBtn.getAttribute("aria-pressed") === "true";
+    crossBtn.setAttribute("aria-pressed", String(!on));
+    svg.classed("hide-cross", on);
+  });
+  const focusBtn = document.getElementById("kg-focus");
+  if (focusBtn && MODULE) {
+    focusBtn.addEventListener("click", () => {
+      const ids = new Set(data.nodes.filter(n => n.module === MODULE).map(n => n.id));
+      ids.forEach(i => ancestry(i).forEach(a => ids.add(a)));
+      fit(ids, 600);
+    });
+  }
+  new ResizeObserver(() => {
+    const w = wrap.clientWidth;
+    if (Math.abs(w - W) > 20) { W = w; fit(null, 0); }
+  }).observe(wrap);
+})();
+</script>
