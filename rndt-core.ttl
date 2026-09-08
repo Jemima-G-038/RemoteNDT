@@ -5,8 +5,8 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://www.cranfield.ac.uk/rndt-ontology> rdf:type owl:Ontology ;
-    rdfs:label "Remote NDT Ontology"@en ;
-    rdfs:comment "An ontology of the Remote Non-Destructive Testing (RNDT) process, worked through a Digital Radiography example: 56 individuals, 77 relationships, 11 classes, 15 object properties across 5 relationship families (backbone/taxonomy, authority, role, evidence/info, sequence)."@en .
+    rdfs:label "Remote NDT Ontology — Core"@en ;
+    rdfs:comment "A generic ontology of the Remote Non-Destructive Testing (RNDT) process. This core module defines method-agnostic classes, properties and a baseline taxonomy of process stages, actions, activities, capabilities, authority levels and participant roles. Method-specific extension modules (e.g. rndt-dr.ttl for Digital Radiography) add flavoured Activity/Capability individuals on top of this module via owl:imports, without altering it, so extensions for other methods (e.g. Ultrasonic Testing) can plug in the same way."@en .
 
 #################################################################
 #    Classes
@@ -14,7 +14,7 @@
 
 rndt:RemoteNDTProcess rdf:type owl:Class ;
     rdfs:label "RemoteNDTProcess"@en ;
-    rdfs:comment "The top-level remote non-destructive testing process instance being modelled (e.g. a specific Digital Radiography inspection process)."@en .
+    rdfs:comment "The top-level remote non-destructive testing process instance being modelled (e.g. a specific inspection process, regardless of NDE method)."@en .
 
 rndt:ProcessStage rdf:type owl:Class ;
     rdfs:label "ProcessStage"@en ;
@@ -48,6 +48,11 @@ rndt:InformationEntity rdf:type owl:Class ;
     rdfs:label "InformationEntity"@en ;
     rdfs:comment "A data or information artefact produced, transformed, or consumed by the process (e.g. images, records)."@en .
 
+rndt:Procedure rdf:type owl:Class ;
+    rdfs:subClassOf rndt:InformationEntity ;
+    rdfs:label "Procedure"@en ;
+    rdfs:comment "A procedure or work instruction governing how a Remote NDT Process is carried out. Promoted to its own subclass of InformationEntity (rather than left as a generically-typed one, like Specification/AcceptanceCriteria/Report) so that method-specific extensions have a domain-correct place to attach approved-technique properties (e.g. DR's IQI type, radiographic technique, source-to-detector/object distances)."@en .
+
 rndt:AuthorityClass rdf:type owl:Class ;
     rdfs:label "AuthorityClass"@en ;
     rdfs:comment "A defined level of inspection/evaluation/governance authority (e.g. Level 1, 2, 3) that authorises Major Actions."@en .
@@ -58,7 +63,7 @@ rndt:Participant rdf:type owl:Class ;
 
 rndt:Software rdf:type owl:Class ;
     rdfs:label "Software"@en ;
-    rdfs:comment "A software application used to view, process or interpret inspection data (e.g. a DICONDE viewer). Introduced to answer CQ-10; no existing class fits, since Software is neither a physical component nor an information artefact produced by the process."@en .
+    rdfs:comment "A software application used to view, process or interpret inspection data (e.g. an image viewer, waveform-analysis tool, or reporting application). Introduced to answer CQ-10; no existing class fits, since Software is neither a physical component nor an information artefact produced by the process."@en .
 
 rndt:Facility rdf:type owl:Class ;
     rdfs:label "Facility"@en ;
@@ -98,7 +103,7 @@ rndt:storageLocation rdf:type owl:DatatypeProperty ;
 
 rndt:fileFormat rdf:type owl:DatatypeProperty ;
     rdfs:label "fileFormat"@en ;
-    rdfs:comment "The file format of a stored digital image or record, e.g. DICONDE (CQ-16)."@en ;
+    rdfs:comment "The file format of a stored digital image or record, e.g. DICONDE, CSV, PDF, or a proprietary scan format (CQ-16)."@en ;
     rdfs:domain rndt:InformationEntity ;
     rdfs:range xsd:string .
 
@@ -330,7 +335,7 @@ rndt:performedAtFacility rdf:type owl:ObjectProperty ;
 
 rndt:hasIndication rdf:type owl:ObjectProperty ;
     rdfs:label "hasIndication"@en ;
-    rdfs:comment "Relates a radiographic image to an individual indication identified within it (CQ-22)."@en ;
+    rdfs:comment "Relates an image or record to an individual indication identified within it (CQ-22)."@en ;
     rndt:relationshipFamily "evidence / info"@en ;
     rdfs:domain rndt:InformationEntity ;
     rdfs:range rndt:InformationEntity .
@@ -371,11 +376,9 @@ rndt:precedes rdf:type owl:ObjectProperty ;
 #################################################################
 #    Individuals
 #################################################################
-
-rndt:AcceptOrRejectComponent rdf:type owl:NamedIndividual , rndt:PhysicalEntity ;
-    rndt:termId "TERM-0094" ;
-    rndt:exactSourceTerm "Accept/ Reject component" ;
-    rdfs:label "Accept or Reject component"@en .
+# Generic, method-agnostic reference taxonomy. Method-specific vocabulary (e.g.
+# Digital Radiography's exposure-configuration activity) lives in the relevant
+# extension module instead — see rndt-dr.ttl.
 
 rndt:Acquire rdf:type owl:NamedIndividual , rndt:MajorAction ;
     rndt:termId "AUTH-003" ;
@@ -418,10 +421,6 @@ rndt:CompetencyRequirements rdf:type owl:NamedIndividual , rndt:ActionArea ;
 rndt:ComplianceOversight rdf:type owl:NamedIndividual , rndt:MajorAction ;
     rndt:termId "TERM-0228 / AUTH-009" ;
     rdfs:label "Compliance Oversight"@en .
-
-rndt:ConfigureExposureParameters rdf:type owl:NamedIndividual , rndt:Activity ;
-    rndt:termId "TERM-0011" ;
-    rdfs:label "Configure exposure parameters"@en .
 
 rndt:ConfirmComplianceNANDTB29 rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0250" ;
@@ -477,10 +476,6 @@ rndt:Evaluation rdf:type owl:NamedIndividual , rndt:ProcessStage ;
 rndt:EvidencePackageReview rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Evidence Package Review"@en .
 
-rndt:GenerateExposure rdf:type owl:NamedIndividual , rndt:Capability ;
-    rndt:termId "TERM-0122" ;
-    rdfs:label "Generate Exposure"@en .
-
 rndt:IdentifyAdversePerformanceTrends rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0284" ;
     rdfs:label "Identify adverse performance trends"@en .
@@ -489,9 +484,10 @@ rndt:IdentifyIndications rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0105" ;
     rdfs:label "Identify indications"@en .
 
-rndt:ImageQualityAssessmentL1 rdf:type owl:NamedIndividual , rndt:ActionArea ;
-    rdfs:comment "Level 1 (Sense) Image Quality Assessment, AREA-009. Distinguished by the L1 suffix from the Level 2 (Analyse) area of the same name, AREA-024."@en ;
-    rdfs:label "Image Quality Assessment"@en .
+rndt:AcquiredDataQualityAssessmentL1 rdf:type owl:NamedIndividual , rndt:ActionArea ;
+    rndt:exactSourceTerm "Image Quality Assessment" ;
+    rdfs:comment "Level 1 (Sense) Acquired Data Quality Assessment, AREA-009. Distinguished by the L1 suffix from the Level 2 (Analyse) area of the same name, AREA-024."@en ;
+    rdfs:label "Acquired Data Quality Assessment"@en .
 
 rndt:IndicationRecord rdf:type owl:NamedIndividual , rndt:InformationEntity ;
     rdfs:label "Indication record"@en .
@@ -595,25 +591,29 @@ rndt:ObserveControlledAreaStatus rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0033" ;
     rdfs:label "Observe controlled area status"@en .
 
-rndt:ObserveDetectorPosition rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:ObserveSensorPosition rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0020" ;
-    rdfs:label "Observe detector position"@en .
+    rndt:exactSourceTerm "Observe detector position" ;
+    rdfs:label "Observe sensor position"@en .
 
-rndt:ObserveDetectorStatus rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:ObserveSensorStatus rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0029" ;
-    rdfs:label "Observe detector status"@en .
+    rndt:exactSourceTerm "Observe detector status" ;
+    rdfs:label "Observe sensor status"@en .
 
 rndt:ObserveEnvironmentalConditions rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0036" ;
     rdfs:label "Observe environmental conditions"@en .
 
-rndt:ObserveImageQuality rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:ObserveAcquiredDataQuality rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0037" ;
-    rdfs:label "Observe image quality"@en .
+    rndt:exactSourceTerm "Observe image quality" ;
+    rdfs:label "Observe acquired data quality"@en .
 
-rndt:ObserveSourcePosition rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:ObserveEnergySourcePosition rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0019" ;
-    rdfs:label "Observe source position"@en .
+    rndt:exactSourceTerm "Observe source position" ;
+    rdfs:label "Observe energy source position"@en .
 
 rndt:ObserveSystemAlarms rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0031" ;
@@ -650,21 +650,12 @@ rndt:ProcedureAndWorkInstructionControl rdf:type owl:NamedIndividual , rndt:Acti
 rndt:ProcessReassessment rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Process Reassessment"@en .
 
-rndt:ProcessedRadiographicImage rdf:type owl:NamedIndividual , rndt:InformationEntity ;
-    rdfs:label "Processed radiographic image"@en .
-
-rndt:RawRadiographicImage rdf:type owl:NamedIndividual , rndt:InformationEntity ;
-    rdfs:label "Raw radiographic image"@en .
-
 rndt:ReassessVerificationModel rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0309" ;
     rdfs:label "Reassess verification model"@en .
 
 rndt:RegulatoryAndPersonnelCompliance rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Regulatory and Personnel Compliance"@en .
-
-rndt:RemoteNDTProcessInstance rdf:type owl:NamedIndividual , rndt:RemoteNDTProcess ;
-    rdfs:label "Remote NDT Process (Digital Radiography)"@en .
 
 rndt:RetainOriginalInspectionData rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0297" ;
@@ -674,9 +665,10 @@ rndt:ReviewAndApproveRNDTTaskRiskAssessment rdf:type owl:NamedIndividual , rndt:
     rndt:termId "TERM-0254" ;
     rdfs:label "Review and approve RNDT task risk assessment"@en .
 
-rndt:ReviewAttachedImages rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:ReviewAttachedEvidence rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0052" ;
-    rdfs:label "Review attached images"@en .
+    rndt:exactSourceTerm "Review attached images" ;
+    rdfs:label "Review attached evidence"@en .
 
 rndt:ReviewInspectionPackage rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0051" ;
@@ -708,9 +700,10 @@ rndt:Sentence rdf:type owl:NamedIndividual , rndt:MajorAction ;
 rndt:SetupVerification rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Setup Verification"@en .
 
-rndt:StoreImage rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:StoreAcquiredData rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0001" ;
-    rdfs:label "Store image"@en .
+    rndt:exactSourceTerm "Store image" ;
+    rdfs:label "Store acquired data"@en .
 
 rndt:TechnicalInterpretation rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Technical Interpretation"@en .
@@ -718,9 +711,10 @@ rndt:TechnicalInterpretation rdf:type owl:NamedIndividual , rndt:ActionArea ;
 rndt:TechnologyAndChangeControl rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Technology and Change Control"@en .
 
-rndt:TransferImage rdf:type owl:NamedIndividual , rndt:Activity ;
+rndt:TransferAcquiredData rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0002" ;
-    rdfs:label "Transfer image"@en .
+    rndt:exactSourceTerm "Transfer image" ;
+    rdfs:label "Transfer acquired data"@en .
 
 rndt:UpdateProcedureOrWorkInstruction rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0312" ;
@@ -774,13 +768,13 @@ rndt:VerifyPersonnelTraining rdf:type owl:NamedIndividual , rndt:Activity ;
 
 rndt:Evaluation rndt:realisedThrough rndt:Analyse .
 rndt:SelectComponent rndt:performedBy rndt:Operator .
-rndt:DataTransfer rndt:requiresAction rndt:TransferImage .
+rndt:DataTransfer rndt:requiresAction rndt:TransferAcquiredData .
 rndt:RegulatoryAndPersonnelCompliance rndt:requiresAction rndt:VerifyPersonnelTraining .
 rndt:VerifyAcceptanceCriteria rndt:performedBy rndt:Verifier .
 rndt:Documentation rndt:requiresAction rndt:ApproveInspectionReport .
 rndt:Analyse rndt:hasSubActivity rndt:DataIntegrityAssessment .
 rndt:DataAcquisition rndt:associatedWithAuthority rndt:Level1InspectionExecutionAuthority .
-rndt:TransferImage rndt:performedBy rndt:Operator .
+rndt:TransferAcquiredData rndt:performedBy rndt:Operator .
 rndt:Evaluation rndt:associatedWithAuthority rndt:Level2TechnicalEvaluationAuthority .
 rndt:Evaluation rndt:precedes rndt:Oversight .
 rndt:Oversight rndt:realisedThrough rndt:MethodGovernance .
@@ -791,24 +785,19 @@ rndt:InspectionPreparation rndt:requiresAction rndt:SelectComponent .
 rndt:VerifyComponentIdentityL1 rndt:performedBy rndt:Operator .
 rndt:DataAcquisition rndt:realisedThrough rndt:Sense .
 rndt:Act rndt:hasSubActivity rndt:EquipmentPreparation .
-rndt:InspectionDisposition rndt:usesEntity rndt:AcceptOrRejectComponent .
 rndt:ApproveInspectionReport rndt:performedBy rndt:Inspector .
 rndt:Oversight rndt:associatedWithAuthority rndt:Level3GovernanceAndAssuranceAuthority .
 rndt:Evaluation rndt:realisedThrough rndt:Sentence .
-rndt:ProcessedRadiographicImage rndt:derivedFrom rndt:RawRadiographicImage .
 rndt:Evaluation rndt:realisedThrough rndt:Decision .
 rndt:Sentence rndt:hasSubActivity rndt:InspectionDisposition .
 rndt:EvidencePackageReview rndt:requiresAction rndt:ReviewInspectionPackage .
 rndt:Verify rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
-rndt:EquipmentPreparation rndt:requiresAction rndt:ConfigureExposureParameters .
 rndt:Acquire rndt:hasSubActivity rndt:CompetencyRequirements .
 rndt:VerifyImageProvenance rndt:performedBy rndt:Verifier .
 rndt:DataAcquisition rndt:realisedThrough rndt:Act .
 rndt:Acquire rndt:authorisedBy rndt:Level1InspectionExecutionAuthority .
 rndt:IdentifyIndications rndt:performedBy rndt:Inspector .
-rndt:RemoteNDTProcessInstance rndt:hasProcessStage rndt:Evaluation .
 rndt:Decision rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
-rndt:RemoteNDTProcessInstance rndt:hasProcessStage rndt:Oversight .
 rndt:MethodGovernance rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
 rndt:Analyse rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
 rndt:PowerUpEquipment rndt:performedBy rndt:Operator .
@@ -816,8 +805,8 @@ rndt:Verify rndt:hasSubActivity rndt:InspectionReadiness .
 rndt:TechnicalInterpretation rndt:requiresAction rndt:IdentifyIndications .
 rndt:DataIntegrityAssessment rndt:requiresAction rndt:VerifyImageProvenance .
 rndt:InspectionReadiness rndt:requiresAction rndt:VerifyInspectionRequest .
-rndt:DataTransfer rndt:requiresAction rndt:StoreImage .
-rndt:ConfigureExposureParameters rndt:performedBy rndt:Operator .
+rndt:DataTransfer rndt:requiresAction rndt:StoreAcquiredData .
+rndt:StoreAcquiredData rndt:performedBy rndt:Operator .
 rndt:ComplianceOversight rndt:hasSubActivity rndt:RegulatoryAndPersonnelCompliance .
 rndt:VerifyInspectionRequest rndt:performedBy rndt:Verifier .
 rndt:InspectionPreparation rndt:requiresAction rndt:VerifyComponentIdentityL1 .
@@ -826,29 +815,24 @@ rndt:EquipmentPreparation rndt:requiresAction rndt:PowerUpEquipment .
 rndt:Analyse rndt:hasSubActivity rndt:TechnicalInterpretation .
 rndt:ReviewInspectionPackage rndt:performedBy rndt:Inspector .
 rndt:Oversight rndt:realisedThrough rndt:ComplianceOversight .
-rndt:CompetencyRequirements rndt:requiresCapability rndt:GenerateExposure .
 rndt:Documentation rndt:hasRequirement rndt:AuthoriseRelease .
-rndt:GenerateExposure rndt:supports rndt:ConfigureExposureParameters .
-rndt:RemoteNDTProcessInstance rndt:hasProcessStage rndt:DataAcquisition .
 rndt:ComplianceOversight rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAuthority .
 rndt:Evaluation rndt:realisedThrough rndt:Verify .
 rndt:Act rndt:hasSubActivity rndt:InspectionPreparation .
 rndt:ProcedureAndWorkInstructionControl rndt:requiresAction rndt:PrepareRNDTProcedure .
-rndt:StoreImage rndt:performedBy rndt:Operator .
 rndt:Decision rndt:hasSubActivity rndt:EvidencePackageReview .
-rndt:EvidencePackageReview rndt:requiresAction rndt:ReviewAttachedImages .
+rndt:EvidencePackageReview rndt:requiresAction rndt:ReviewAttachedEvidence .
 rndt:MethodAndTechniqueControl rndt:requiresAction rndt:SelectNDTMethodAndTechnique .
 rndt:Sentence rndt:authorisedBy rndt:Level2TechnicalEvaluationAuthority .
 rndt:Acquire rndt:hasSubActivity rndt:DataTransfer .
 rndt:Documentation rndt:usesInformation rndt:DigitallySignInspectionRecord .
 rndt:MethodGovernance rndt:hasSubActivity rndt:ProcedureAndWorkInstructionControl .
-rndt:StoreImage rndt:producesEvidence rndt:RawRadiographicImage .
 rndt:DataAcquisition rndt:realisedThrough rndt:Acquire .
 rndt:Sentence rndt:hasSubActivity rndt:Documentation .
 rndt:DataAcquisition rndt:precedes rndt:Evaluation .
 rndt:MethodGovernance rndt:hasSubActivity rndt:MethodAndTechniqueControl .
 rndt:InspectionReadiness rndt:requiresAction rndt:VerifyAcceptanceCriteria .
-rndt:ReviewAttachedImages rndt:performedBy rndt:Inspector .
+rndt:ReviewAttachedEvidence rndt:performedBy rndt:Inspector .
 
 # ---- Level 3 governance functions (AUTH-010/011/012; register TERM-0229/0230/0231) ----
 rndt:Oversight rndt:realisedThrough rndt:PerformanceMonitoring .
@@ -862,7 +846,7 @@ rndt:ContinuousImprovement rndt:authorisedBy rndt:Level3GovernanceAndAssuranceAu
 rndt:Sense rndt:hasSubActivity rndt:SetupVerification .  # AREA-005
 rndt:Sense rndt:hasSubActivity rndt:EquipmentStatusMonitoring .  # AREA-007
 rndt:Sense rndt:hasSubActivity rndt:InspectionEnviroment .  # AREA-008
-rndt:Sense rndt:hasSubActivity rndt:ImageQualityAssessmentL1 .  # AREA-009
+rndt:Sense rndt:hasSubActivity rndt:AcquiredDataQualityAssessmentL1 .  # AREA-009
 rndt:MethodGovernance rndt:hasSubActivity rndt:VerificationModelAndTechnicalApproval .  # AREA-052
 rndt:ComplianceOversight rndt:hasSubActivity rndt:RiskQMSAndSecurityAssurance .  # AREA-054
 rndt:ComplianceOversight rndt:hasSubActivity rndt:AuditAndRecordCompliance .  # AREA-055
@@ -877,14 +861,14 @@ rndt:ContinuousImprovement rndt:hasSubActivity rndt:ProcessReassessment .  # ARE
 rndt:ContinuousImprovement rndt:hasSubActivity rndt:TechnologyAndChangeControl .  # AREA-064
 
 # ---- Contained activities ----
-rndt:SetupVerification rndt:requiresAction rndt:ObserveSourcePosition .  # TERM-0019
-rndt:SetupVerification rndt:requiresAction rndt:ObserveDetectorPosition .  # TERM-0020
-rndt:EquipmentStatusMonitoring rndt:requiresAction rndt:ObserveDetectorStatus .  # TERM-0029
+rndt:SetupVerification rndt:requiresAction rndt:ObserveEnergySourcePosition .  # TERM-0019
+rndt:SetupVerification rndt:requiresAction rndt:ObserveSensorPosition .  # TERM-0020
+rndt:EquipmentStatusMonitoring rndt:requiresAction rndt:ObserveSensorStatus .  # TERM-0029
 rndt:EquipmentStatusMonitoring rndt:requiresAction rndt:ObserveSystemAlarms .  # TERM-0031
 rndt:InspectionEnviroment rndt:requiresAction rndt:ObserveControlledAreaStatus .  # TERM-0033
 rndt:InspectionEnviroment rndt:requiresAction rndt:ObserveEnvironmentalConditions .  # TERM-0036
-rndt:ImageQualityAssessmentL1 rndt:requiresAction rndt:ObserveImageQuality .  # TERM-0037
-rndt:ImageQualityAssessmentL1 rndt:requiresAction rndt:ObserveArtefacts .  # TERM-0040
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt:ObserveAcquiredDataQuality .  # TERM-0037
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt:ObserveArtefacts .  # TERM-0040
 rndt:VerificationModelAndTechnicalApproval rndt:requiresAction rndt:SelectVerificationModel .  # TERM-0244
 rndt:VerificationModelAndTechnicalApproval rndt:requiresAction rndt:ApproveTechnicalValidation .  # TERM-0247
 rndt:RiskQMSAndSecurityAssurance rndt:requiresAction rndt:ReviewAndApproveRNDTTaskRiskAssessment .  # TERM-0254

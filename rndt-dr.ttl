@@ -1,0 +1,174 @@
+@prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
+@prefix rndt-dr: <http://www.cranfield.ac.uk/rndt-ontology/dr#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.cranfield.ac.uk/rndt-ontology/dr> rdf:type owl:Ontology ;
+    rdfs:label "Remote NDT Ontology — Digital Radiography Extension"@en ;
+    owl:imports <http://www.cranfield.ac.uk/rndt-ontology> ;
+    rdfs:comment "Digital Radiography (DR) specific vocabulary extending the generic rndt-core ontology: individuals covering exposure generation/configuration, equipment setup and positioning, source-to-detector geometry, and image-quality-indicator (IQI) verification — concepts with no method-agnostic equivalent, typed against the classes defined in rndt-core.ttl. Extensions may add method-specific individuals of core classes, and may define their own controlled-vocabulary classes and properties where no core equivalent exists (e.g. this module's IQI type and radiographic technique vocabularies, and its technique-parameter properties) — this does not prevent a sibling extension for another method (e.g. rndt-ut.ttl for Ultrasonic Testing) defining its own probe/couplant/angle equivalents the same way."@en .
+
+#################################################################
+#    Classes (DR-specific controlled vocabularies)
+#################################################################
+# Closed, standardised sets (EN 462-1 / ASTM E1025 for IQI type; standard
+# radiographic technique geometries) — modelled as classes with named
+# individuals rather than free-text literals, so they can be queried/grouped
+# the same way AuthorityClass and Participant already are.
+
+rndt-dr:IQIType rdf:type owl:Class ;
+    rdfs:label "IQIType"@en ;
+    rdfs:comment "The type of image quality indicator (IQI) used to verify radiographic sensitivity, e.g. wire, hole, step-wedge or duplex-wire type, per EN 462-1 / ASTM E1025."@en .
+
+rndt-dr:RadiographicTechnique rdf:type owl:Class ;
+    rdfs:label "RadiographicTechnique"@en ;
+    rdfs:comment "The radiographic exposure geometry used for an inspection, e.g. single-wall single-image, double-wall single-image, double-wall double-image, or panoramic."@en .
+
+#################################################################
+#    Properties
+#################################################################
+
+rndt-dr:usesIQIType rdf:type owl:ObjectProperty ;
+    rdfs:label "usesIQIType"@en ;
+    rdfs:comment "Relates a Procedure to the type of image quality indicator its approved technique requires."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range rndt-dr:IQIType .
+
+rndt-dr:usesRadiographicTechnique rdf:type owl:ObjectProperty ;
+    rdfs:label "usesRadiographicTechnique"@en ;
+    rdfs:comment "Relates a Procedure to the radiographic exposure geometry its approved technique requires."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range rndt-dr:RadiographicTechnique .
+
+rndt-dr:sourceToDetectorDistance rdf:type owl:DatatypeProperty ;
+    rdfs:label "sourceToDetectorDistance"@en ;
+    rdfs:comment "The approved source-to-detector distance (SDD) for a Procedure's technique, in millimetres."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range xsd:decimal .
+
+rndt-dr:sourceToObjectDistance rdf:type owl:DatatypeProperty ;
+    rdfs:label "sourceToObjectDistance"@en ;
+    rdfs:comment "The approved source-to-object distance (SOD) for a Procedure's technique, in millimetres. Physically must be less than sourceToDetectorDistance, since the object under inspection sits between the source and the detector."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range xsd:decimal .
+
+rndt-dr:iqiSensitivityAchieved rdf:type owl:DatatypeProperty ;
+    rdfs:label "iqiSensitivityAchieved"@en ;
+    rdfs:comment "The IQI sensitivity actually achieved on a specific inspection's exposure, as a percentage. Deliberately a property of the RemoteNDTProcess (the inspection), not of the Procedure it followed — it is a measured outcome that can vary between inspections run under an identical approved procedure, not a fixed target."@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range xsd:decimal .
+
+rndt-dr:requiredIQISensitivity rdf:type owl:DatatypeProperty ;
+    rdfs:label "requiredIQISensitivity"@en ;
+    rdfs:comment "The maximum IQI sensitivity a Procedure's approved technique permits, as a percentage — the threshold that iqiSensitivityAchieved is judged against. A property of the Procedure rather than the inspection, since it is a fixed requirement of the approved technique; the pair is what makes a sensitivity result decidable rather than merely recorded, since a bare achieved figure cannot be called a pass or a fail on its own. Lower is better: an exposure passes when the achieved sensitivity is less than or equal to the required value."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range xsd:decimal .
+
+#################################################################
+#    Individuals
+#################################################################
+# Term IDs are drawn from the block reserved for this module, TERM-0400 to
+# TERM-0419 (rndt-ut holds TERM-0420 to TERM-0439). Extension modules take a
+# reserved block each so newly minted extension terms cannot collide with each
+# other or with the TERM-0001 to TERM-0327 range already issued by the Taxonomy
+# Term Register. TERM-0011 and TERM-0122 below are genuine register terms and
+# keep their original register IDs.
+
+rndt-dr:ConfigureExposureParameters rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0011" ;
+    rdfs:label "Configure exposure parameters"@en .
+
+rndt-dr:GenerateExposure rdf:type owl:NamedIndividual , rndt:Capability ;
+    rndt:termId "TERM-0122" ;
+    rdfs:label "Generate Exposure"@en .
+
+rndt-dr:SelectImagingTechnique rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0400" ;
+    rdfs:label "Select imaging technique"@en .
+
+rndt-dr:PositionEnergySource rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0401" ;
+    rdfs:label "Position source"@en .
+
+rndt-dr:PositionDetector rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0402" ;
+    rdfs:label "Position detector"@en .
+
+rndt-dr:DetermineSourceToDetectorDistance rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0403" ;
+    rdfs:label "Determine source-to-detector distance"@en .
+
+rndt-dr:ObserveDetectorStatus rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0404" ;
+    rdfs:label "Observe detector status"@en .
+
+rndt-dr:ObserveDetectorPosition rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0405" ;
+    rdfs:label "Observe detector position"@en .
+
+rndt-dr:VerifyIQIPlacement rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0406" ;
+    rdfs:label "Verify IQI placement"@en .
+
+rndt-dr:AssessIQISensitivity rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0407" ;
+    rdfs:label "Assess IQI sensitivity achieved"@en .
+
+rndt-dr:CalculateGeometricUnsharpness rdf:type owl:NamedIndividual , rndt:Capability ;
+    rndt:termId "TERM-0408" ;
+    rdfs:label "Calculate geometric unsharpness"@en .
+
+# ---- IQIType individuals (EN 462-1 / ASTM E1025) ----
+
+rndt-dr:WireTypeIQI rdf:type owl:NamedIndividual , rndt-dr:IQIType ;
+    rdfs:label "Wire type IQI"@en .
+
+rndt-dr:HoleTypeIQI rdf:type owl:NamedIndividual , rndt-dr:IQIType ;
+    rdfs:label "Hole type IQI"@en .
+
+rndt-dr:StepWedgeIQI rdf:type owl:NamedIndividual , rndt-dr:IQIType ;
+    rdfs:label "Step-wedge type IQI"@en .
+
+rndt-dr:DuplexWireIQI rdf:type owl:NamedIndividual , rndt-dr:IQIType ;
+    rdfs:label "Duplex wire type IQI"@en .
+
+# ---- RadiographicTechnique individuals ----
+
+rndt-dr:SingleWallSingleImage rdf:type owl:NamedIndividual , rndt-dr:RadiographicTechnique ;
+    rdfs:label "Single wall single image (SWSI)"@en .
+
+rndt-dr:DoubleWallSingleImage rdf:type owl:NamedIndividual , rndt-dr:RadiographicTechnique ;
+    rdfs:label "Double wall single image (DWSI)"@en .
+
+rndt-dr:DoubleWallDoubleImage rdf:type owl:NamedIndividual , rndt-dr:RadiographicTechnique ;
+    rdfs:label "Double wall double image (DWDI)"@en .
+
+rndt-dr:PanoramicExposure rdf:type owl:NamedIndividual , rndt-dr:RadiographicTechnique ;
+    rdfs:label "Panoramic exposure"@en .
+
+#################################################################
+#    Relationship assertions (edges)
+#################################################################
+# Wires the DR-specific individuals above into the generic core taxonomy graph.
+
+rndt:EquipmentPreparation rndt:requiresAction rndt-dr:ConfigureExposureParameters .
+rndt:CompetencyRequirements rndt:requiresCapability rndt-dr:GenerateExposure .
+rndt-dr:GenerateExposure rndt:supports rndt-dr:ConfigureExposureParameters .
+rndt-dr:ConfigureExposureParameters rndt:performedBy rndt:Operator .
+
+rndt:EquipmentPreparation rndt:requiresAction rndt-dr:SelectImagingTechnique .
+rndt:EquipmentPreparation rndt:requiresAction rndt-dr:PositionEnergySource .
+rndt:EquipmentPreparation rndt:requiresAction rndt-dr:PositionDetector .
+rndt:EquipmentPreparation rndt:requiresAction rndt-dr:DetermineSourceToDetectorDistance .
+rndt:EquipmentStatusMonitoring rndt:requiresAction rndt-dr:ObserveDetectorStatus .
+rndt:EquipmentStatusMonitoring rndt:requiresAction rndt-dr:ObserveDetectorPosition .
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt-dr:VerifyIQIPlacement .
+rndt:TechnicalInterpretation rndt:requiresAction rndt-dr:AssessIQISensitivity .
+rndt:CompetencyRequirements rndt:requiresCapability rndt-dr:CalculateGeometricUnsharpness .
+rndt-dr:CalculateGeometricUnsharpness rndt:supports rndt-dr:DetermineSourceToDetectorDistance .
+rndt-dr:SelectImagingTechnique rndt:performedBy rndt:Operator .
+rndt-dr:PositionEnergySource rndt:performedBy rndt:Operator .
+rndt-dr:PositionDetector rndt:performedBy rndt:Operator .
+rndt-dr:DetermineSourceToDetectorDistance rndt:performedBy rndt:Operator .

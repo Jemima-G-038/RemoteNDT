@@ -1,0 +1,140 @@
+@prefix rndt: <http://www.cranfield.ac.uk/rndt-ontology#> .
+@prefix rndt-ut: <http://www.cranfield.ac.uk/rndt-ontology/ut#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://www.cranfield.ac.uk/rndt-ontology/ut> rdf:type owl:Ontology ;
+    rdfs:label "Remote NDT Ontology — Ultrasonic Testing Extension"@en ;
+    owl:imports <http://www.cranfield.ac.uk/rndt-ontology> ;
+    rdfs:comment "Ultrasonic Testing (UT) specific vocabulary extending the generic rndt-core ontology: individuals covering probe calibration, positioning and beam-angle setup, scan execution, calibration verification and indication sizing — concepts with no radiography equivalent, typed against the classes defined in rndt-core.ttl. Deliberately reuses core individuals wherever an existing generic activity already fits — rndt:IdentifyIndications for interpretation and rndt:ObserveSensorPosition / rndt:ObserveSensorStatus for in-process monitoring — rather than minting UT-flavoured duplicates the way the rndt-dr extension did for its own detector-position pair; see the per-individual comments below for the reasoning. Also adds a UTMethod controlled vocabulary and a usesUTMethod property, mirroring the DR extension's IQIType/RadiographicTechnique pattern, so a Procedure can carry its approved UT method (e.g. pulse-echo, through-transmission) the same way a DR procedure carries its approved IQI type and radiographic technique; and a Probe subclass of the core PhysicalEntity, since UT is the first method whose acquisition depends on a serial-numbered transducer whose frequency, element diameter and refracted angle must be recorded against the scan that used it."@en .
+
+#################################################################
+#    Classes
+#################################################################
+
+rndt-ut:UTMethod rdf:type owl:Class ;
+    rdfs:label "UTMethod"@en ;
+    rdfs:comment "The ultrasonic testing method used, e.g. pulse-echo or through-transmission. A closed, standardised set, so modelled as a class with named individuals rather than a free-text literal — the same test the rndt-dr module applies to its IQIType and RadiographicTechnique vocabularies."@en .
+
+rndt-ut:Probe rdf:type owl:Class ;
+    rdfs:subClassOf rndt:PhysicalEntity ;
+    rdfs:label "Probe"@en ;
+    rdfs:comment "A specific ultrasonic probe/transducer assembly fitted for an inspection. Promoted to its own subclass of rndt:PhysicalEntity rather than left as a generically-typed one (like the flaw-detector and X-ray-generator individuals reached via rndt:usesEquipment) so that UT-specific parameters — nominal frequency, element diameter and refracted beam angle — have a domain-correct place to attach; this mirrors the argument core already makes for promoting rndt:Procedure out of InformationEntity. Deliberately NOT modelled as a closed controlled vocabulary in the UTMethod style: probes are an open, instance-level population identified per unit, so probe part and serial numbers need no new properties here — rndt:partNumber and rndt:serialNumber are already domained on rndt:PhysicalEntity and apply unchanged."@en .
+
+#################################################################
+#    Properties
+#################################################################
+
+rndt-ut:usesUTMethod rdf:type owl:ObjectProperty ;
+    rdfs:label "usesUTMethod"@en ;
+    rdfs:comment "Relates a Procedure to the UT method its approved technique requires."@en ;
+    rdfs:domain rndt:Procedure ;
+    rdfs:range rndt-ut:UTMethod .
+
+rndt-ut:usesProbe rdf:type owl:ObjectProperty ;
+    rdfs:label "usesProbe"@en ;
+    rdfs:comment "Relates a Remote NDT Process to the specific probe fitted for it. Deliberately a property of the RemoteNDTProcess (the inspection), not of the Procedure it followed — the physical probe fitted can differ between inspections run under an identical approved procedure, and its serial number is what makes the record traceable. Follows the same as-used-versus-approved split that rndt-dr:iqiSensitivityAchieved states. Narrower than core's rndt:usesEquipment, which still records the flaw detector and any other equipment for the same inspection."@en ;
+    rdfs:domain rndt:RemoteNDTProcess ;
+    rdfs:range rndt-ut:Probe .
+
+rndt-ut:probeFrequency rdf:type owl:DatatypeProperty ;
+    rdfs:label "probeFrequency"@en ;
+    rdfs:comment "The nominal centre frequency of a probe, in megahertz."@en ;
+    rdfs:domain rndt-ut:Probe ;
+    rdfs:range xsd:decimal .
+
+rndt-ut:probeDiameter rdf:type owl:DatatypeProperty ;
+    rdfs:label "probeDiameter"@en ;
+    rdfs:comment "The active element diameter of a probe, in millimetres."@en ;
+    rdfs:domain rndt-ut:Probe ;
+    rdfs:range xsd:decimal .
+
+rndt-ut:probeAngle rdf:type owl:DatatypeProperty ;
+    rdfs:label "probeAngle"@en ;
+    rdfs:comment "The nominal refracted beam angle of a probe, in degrees from the normal; 0 for a compression-wave (straight-beam) probe. The as-fitted counterpart of the rndt-ut:SetBeamAngle activity, which records that the angle was set rather than what it was."@en ;
+    rdfs:domain rndt-ut:Probe ;
+    rdfs:range xsd:decimal .
+
+#################################################################
+#    Individuals
+#################################################################
+# Term IDs are drawn from the block reserved for this module, TERM-0420 to
+# TERM-0439. Extension modules take a reserved block each (rndt-dr holds
+# TERM-0400 to TERM-0419) so that newly minted extension terms cannot collide
+# with each other or with the TERM-0001 to TERM-0327 range already issued by
+# the Taxonomy Term Register. These terms have no register row yet — the
+# register covers radiography only — so the rdfs:comment carries the
+# justification that a register entry would otherwise carry.
+
+rndt-ut:CalibrateUTSystem rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0420" ;
+    rdfs:label "Calibrate UT system"@en ;
+    rdfs:comment "Calibrate the flaw detector against a reference/calibration block before scanning. No radiography equivalent: DR's QA step (IQI placement) is a post-acquisition image check, whereas UT calibration is a pre-acquisition equipment step, so this is not a reuse of rndt-dr:VerifyIQIPlacement."@en .
+
+rndt-ut:ApplyTCGCurve rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0421" ;
+    rdfs:label "Apply TCG/DAC curve"@en ;
+    rdfs:comment "Set the time-corrected-gain / distance-amplitude-correction curve derived from the calibration block response. Kept as a separate logged step from CalibrateUTSystem since it is a distinct, checkable configuration action, mirroring how rndt-dr keeps ConfigureExposureParameters separate from PowerUpEquipment."@en .
+
+rndt-ut:PositionProbe rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0422" ;
+    rdfs:label "Position probe"@en ;
+    rdfs:comment "Set up the transducer's physical position and coupling on the component before scanning. Corresponds to the setup half of rndt-dr:PositionEnergySource / rndt-dr:PositionDetector, collapsed into one activity since a single UT probe combines transmit and receive; monitoring the probe's position and status once scanning is under way reuses rndt:ObserveSensorPosition / rndt:ObserveSensorStatus directly from the core taxonomy rather than minting a UT-specific duplicate."@en .
+
+rndt-ut:SetBeamAngle rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0423" ;
+    rdfs:label "Set beam angle"@en ;
+    rdfs:comment "Set the refracted beam angle for an angle-beam or phased-array probe. No radiography equivalent — beam steering is intrinsic to ultrasonic technique selection, not to exposure geometry."@en .
+
+rndt-ut:PerformUTScan rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0424" ;
+    rdfs:label "Perform UT scan"@en ;
+    rdfs:comment "Execute the raster/index scan over the component. The data-producing step of the UT workflow, analogous in position to the (unmodelled) instant of exposure in rndt-dr — DR does not log a separate 'expose' activity between ConfigureExposureParameters and StoreAcquiredData, but the scan itself is a substantial, distinct, monitorable action in UT and so is logged as its own step here."@en .
+
+rndt-ut:VerifyCalibrationVerification rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0425" ;
+    rdfs:label "Verify calibration held for the scan"@en ;
+    rdfs:comment "Confirm the DAC/TCG calibration was still valid across the scan (pre/post-scan calibration check). The UT counterpart of rndt-dr:VerifyIQIPlacement — same ActionArea (AcquiredDataQualityAssessmentL1), same role in the process, different QA mechanism."@en .
+
+rndt-ut:SizeIndication rdf:type owl:NamedIndividual , rndt:Activity ;
+    rndt:termId "TERM-0426" ;
+    rdfs:label "Size indication"@en ;
+    rdfs:comment "Quantify a detected indication's dimensions (e.g. 6 dB drop or amplitude-comparison sizing). The UT counterpart of rndt-dr:AssessIQISensitivity — an additional interpretation-stage activity alongside the reused rndt:IdentifyIndications, not a replacement for it."@en .
+
+rndt-ut:GenerateUltrasonicPulse rdf:type owl:NamedIndividual , rndt:Capability ;
+    rndt:termId "TERM-0427" ;
+    rdfs:label "Generate ultrasonic pulse"@en ;
+    rdfs:comment "The transducer's capability to generate and receive an ultrasonic pulse. The UT counterpart of rndt-dr:GenerateExposure."@en .
+
+# ---- UTMethod individuals ----
+
+rndt-ut:PulseEcho rdf:type owl:NamedIndividual , rndt-ut:UTMethod ;
+    rdfs:label "Pulse-echo"@en .
+
+rndt-ut:ThroughTransmission rdf:type owl:NamedIndividual , rndt-ut:UTMethod ;
+    rdfs:label "Through-transmission"@en .
+
+#################################################################
+#    Relationship assertions (edges)
+#################################################################
+# Wires the UT-specific individuals above into the generic core taxonomy graph.
+# Deliberately does NOT add edges for rndt:IdentifyIndications or
+# rndt:ObserveSensorPosition / rndt:ObserveSensorStatus — those stay wired
+# exactly as core already wires them; nothing here needs to touch that.
+
+rndt:EquipmentPreparation rndt:requiresAction rndt-ut:CalibrateUTSystem .
+rndt:EquipmentPreparation rndt:requiresAction rndt-ut:ApplyTCGCurve .
+rndt:EquipmentPreparation rndt:requiresAction rndt-ut:PositionProbe .
+rndt:EquipmentPreparation rndt:requiresAction rndt-ut:SetBeamAngle .
+rndt:EquipmentPreparation rndt:requiresAction rndt-ut:PerformUTScan .
+rndt:AcquiredDataQualityAssessmentL1 rndt:requiresAction rndt-ut:VerifyCalibrationVerification .
+rndt:TechnicalInterpretation rndt:requiresAction rndt-ut:SizeIndication .
+rndt:CompetencyRequirements rndt:requiresCapability rndt-ut:GenerateUltrasonicPulse .
+rndt-ut:GenerateUltrasonicPulse rndt:supports rndt-ut:PerformUTScan .
+rndt-ut:CalibrateUTSystem rndt:performedBy rndt:Operator .
+rndt-ut:ApplyTCGCurve rndt:performedBy rndt:Operator .
+rndt-ut:PositionProbe rndt:performedBy rndt:Operator .
+rndt-ut:SetBeamAngle rndt:performedBy rndt:Operator .
+rndt-ut:PerformUTScan rndt:performedBy rndt:Operator .
