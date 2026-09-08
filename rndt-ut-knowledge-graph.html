@@ -17,359 +17,308 @@
       --accent:#e08a5a; --accent-soft:#c96a3a; --chip:#2b2822; --hover:#2b2822;
     }
   }
-  :root[data-theme="dark"] {
-    --ground:#191713; --surface:#211f1a; --surface-2:#262319;
-    --line:#35322a; --line-soft:#2b2822;
-    --ink:#f0ede4; --ink-2:#ded9cc; --ink-3:#c4bfb1; --ink-4:#a09a8b; --ink-5:#8f8a7c;
-    --accent:#e08a5a; --accent-soft:#c96a3a; --chip:#2b2822; --hover:#2b2822;
-  }
-  body { background: var(--ground); color: var(--ink); font-family: var(--sans); margin: 0; padding: 20px; }
-
-  #kg-wrap { font-family: var(--sans); color: var(--ink); background: var(--ground); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; max-width: 1180px; margin: 0 auto; }
-  #kg-header { padding: 14px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  body { background: var(--ground); color: var(--ink); font-family: var(--sans); font-size: 13px; }
+  #kg { border: 1px solid var(--line); border-radius: 10px; background: var(--surface);
+        overflow: hidden; margin: 10px; }
+  #kg-header { padding: 13px 18px; border-bottom: 1px solid var(--line); background: var(--surface-2);
+               display: flex; align-items: baseline; justify-content: space-between;
+               flex-wrap: wrap; gap: 8px; }
   #kg-header h2 { font-size: 15px; font-weight: 600; margin: 0; color: var(--ink); }
   #kg-header .kg-sub { font-size: 11.5px; color: var(--ink-4); font-family: var(--mono); }
-  #kg-note { padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--ink-3); background: var(--surface-2); }
+  #kg-note { padding: 10px 18px; border-bottom: 1px solid var(--line); font-size: 12px;
+             color: var(--ink-3); background: var(--surface-2); line-height: 1.5; }
   #kg-note b { color: var(--accent); font-weight: 600; }
-  #kg-body { display: flex; }
+  #kg-note code { font-family: var(--mono); font-size: 11px; }
+  #kg-body { display: flex; align-items: stretch; }
   #kg-canvas-wrap { flex: 1; min-width: 0; position: relative; }
-  #kg-svg { display: block; width: 100%; height: 780px; cursor: grab; }
+  #kg-svg { display: block; width: 100%; cursor: grab; }
   #kg-svg:active { cursor: grabbing; }
-  #kg-side { width: 236px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px; font-size: 12px; max-height: 780px; overflow-y: auto; }
-  #kg-side h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-5); margin: 0 0 8px; font-weight: 600; }
-  .kg-legend-row { display: flex; align-items: center; gap: 7px; padding: 3px 0; cursor: pointer; user-select: none; border-radius: 6px; color: var(--ink-2); }
-  .kg-legend-row:hover { background: var(--hover); }
-  .kg-legend-row.kg-off { opacity: .35; }
+  #kg-side { width: 250px; flex-shrink: 0; border-left: 1px solid var(--line); padding: 14px;
+             font-size: 12px; }
+  #kg-side h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .06em;
+                color: var(--ink-5); margin: 0 0 8px; font-weight: 600; }
+  #kg-side h3:not(:first-child) { margin-top: 18px; }
+  .kg-row { display: flex; align-items: center; gap: 7px; padding: 3px 5px; border-radius: 5px;
+            cursor: pointer; color: var(--ink-2); }
+  .kg-row:hover { background: var(--hover); }
+  .kg-row.off { opacity: .38; }
+  .kg-row .kg-n { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--ink-5); }
   .kg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .kg-dot.kg-dot-ring { box-shadow: 0 0 0 2px var(--accent); }
-  .kg-legend-label { flex: 1; }
-  .kg-legend-count { color: var(--ink-5); font-family: var(--mono); font-variant-numeric: tabular-nums; }
-  .kg-edge-row { display: flex; align-items: center; gap: 7px; padding: 2px 0; font-size: 11px; color: var(--ink-3); }
-  .kg-edge-swatch { width: 16px; height: 0; border-top-width: 2px; border-top-style: solid; flex-shrink: 0; }
-  #kg-detail { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); min-height: 70px; }
-  #kg-detail .kg-empty { color: var(--ink-5); font-size: 12px; }
-  #kg-detail .kg-name { font-size: 13px; font-weight: 600; margin: 0 0 3px; color: var(--ink); }
-  #kg-detail .kg-type { font-size: 11px; color: var(--ink-4); margin: 0 0 6px; }
-  #kg-detail .kg-badge { display: inline-block; font-size: 10px; font-family: var(--mono); background: var(--chip); color: var(--ink-3); padding: 1px 6px; border-radius: 4px; margin: 0 4px 8px 0; }
-  #kg-detail .kg-badge.kg-badge-ut { background: var(--accent); color: var(--ground); }
-  #kg-detail .kg-conn-label { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-5); margin: 8px 0 3px; }
-  #kg-detail .kg-conn { font-size: 11.5px; color: var(--ink-2); padding: 2px 0; cursor: pointer; }
-  #kg-detail .kg-conn:hover { color: var(--accent); }
-  #kg-detail .kg-conn .kg-rel { color: var(--ink-5); font-family: var(--mono); }
-  #kg-controls { padding: 8px 18px; border-top: 1px solid var(--line); display: flex; gap: 14px; align-items: center; font-size: 11.5px; color: var(--ink-4); flex-wrap: wrap; }
-  #kg-controls button { font-size: 11.5px; padding: 4px 10px; border: 1px solid var(--line); background: var(--surface); border-radius: 6px; cursor: pointer; color: var(--ink-2); font-family: var(--sans); }
-  #kg-controls button:hover { background: var(--hover); }
-  .kg-node text { pointer-events: none; fill: var(--ink-2); font-family: var(--sans);
-                  paint-order: stroke; stroke: var(--ground); stroke-linejoin: round; }
-  /* At low zoom 110 labels collide into an unreadable wall, so the leaf-level
-     ones drop out and only the taxonomy spine stays named. Zoom in past 0.8 and
-     everything is labelled again. Extension nodes always keep their label. */
-  #kg-svg.kg-far .kg-node.kg-minor text { display: none; }
-  #kg-svg.kg-far .kg-node.kg-minor circle { opacity: .55; }
-  .kg-node.kg-dim { opacity: .07; }
-  .kg-link.kg-dim { opacity: .04; }
-  .kg-node.kg-dim text { display: none; }
-  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  @media (max-width: 640px) {
-    #kg-body { flex-direction: column; }
-    #kg-side { width: auto; border-left: none; border-top: 1px solid var(--line); max-height: 260px; }
-    #kg-svg { height: 560px; }
-  }
+  .kg-ring { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+             border: 2.5px solid var(--accent); background: transparent; }
+  #kg-detail { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line);
+               color: var(--ink-4); line-height: 1.55; }
+  #kg-detail .t { font-weight: 600; color: var(--ink); font-size: 13px; }
+  #kg-detail .m { font-family: var(--mono); font-size: 11px; color: var(--ink-4); }
+  #kg-detail ul { margin: 6px 0 0; padding-left: 16px; }
+  #kg-detail li { margin: 2px 0; }
+  #kg-foot { padding: 9px 14px; border-top: 1px solid var(--line); background: var(--surface-2);
+             display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+             font-size: 11.5px; color: var(--ink-4); }
+  .kg-btn { font: inherit; font-size: 12px; color: var(--ink-2); background: var(--surface);
+            border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  .kg-btn:hover { background: var(--hover); }
+  .kg-btn[aria-pressed="true"] { background: var(--chip); border-color: var(--ink-5); color: var(--ink); }
+
+  .kg-col-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: .07em;
+                 fill: var(--ink-5); font-weight: 600; font-family: var(--sans); }
+  .kg-col-rule { stroke: var(--line-soft); stroke-width: 1; }
+  .kg-tree-link { fill: none; stroke: var(--ink-5); stroke-opacity: .5; stroke-width: 1.2; }
+  .kg-cross-link { fill: none; stroke-width: 1; stroke-opacity: .30; }
+  .kg-node text { font-size: 11px; fill: var(--ink-2); font-family: var(--sans);
+                  pointer-events: none; dominant-baseline: middle; }
+  .kg-node.mod text { font-weight: 600; fill: var(--ink); }
+  .kg-node { cursor: pointer; }
+  .kg-node:hover text { fill: var(--ink); }
+  .kg-faded { opacity: .13; }
+  .kg-hit { fill: transparent; }
+  .kg-sel > text { font-weight: 600; fill: var(--ink); }
+  #kg-svg.hide-cross .kg-cross-link { display: none; }
+  .kg-cross-link.kg-lit { stroke-opacity: .95; stroke-width: 1.8; }
 </style>
 
-<div id="kg-wrap">
+<div id="kg">
   <div id="kg-header">
     <h2>RNDT Ultrasonic Testing extension — knowledge graph</h2>
     <span class="kg-sub">8 UT individuals &middot; 14 UT edges &middot; overlaid on 102 shared core individuals</span>
   </div>
-  <div id="kg-note">This module adds only <b>8 individuals</b> (7 <code>Activity</code> + 1 <code>Capability</code>) and <b>14 wiring edges</b> on top of the generic core — the rest of the graph is the full, unmodified shared core, shown at full color so you can browse it in its own right. The accent ring marks exactly what the UT module contributes; notice how much of the taxonomy (interpretation, sensor monitoring, storage/transfer) it reuses directly rather than duplicating. A sibling extension for another method would plug into the same core the same way.</div>
+  <div id="kg-note">The UT module's individuals are ringed in the accent colour. Notice how few there are, and how much of the taxonomy — interpretation, sensor monitoring, storage and transfer — it reuses directly from the core rather than duplicating.</div>
   <div id="kg-body">
-    <div id="kg-canvas-wrap">
-      <svg id="kg-svg"></svg>
-    </div>
-    <div id="kg-side">
-      <h3>Module</h3>
-      <div id="kg-module-legend"></div>
-      <h3 style="margin-top:14px">Node types</h3>
+    <div id="kg-canvas-wrap"><svg id="kg-svg"></svg></div>
+    <aside id="kg-side">
       <div id="kg-legend"></div>
-      <h3 style="margin-top:14px">Relationships</h3>
-      <div id="kg-edge-legend"></div>
-      <div id="kg-detail"><div class="kg-empty">Click any node to inspect it and trace its connections.</div></div>
-    </div>
+      <div id="kg-detail">Click any node to trace it through the hierarchy.</div>
+    </aside>
   </div>
-  <div id="kg-controls">
-    <button id="kg-focus-ut">Focus UT extension</button>
-    <button id="kg-reset">Reset view</button>
-    <button id="kg-clear">Clear selection</button>
-    <span>Drag nodes &middot; scroll to zoom &middot; click a node (or its bigger invisible hit-ring) to trace connections</span>
+  <div id="kg-foot">
+    <button class="kg-btn" id="kg-focus">Focus UT extension</button>
+    <button class="kg-btn" id="kg-cross" aria-pressed="true">Role &amp; authority links</button>
+    <button class="kg-btn" id="kg-reset">Reset view</button>
+    <span>Scroll to zoom &middot; drag to pan &middot; click a node to trace its branch</span>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script>
-(function() {
+(function () {
   const data = {"nodes":[{"id":"Acquire","label":"Acquire","type":"MajorAction","termId":"AUTH-003","module":"core"},{"id":"AcquiredDataQualityAssessmentL1","label":"Acquired Data Quality Assessment","type":"ActionArea","termId":"","module":"core"},{"id":"Act","label":"Act","type":"MajorAction","termId":"AUTH-001","module":"core"},{"id":"Analyse","label":"Analyse","type":"MajorAction","termId":"AUTH-005","module":"core"},{"id":"ApplyTCGCurve","label":"Apply TCG/DAC curve","type":"Activity","termId":"TERM-0421","module":"ut"},{"id":"ApproveInspectionReport","label":"Approve inspection report","type":"Activity","termId":"TERM-0095","module":"core"},{"id":"ApproveTechnicalValidation","label":"Approve technical validation","type":"Activity","termId":"TERM-0247","module":"core"},{"id":"AssureElectronicSignatureSecurity","label":"Assure electronic-signature security and authenticity","type":"Activity","termId":"TERM-0258","module":"core"},{"id":"AuditAndRecordCompliance","label":"Audit and Record Compliance","type":"ActionArea","termId":"","module":"core"},{"id":"AuditTestConditions","label":"Audit test conditions","type":"Activity","termId":"TERM-0259","module":"core"},{"id":"AuthoriseRelease","label":"Authorise release","type":"RequirementConcept","termId":"TERM-0097","module":"core"},{"id":"CalibrateUTSystem","label":"Calibrate UT system","type":"Activity","termId":"TERM-0420","module":"ut"},{"id":"CompetencyRequirements","label":"Competency Requirements","type":"ActionArea","termId":"","module":"core"},{"id":"ComplianceOversight","label":"Compliance Oversight","type":"MajorAction","termId":"TERM-0228 / AUTH-009","module":"core"},{"id":"ConfirmComplianceNANDTB29","label":"Confirm compliance with NANDTB/29 and higher-level requirements","type":"Activity","termId":"TERM-0250","module":"core"},{"id":"ContinuousImprovement","label":"Continuous Improvement","type":"MajorAction","termId":"TERM-0231 / AUTH-012","module":"core"},{"id":"ControlledTechnicalKnowledge","label":"Controlled Technical Knowledge","type":"ActionArea","termId":"","module":"core"},{"id":"CorrectiveActionManagement","label":"Corrective Action Management","type":"ActionArea","termId":"","module":"core"},{"id":"DataAcquisition","label":"Data Acquisition","type":"ProcessStage","termId":"TERM-0232","module":"core"},{"id":"DataIntegrityAssessment","label":"Data Integrity Assessment","type":"ActionArea","termId":"","module":"core"},{"id":"DataIntegrityPerformance","label":"Data Integrity Performance","type":"ActionArea","termId":"","module":"core"},{"id":"DataTransfer","label":"Data Transfer","type":"ActionArea","termId":"","module":"core"},{"id":"Decision","label":"Decision","type":"MajorAction","termId":"AUTH-006","module":"core"},{"id":"DefineCorrectiveAction","label":"Define corrective action","type":"Activity","termId":"TERM-0304","module":"core"},{"id":"DigitallySignInspectionRecord","label":"Digitally sign inspection record","type":"InformationEntity","termId":"TERM-0099","module":"core"},{"id":"Documentation","label":"Documentation","type":"ActionArea","termId":"","module":"core"},{"id":"EquipmentPreparation","label":"Equipment Preparation","type":"ActionArea","termId":"","module":"core"},{"id":"EquipmentStatusMonitoring","label":"Equipment Status Monitoring","type":"ActionArea","termId":"","module":"core"},{"id":"Evaluation","label":"Evaluation","type":"ProcessStage","termId":"","module":"core"},{"id":"EvidencePackageReview","label":"Evidence Package Review","type":"ActionArea","termId":"","module":"core"},{"id":"GenerateUltrasonicPulse","label":"Generate ultrasonic pulse","type":"Capability","termId":"TERM-0427","module":"ut"},{"id":"IdentifyAdversePerformanceTrends","label":"Identify adverse performance trends","type":"Activity","termId":"TERM-0284","module":"core"},{"id":"IdentifyIndications","label":"Identify indications","type":"Activity","termId":"TERM-0105","module":"core"},{"id":"IndicationRecord","label":"Indication record","type":"InformationEntity","termId":"","module":"core"},{"id":"InspectionAndVerificationPerformance","label":"Inspection and Verification Performance","type":"ActionArea","termId":"","module":"core"},{"id":"InspectionDisposition","label":"Inspection Disposition","type":"ActionArea","termId":"","module":"core"},{"id":"InspectionEnviroment","label":"Inspection Enviroment","type":"ActionArea","termId":"","module":"core"},{"id":"InspectionKnowledgeAndOrganisationalLearning","label":"Inspection Knowledge and Organisational Learning","type":"ActionArea","termId":"","module":"core"},{"id":"InspectionPreparation","label":"Inspection Preparation","type":"ActionArea","termId":"","module":"core"},{"id":"InspectionReadiness","label":"Inspection Readiness","type":"ActionArea","termId":"","module":"core"},{"id":"Inspector","label":"Inspector","type":"Participant","termId":"","module":"core"},{"id":"InvestigateVerificationFailures","label":"Investigate verification failures","type":"Activity","termId":"TERM-0302","module":"core"},{"id":"KnowledgeManagement","label":"Knowledge Management","type":"MajorAction","termId":"TERM-0230 / AUTH-011","module":"core"},{"id":"Level1InspectionExecutionAuthority","label":"Level 1 Inspection Execution Authority","type":"AuthorityClass","termId":"","module":"core"},{"id":"Level2TechnicalEvaluationAuthority","label":"Level 2 Technical Evaluation Authority","type":"AuthorityClass","termId":"","module":"core"},{"id":"Level3GovernanceAndAssuranceAuthority","label":"Level 3 Governance and Assurance Authority","type":"AuthorityClass","termId":"","module":"core"},{"id":"MaintainAcceptanceCriteria","label":"Maintain acceptance criteria","type":"Activity","termId":"TERM-0288","module":"core"},{"id":"MaintainCertificationRecords","label":"Maintain certification records","type":"Activity","termId":"TERM-0292","module":"core"},{"id":"MaintainCodesStandardsAndControllingDocuments","label":"Maintain codes, standards and controlling documents","type":"Activity","termId":"TERM-0285","module":"core"},{"id":"MaintainCurrentProceduresAndWorkInstructions","label":"Maintain current procedures and work instructions","type":"Activity","termId":"TERM-0287","module":"core"},{"id":"MaintainReportsAndDecisions","label":"Maintain reports and decisions","type":"Activity","termId":"TERM-0299","module":"core"},{"id":"MaintainRoleAndAuthorityRecords","label":"Maintain role and authority records","type":"Activity","termId":"TERM-0294","module":"core"},{"id":"MethodAndTechniqueControl","label":"Method and Technique Control","type":"ActionArea","termId":"","module":"core"},{"id":"MethodGovernance","label":"Method Governance","type":"MajorAction","termId":"TERM-0227 / AUTH-008","module":"core"},{"id":"MonitorChecksumAndAuditTrailFailures","label":"Monitor checksum and audit-trail failures","type":"Activity","termId":"TERM-0278","module":"core"},{"id":"MonitorDataAttribution","label":"Monitor data attribution","type":"Activity","termId":"TERM-0272","module":"core"},{"id":"MonitorEquipmentAndSystemCapability","label":"Monitor equipment and system capability","type":"Activity","termId":"TERM-0279","module":"core"},{"id":"MonitorInspectionSensitivity","label":"Monitor inspection sensitivity","type":"Activity","termId":"TERM-0265","module":"core"},{"id":"MonitorVerificationFailures","label":"Monitor verification failures","type":"Activity","termId":"TERM-0269","module":"core"},{"id":"ObserveAcquiredDataQuality","label":"Observe acquired data quality","type":"Activity","termId":"TERM-0037","module":"core"},{"id":"ObserveArtefacts","label":"Observe artefacts","type":"Activity","termId":"TERM-0040","module":"core"},{"id":"ObserveControlledAreaStatus","label":"Observe controlled area status","type":"Activity","termId":"TERM-0033","module":"core"},{"id":"ObserveEnergySourcePosition","label":"Observe energy source position","type":"Activity","termId":"TERM-0019","module":"core"},{"id":"ObserveEnvironmentalConditions","label":"Observe environmental conditions","type":"Activity","termId":"TERM-0036","module":"core"},{"id":"ObserveSensorPosition","label":"Observe sensor position","type":"Activity","termId":"TERM-0020","module":"core"},{"id":"ObserveSensorStatus","label":"Observe sensor status","type":"Activity","termId":"TERM-0029","module":"core"},{"id":"ObserveSystemAlarms","label":"Observe system alarms","type":"Activity","termId":"TERM-0031","module":"core"},{"id":"OperationalAndHumanPerformance","label":"Operational and Human Performance","type":"ActionArea","termId":"","module":"core"},{"id":"Operator","label":"Operator","type":"Participant","termId":"","module":"core"},{"id":"Oversight","label":"Oversight","type":"ProcessStage","termId":"TERM-0234","module":"core"},{"id":"PerformUTScan","label":"Perform UT scan","type":"Activity","termId":"TERM-0424","module":"ut"},{"id":"PerformanceMonitoring","label":"Performance Monitoring","type":"MajorAction","termId":"TERM-0229 / AUTH-010","module":"core"},{"id":"PersonnelAndAuthorityRecords","label":"Personnel and Authority Records","type":"ActionArea","termId":"","module":"core"},{"id":"PositionProbe","label":"Position probe","type":"Activity","termId":"TERM-0422","module":"ut"},{"id":"PowerUpEquipment","label":"Power up equipment","type":"Activity","termId":"TERM-0009","module":"core"},{"id":"PrepareRNDTProcedure","label":"Prepare RNDT procedure","type":"Activity","termId":"TERM-0239","module":"core"},{"id":"ProcedureAndWorkInstructionControl","label":"Procedure and Work Instruction Control","type":"ActionArea","termId":"","module":"core"},{"id":"ProcessReassessment","label":"Process Reassessment","type":"ActionArea","termId":"","module":"core"},{"id":"ReassessVerificationModel","label":"Reassess verification model","type":"Activity","termId":"TERM-0309","module":"core"},{"id":"RegulatoryAndPersonnelCompliance","label":"Regulatory and Personnel Compliance","type":"ActionArea","termId":"","module":"core"},{"id":"RetainOriginalInspectionData","label":"Retain original inspection data","type":"Activity","termId":"TERM-0297","module":"core"},{"id":"ReviewAndApproveRNDTTaskRiskAssessment","label":"Review and approve RNDT task risk assessment","type":"Activity","termId":"TERM-0254","module":"core"},{"id":"ReviewAttachedEvidence","label":"Review attached evidence","type":"Activity","termId":"TERM-0052","module":"core"},{"id":"ReviewInspectionPackage","label":"Review inspection package","type":"Activity","termId":"TERM-0051","module":"core"},{"id":"RiskQMSAndSecurityAssurance","label":"Risk, QMS and Security Assurance","type":"ActionArea","termId":"","module":"core"},{"id":"SelectComponent","label":"Select component","type":"Activity","termId":"TERM-0005","module":"core"},{"id":"SelectNDTMethodAndTechnique","label":"Select NDT method and technique","type":"Activity","termId":"TERM-0236","module":"core"},{"id":"SelectVerificationModel","label":"Select verification model","type":"Activity","termId":"TERM-0244","module":"core"},{"id":"Sense","label":"Sense","type":"MajorAction","termId":"AUTH-002","module":"core"},{"id":"Sentence","label":"Sentence","type":"MajorAction","termId":"AUTH-007","module":"core"},{"id":"SetBeamAngle","label":"Set beam angle","type":"Activity","termId":"TERM-0423","module":"ut"},{"id":"SetupVerification","label":"Setup Verification","type":"ActionArea","termId":"","module":"core"},{"id":"SizeIndication","label":"Size indication","type":"Activity","termId":"TERM-0426","module":"ut"},{"id":"StoreAcquiredData","label":"Store acquired data","type":"Activity","termId":"TERM-0001","module":"core"},{"id":"TechnicalInterpretation","label":"Technical Interpretation","type":"ActionArea","termId":"","module":"core"},{"id":"TechnologyAndChangeControl","label":"Technology and Change Control","type":"ActionArea","termId":"","module":"core"},{"id":"TransferAcquiredData","label":"Transfer acquired data","type":"Activity","termId":"TERM-0002","module":"core"},{"id":"UpdateProcedureOrWorkInstruction","label":"Update procedure or work instruction","type":"Activity","termId":"TERM-0312","module":"core"},{"id":"ValidateNewEquipment","label":"Validate new equipment","type":"Activity","termId":"TERM-0314","module":"core"},{"id":"ValidateNewSoftware","label":"Validate new software","type":"Activity","termId":"TERM-0315","module":"core"},{"id":"VerificationModelAndTechnicalApproval","label":"Verification Model and Technical Approval","type":"ActionArea","termId":"","module":"core"},{"id":"Verifier","label":"Verifier","type":"Participant","termId":"","module":"core"},{"id":"Verify","label":"Verify","type":"MajorAction","termId":"AUTH-004","module":"core"},{"id":"VerifyAcceptanceCriteria","label":"Verify acceptance criteria","type":"Activity","termId":"TERM-0071","module":"core"},{"id":"VerifyCalibrationVerification","label":"Verify calibration held for the scan","type":"Activity","termId":"TERM-0425","module":"ut"},{"id":"VerifyComponentIdentityL1","label":"Verify component identity","type":"Activity","termId":"TERM-0006","module":"core"},{"id":"VerifyEnduringInspectionRecords","label":"Verify enduring inspection records","type":"Activity","termId":"TERM-0262","module":"core"},{"id":"VerifyImageProvenance","label":"Verify image provenance","type":"Activity","termId":"TERM-0092","module":"core"},{"id":"VerifyInspectionRequest","label":"Verify inspection request","type":"Activity","termId":"TERM-0067","module":"core"},{"id":"VerifyPersonnelTraining","label":"Verify personnel training, qualification and certification","type":"Activity","termId":"TERM-0252","module":"core"}],"edges":[{"source":"Acquire","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy","module":"core"},{"source":"Acquire","target":"CompetencyRequirements","rel":"hasSubActivity","module":"core"},{"source":"Acquire","target":"DataTransfer","rel":"hasSubActivity","module":"core"},{"source":"AcquiredDataQualityAssessmentL1","target":"ObserveAcquiredDataQuality","rel":"requiresAction","module":"core"},{"source":"AcquiredDataQualityAssessmentL1","target":"ObserveArtefacts","rel":"requiresAction","module":"core"},{"source":"AcquiredDataQualityAssessmentL1","target":"VerifyCalibrationVerification","rel":"requiresAction","module":"ut"},{"source":"Act","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy","module":"core"},{"source":"Act","target":"EquipmentPreparation","rel":"hasSubActivity","module":"core"},{"source":"Act","target":"InspectionPreparation","rel":"hasSubActivity","module":"core"},{"source":"Analyse","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy","module":"core"},{"source":"Analyse","target":"DataIntegrityAssessment","rel":"hasSubActivity","module":"core"},{"source":"Analyse","target":"TechnicalInterpretation","rel":"hasSubActivity","module":"core"},{"source":"ApplyTCGCurve","target":"Operator","rel":"performedBy","module":"ut"},{"source":"ApproveInspectionReport","target":"Inspector","rel":"performedBy","module":"core"},{"source":"AuditAndRecordCompliance","target":"AuditTestConditions","rel":"requiresAction","module":"core"},{"source":"AuditAndRecordCompliance","target":"VerifyEnduringInspectionRecords","rel":"requiresAction","module":"core"},{"source":"CalibrateUTSystem","target":"Operator","rel":"performedBy","module":"ut"},{"source":"CompetencyRequirements","target":"GenerateUltrasonicPulse","rel":"requiresCapability","module":"ut"},{"source":"ComplianceOversight","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy","module":"core"},{"source":"ComplianceOversight","target":"AuditAndRecordCompliance","rel":"hasSubActivity","module":"core"},{"source":"ComplianceOversight","target":"RegulatoryAndPersonnelCompliance","rel":"hasSubActivity","module":"core"},{"source":"ComplianceOversight","target":"RiskQMSAndSecurityAssurance","rel":"hasSubActivity","module":"core"},{"source":"ContinuousImprovement","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy","module":"core"},{"source":"ContinuousImprovement","target":"CorrectiveActionManagement","rel":"hasSubActivity","module":"core"},{"source":"ContinuousImprovement","target":"ProcessReassessment","rel":"hasSubActivity","module":"core"},{"source":"ContinuousImprovement","target":"TechnologyAndChangeControl","rel":"hasSubActivity","module":"core"},{"source":"ControlledTechnicalKnowledge","target":"MaintainAcceptanceCriteria","rel":"requiresAction","module":"core"},{"source":"ControlledTechnicalKnowledge","target":"MaintainCodesStandardsAndControllingDocuments","rel":"requiresAction","module":"core"},{"source":"ControlledTechnicalKnowledge","target":"MaintainCurrentProceduresAndWorkInstructions","rel":"requiresAction","module":"core"},{"source":"CorrectiveActionManagement","target":"DefineCorrectiveAction","rel":"requiresAction","module":"core"},{"source":"CorrectiveActionManagement","target":"InvestigateVerificationFailures","rel":"requiresAction","module":"core"},{"source":"DataAcquisition","target":"Level1InspectionExecutionAuthority","rel":"associatedWithAuthority","module":"core"},{"source":"DataAcquisition","target":"Evaluation","rel":"precedes","module":"core"},{"source":"DataAcquisition","target":"Acquire","rel":"realisedThrough","module":"core"},{"source":"DataAcquisition","target":"Act","rel":"realisedThrough","module":"core"},{"source":"DataAcquisition","target":"Sense","rel":"realisedThrough","module":"core"},{"source":"DataIntegrityAssessment","target":"VerifyImageProvenance","rel":"requiresAction","module":"core"},{"source":"DataIntegrityPerformance","target":"MonitorChecksumAndAuditTrailFailures","rel":"requiresAction","module":"core"},{"source":"DataIntegrityPerformance","target":"MonitorDataAttribution","rel":"requiresAction","module":"core"},{"source":"DataTransfer","target":"StoreAcquiredData","rel":"requiresAction","module":"core"},{"source":"DataTransfer","target":"TransferAcquiredData","rel":"requiresAction","module":"core"},{"source":"Decision","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy","module":"core"},{"source":"Decision","target":"EvidencePackageReview","rel":"hasSubActivity","module":"core"},{"source":"Documentation","target":"AuthoriseRelease","rel":"hasRequirement","module":"core"},{"source":"Documentation","target":"ApproveInspectionReport","rel":"requiresAction","module":"core"},{"source":"Documentation","target":"DigitallySignInspectionRecord","rel":"usesInformation","module":"core"},{"source":"EquipmentPreparation","target":"ApplyTCGCurve","rel":"requiresAction","module":"ut"},{"source":"EquipmentPreparation","target":"CalibrateUTSystem","rel":"requiresAction","module":"ut"},{"source":"EquipmentPreparation","target":"PerformUTScan","rel":"requiresAction","module":"ut"},{"source":"EquipmentPreparation","target":"PositionProbe","rel":"requiresAction","module":"ut"},{"source":"EquipmentPreparation","target":"PowerUpEquipment","rel":"requiresAction","module":"core"},{"source":"EquipmentPreparation","target":"SetBeamAngle","rel":"requiresAction","module":"ut"},{"source":"EquipmentStatusMonitoring","target":"ObserveSensorStatus","rel":"requiresAction","module":"core"},{"source":"EquipmentStatusMonitoring","target":"ObserveSystemAlarms","rel":"requiresAction","module":"core"},{"source":"Evaluation","target":"Level2TechnicalEvaluationAuthority","rel":"associatedWithAuthority","module":"core"},{"source":"Evaluation","target":"Oversight","rel":"precedes","module":"core"},{"source":"Evaluation","target":"Analyse","rel":"realisedThrough","module":"core"},{"source":"Evaluation","target":"Decision","rel":"realisedThrough","module":"core"},{"source":"Evaluation","target":"Sentence","rel":"realisedThrough","module":"core"},{"source":"Evaluation","target":"Verify","rel":"realisedThrough","module":"core"},{"source":"EvidencePackageReview","target":"ReviewAttachedEvidence","rel":"requiresAction","module":"core"},{"source":"EvidencePackageReview","target":"ReviewInspectionPackage","rel":"requiresAction","module":"core"},{"source":"GenerateUltrasonicPulse","target":"PerformUTScan","rel":"supports","module":"ut"},{"source":"IdentifyIndications","target":"Inspector","rel":"performedBy","module":"core"},{"source":"IdentifyIndications","target":"IndicationRecord","rel":"producesEvidence","module":"core"},{"source":"InspectionAndVerificationPerformance","target":"MonitorInspectionSensitivity","rel":"requiresAction","module":"core"},{"source":"InspectionAndVerificationPerformance","target":"MonitorVerificationFailures","rel":"requiresAction","module":"core"},{"source":"InspectionEnviroment","target":"ObserveControlledAreaStatus","rel":"requiresAction","module":"core"},{"source":"InspectionEnviroment","target":"ObserveEnvironmentalConditions","rel":"requiresAction","module":"core"},{"source":"InspectionKnowledgeAndOrganisationalLearning","target":"MaintainReportsAndDecisions","rel":"requiresAction","module":"core"},{"source":"InspectionKnowledgeAndOrganisationalLearning","target":"RetainOriginalInspectionData","rel":"requiresAction","module":"core"},{"source":"InspectionPreparation","target":"SelectComponent","rel":"requiresAction","module":"core"},{"source":"InspectionPreparation","target":"VerifyComponentIdentityL1","rel":"requiresAction","module":"core"},{"source":"InspectionReadiness","target":"VerifyAcceptanceCriteria","rel":"requiresAction","module":"core"},{"source":"InspectionReadiness","target":"VerifyInspectionRequest","rel":"requiresAction","module":"core"},{"source":"KnowledgeManagement","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy","module":"core"},{"source":"KnowledgeManagement","target":"ControlledTechnicalKnowledge","rel":"hasSubActivity","module":"core"},{"source":"KnowledgeManagement","target":"InspectionKnowledgeAndOrganisationalLearning","rel":"hasSubActivity","module":"core"},{"source":"KnowledgeManagement","target":"PersonnelAndAuthorityRecords","rel":"hasSubActivity","module":"core"},{"source":"MethodAndTechniqueControl","target":"SelectNDTMethodAndTechnique","rel":"requiresAction","module":"core"},{"source":"MethodGovernance","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy","module":"core"},{"source":"MethodGovernance","target":"MethodAndTechniqueControl","rel":"hasSubActivity","module":"core"},{"source":"MethodGovernance","target":"ProcedureAndWorkInstructionControl","rel":"hasSubActivity","module":"core"},{"source":"MethodGovernance","target":"VerificationModelAndTechnicalApproval","rel":"hasSubActivity","module":"core"},{"source":"OperationalAndHumanPerformance","target":"IdentifyAdversePerformanceTrends","rel":"requiresAction","module":"core"},{"source":"OperationalAndHumanPerformance","target":"MonitorEquipmentAndSystemCapability","rel":"requiresAction","module":"core"},{"source":"Oversight","target":"Level3GovernanceAndAssuranceAuthority","rel":"associatedWithAuthority","module":"core"},{"source":"Oversight","target":"ComplianceOversight","rel":"realisedThrough","module":"core"},{"source":"Oversight","target":"ContinuousImprovement","rel":"realisedThrough","module":"core"},{"source":"Oversight","target":"KnowledgeManagement","rel":"realisedThrough","module":"core"},{"source":"Oversight","target":"MethodGovernance","rel":"realisedThrough","module":"core"},{"source":"Oversight","target":"PerformanceMonitoring","rel":"realisedThrough","module":"core"},{"source":"PerformUTScan","target":"Operator","rel":"performedBy","module":"ut"},{"source":"PerformanceMonitoring","target":"Level3GovernanceAndAssuranceAuthority","rel":"authorisedBy","module":"core"},{"source":"PerformanceMonitoring","target":"DataIntegrityPerformance","rel":"hasSubActivity","module":"core"},{"source":"PerformanceMonitoring","target":"InspectionAndVerificationPerformance","rel":"hasSubActivity","module":"core"},{"source":"PerformanceMonitoring","target":"OperationalAndHumanPerformance","rel":"hasSubActivity","module":"core"},{"source":"PersonnelAndAuthorityRecords","target":"MaintainCertificationRecords","rel":"requiresAction","module":"core"},{"source":"PersonnelAndAuthorityRecords","target":"MaintainRoleAndAuthorityRecords","rel":"requiresAction","module":"core"},{"source":"PositionProbe","target":"Operator","rel":"performedBy","module":"ut"},{"source":"PowerUpEquipment","target":"Operator","rel":"performedBy","module":"core"},{"source":"ProcedureAndWorkInstructionControl","target":"PrepareRNDTProcedure","rel":"requiresAction","module":"core"},{"source":"ProcessReassessment","target":"ReassessVerificationModel","rel":"requiresAction","module":"core"},{"source":"ProcessReassessment","target":"UpdateProcedureOrWorkInstruction","rel":"requiresAction","module":"core"},{"source":"RegulatoryAndPersonnelCompliance","target":"ConfirmComplianceNANDTB29","rel":"requiresAction","module":"core"},{"source":"RegulatoryAndPersonnelCompliance","target":"VerifyPersonnelTraining","rel":"requiresAction","module":"core"},{"source":"ReviewAttachedEvidence","target":"Inspector","rel":"performedBy","module":"core"},{"source":"ReviewInspectionPackage","target":"Inspector","rel":"performedBy","module":"core"},{"source":"RiskQMSAndSecurityAssurance","target":"AssureElectronicSignatureSecurity","rel":"requiresAction","module":"core"},{"source":"RiskQMSAndSecurityAssurance","target":"ReviewAndApproveRNDTTaskRiskAssessment","rel":"requiresAction","module":"core"},{"source":"SelectComponent","target":"Operator","rel":"performedBy","module":"core"},{"source":"Sense","target":"Level1InspectionExecutionAuthority","rel":"authorisedBy","module":"core"},{"source":"Sense","target":"AcquiredDataQualityAssessmentL1","rel":"hasSubActivity","module":"core"},{"source":"Sense","target":"EquipmentStatusMonitoring","rel":"hasSubActivity","module":"core"},{"source":"Sense","target":"InspectionEnviroment","rel":"hasSubActivity","module":"core"},{"source":"Sense","target":"SetupVerification","rel":"hasSubActivity","module":"core"},{"source":"Sentence","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy","module":"core"},{"source":"Sentence","target":"Documentation","rel":"hasSubActivity","module":"core"},{"source":"Sentence","target":"InspectionDisposition","rel":"hasSubActivity","module":"core"},{"source":"SetBeamAngle","target":"Operator","rel":"performedBy","module":"ut"},{"source":"SetupVerification","target":"ObserveEnergySourcePosition","rel":"requiresAction","module":"core"},{"source":"SetupVerification","target":"ObserveSensorPosition","rel":"requiresAction","module":"core"},{"source":"StoreAcquiredData","target":"Operator","rel":"performedBy","module":"core"},{"source":"TechnicalInterpretation","target":"IdentifyIndications","rel":"requiresAction","module":"core"},{"source":"TechnicalInterpretation","target":"SizeIndication","rel":"requiresAction","module":"ut"},{"source":"TechnologyAndChangeControl","target":"ValidateNewEquipment","rel":"requiresAction","module":"core"},{"source":"TechnologyAndChangeControl","target":"ValidateNewSoftware","rel":"requiresAction","module":"core"},{"source":"TransferAcquiredData","target":"Operator","rel":"performedBy","module":"core"},{"source":"VerificationModelAndTechnicalApproval","target":"ApproveTechnicalValidation","rel":"requiresAction","module":"core"},{"source":"VerificationModelAndTechnicalApproval","target":"SelectVerificationModel","rel":"requiresAction","module":"core"},{"source":"Verify","target":"Level2TechnicalEvaluationAuthority","rel":"authorisedBy","module":"core"},{"source":"Verify","target":"InspectionReadiness","rel":"hasSubActivity","module":"core"},{"source":"VerifyAcceptanceCriteria","target":"Verifier","rel":"performedBy","module":"core"},{"source":"VerifyComponentIdentityL1","target":"Operator","rel":"performedBy","module":"core"},{"source":"VerifyImageProvenance","target":"Verifier","rel":"performedBy","module":"core"},{"source":"VerifyInspectionRequest","target":"Verifier","rel":"performedBy","module":"core"}]};
+  const MODULE = "ut";          // "dr" / "ut", or null on the core page
 
+  // The backbone is a strict tree — every node has at most one backbone parent — so
+  // it is drawn as one, in columns by depth. The earlier force layout ignored that
+  // and scrambled a 4-level taxonomy into a hairball. Everything else (who performs
+  // an activity, what authorises an action) is a cross-link drawn over the top.
+  const BACKBONE = new Set(["hasProcessStage","realisedThrough","hasSubActivity",
+                            "requiresAction","requiresCapability","hasRequirement"]);
   const typeColor = {
-    ProcessStage: "#185fa5",
-    MajorAction: "#378add",
-    ActionArea: "#5dcaa5",
-    Activity: "#0f6e56",
-    Capability: "#ef9f27",
-    RequirementConcept: "#ba7517",
-    InformationEntity: "#993c1d",
-    AuthorityClass: "#7f77dd",
-    Participant: "#534ab7"
-  };
-  const typeOrder = ["ProcessStage","MajorAction","ActionArea","Activity","Capability","RequirementConcept","InformationEntity","AuthorityClass","Participant"];
-  const typeRadius = { ProcessStage: 10, MajorAction: 8, ActionArea: 7, AuthorityClass: 8, Participant: 8, Activity: 5, Capability: 6, RequirementConcept: 6, InformationEntity: 6 };
+    ProcessStage:"#185fa5", MajorAction:"#378add", ActionArea:"#5dcaa5", Activity:"#0f6e56",
+    Capability:"#ef9f27", RequirementConcept:"#ba7517", InformationEntity:"#993c1d",
+    AuthorityClass:"#7f77dd", Participant:"#534ab7" };
+  const crossColor = {
+    performedBy:"#534ab7", authorisedBy:"#7f77dd", associatedWithAuthority:"#7f77dd",
+    precedes:"#0f6e56", producesEvidence:"#d85a30", usesInformation:"#d85a30",
+    usesEntity:"#d85a30", supports:"#ef9f27", derivedFrom:"#d85a30" };
+  const COLUMNS = ["Process stage", "Major action", "Action area", "Activity / capability"];
+  const ASIDE_COL = "Roles & authority";
 
-  const relGroups = {
-    "backbone (taxonomy)": { rels: ["hasProcessStage","realisedThrough","hasSubActivity","requiresAction","requiresCapability","hasRequirement"], color: "#8d8878", dash: "0" },
-    "authority": { rels: ["authorisedBy","associatedWithAuthority"], color: "#7f77dd", dash: "0" },
-    "role": { rels: ["performedBy"], color: "#534ab7", dash: "3,2" },
-    "evidence / info": { rels: ["producesEvidence","usesInformation","supports"], color: "#d85a30", dash: "3,2" },
-    "sequence": { rels: ["precedes"], color: "#0f6e56", dash: "1,3" }
-  };
-  const relToGroup = {};
-  Object.entries(relGroups).forEach(([g, def]) => def.rels.forEach(r => relToGroup[r] = g));
+  const byId = new Map(data.nodes.map(n => [n.id, n]));
+  const treeEdges  = data.edges.filter(e => BACKBONE.has(e.rel));
+  const crossEdges = data.edges.filter(e => !BACKBONE.has(e.rel));
 
-  const nodeById = new Map(data.nodes.map(n => [n.id, n]));
-  const neighbors = new Map(data.nodes.map(n => [n.id, new Set()]));
-  const nodeEdges = new Map(data.nodes.map(n => [n.id, []]));
-  data.edges.forEach(e => {
-    neighbors.get(e.source).add(e.target);
-    neighbors.get(e.target).add(e.source);
-    nodeEdges.get(e.source).push(e);
-    nodeEdges.get(e.target).push(e);
+  const kids = new Map(), parent = new Map();
+  for (const e of treeEdges) {
+    if (!kids.has(e.source)) kids.set(e.source, []);
+    kids.get(e.source).push(e.target);
+    parent.set(e.target, e.source);
+  }
+  const roots = data.nodes.filter(n => n.type === "ProcessStage").map(n => n.id).sort();
+  // Anything the backbone never reaches — the people and authority levels the
+  // cross-links point at — gets its own column rather than being dropped.
+  const inTree = new Set();
+  const markTree = id => { inTree.add(id); (kids.get(id) || []).forEach(markTree); };
+  roots.forEach(markTree);
+  const aside = data.nodes.filter(n => !inTree.has(n.id));
+
+  const ROW = 19, COL = 290, PAD_T = 54, PAD_L = 26;
+  const build = id => ({ id, children: (kids.get(id) || []).sort().map(build) });
+  const root = d3.hierarchy({ id: "__root", children: roots.map(build) });
+  d3.tree().nodeSize([ROW, COL]).separation((a, b) => a.parent === b.parent ? 1 : 1.35)(root);
+
+  const pos = new Map();
+  let minX = Infinity, maxX = -Infinity, maxDepth = 0;
+  root.each(d => {
+    if (d.data.id === "__root") return;
+    pos.set(d.data.id, { x: (d.depth - 1) * COL, y: d.x });
+    minX = Math.min(minX, d.x); maxX = Math.max(maxX, d.x);
+    maxDepth = Math.max(maxDepth, d.depth - 1);
   });
+  // The aside column sits after the deepest tree column, evenly spread down it.
+  const asideX = (maxDepth + 1) * COL;
+  aside.sort((a, b) => (a.type + a.label).localeCompare(b.type + b.label))
+       .forEach((n, i) => pos.set(n.id, { x: asideX, y: minX + (i + 0.5) * ((maxX - minX) / aside.length) }));
 
-  const activeTypes = new Set(typeOrder);
-  let selected = null;
-
-  const svg = d3.select("#kg-svg");
+  const contentH = (maxX - minX) + PAD_T + 40;
+  const contentW = asideX + COL;
+  const svg = d3.select("#kg-svg").attr("height", Math.max(560, contentH));
   const wrap = document.getElementById("kg-canvas-wrap");
-  let width = wrap.clientWidth, height = 780;
-
-  let userMovedView = false;
   const g = svg.append("g");
-  const zoomBehavior = d3.zoom().scaleExtent([0.06, 6]).on("zoom", (ev) => {
-    g.attr("transform", ev.transform);
-    svg.classed("kg-far", ev.transform.k < 0.85);
-    scaleLabels(ev.transform.k);
-    if (ev.sourceEvent) userMovedView = true;   // a real gesture, not our own fit
-  });
-  svg.call(zoomBehavior);
+  const shiftY = d => d - minX + PAD_T;
 
-  // A 100+ node force layout naturally spreads well past the canvas at 1:1 —
-  // this fits either the whole graph or a given node subset into view instead
-  // of leaving stray nodes (the 8 UT ones included) outside the visible area.
-  function fitToView(ids, duration) {
-    const pts = ids ? data.nodes.filter(n => ids.has(n.id)) : data.nodes;
-    if (!pts.length) return;
-    const x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x));
-    const y0 = Math.min(...pts.map(p => p.y)), y1 = Math.max(...pts.map(p => p.y));
-    // Padding is reserved in SCREEN pixels, not graph units, because labels are held
-    // at a constant 11px however far the view is zoomed out. It is asymmetric: a label
-    // is drawn to the right of its node, so the right margin has to hold a whole label
-    // (~140px) while the left only has to clear a dot. Framing the node centres alone
-    // fitted the dots and then clipped every label against the right-hand edge.
-    const padL = 26, padR = 150, padY = 28;
-    const bw = Math.max(x1 - x0, 20), bh = Math.max(y1 - y0, 20);
-    const availW = Math.max(80, width - padL - padR), availH = Math.max(80, height - padY * 2);
-    const scale = Math.max(0.06, Math.min(4, Math.min(availW / bw, availH / bh)));
-    const transform = d3.zoomIdentity
-      .translate(width / 2 - (padR - padL) / 2, height / 2)
-      .scale(scale)
-      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
-    svg.transition().duration(duration ?? 0).call(zoomBehavior.transform, transform);
+  // Column guides, so the four levels of the taxonomy read as levels.
+  const heads = COLUMNS.slice(0, maxDepth + 1).concat(aside.length ? [ASIDE_COL] : []);
+  const gh = g.append("g");
+  heads.forEach((t, i) => {
+    const x = i * COL;
+    gh.append("text").attr("class", "kg-col-head").attr("x", x + PAD_L - 8).attr("y", 20).text(t);
+    if (i) gh.append("line").attr("class", "kg-col-rule")
+      .attr("x1", x - 26).attr("x2", x - 26).attr("y1", 30).attr("y2", contentH - 10);
+  });
+
+  const linkGen = d3.linkHorizontal().x(d => d.x + PAD_L).y(d => shiftY(d.y));
+  const gLinks = g.append("g");
+  const treeSel = gLinks.selectAll("path.kg-tree-link")
+    .data(treeEdges.filter(e => pos.has(e.source) && pos.has(e.target))).join("path")
+    .attr("class", "kg-tree-link")
+    .attr("d", e => linkGen({ source: pos.get(e.source), target: pos.get(e.target) }));
+
+  // Cross-links arc back through open space instead of cutting across the columns.
+  const crossSel = gLinks.selectAll("path.kg-cross-link")
+    .data(crossEdges.filter(e => pos.has(e.source) && pos.has(e.target))).join("path")
+    .attr("class", "kg-cross-link")
+    .attr("stroke", e => crossColor[e.rel] || "#8d8878")
+    .attr("stroke-dasharray", e => e.rel === "precedes" ? "2,3" : "3,3")
+    .attr("d", e => {
+      const s = pos.get(e.source), t = pos.get(e.target);
+      const x1 = s.x + PAD_L, y1 = shiftY(s.y), x2 = t.x + PAD_L, y2 = shiftY(t.y);
+      const bow = Math.min(150, 40 + Math.abs(y2 - y1) * 0.16);
+      return `M${x1},${y1}C${x1 + bow},${y1} ${x2 + bow},${y2} ${x2},${y2}`;
+    });
+
+  const node = g.append("g").selectAll("g").data(data.nodes.filter(n => pos.has(n.id))).join("g")
+    .attr("class", d => "kg-node" + (MODULE && d.module === MODULE ? " mod" : ""))
+    .attr("transform", d => `translate(${pos.get(d.id).x + PAD_L},${shiftY(pos.get(d.id).y)})`);
+  node.append("rect").attr("class", "kg-hit").attr("x", -9).attr("y", -9)
+      .attr("width", COL - 18).attr("height", 18);
+  node.append("circle")
+      .attr("r", d => (MODULE && d.module === MODULE) ? 6 : 4.5)
+      .attr("fill", d => typeColor[d.type] || "#8d8878")
+      .attr("stroke", d => (MODULE && d.module === MODULE) ? "var(--accent)" : "var(--surface)")
+      .attr("stroke-width", d => (MODULE && d.module === MODULE) ? 2.5 : 1.2);
+  node.append("text").attr("x", 11)
+      .text(d => d.label.length > 34 ? d.label.slice(0, 33) + "…" : d.label);
+
+  // ---- legend -------------------------------------------------------------
+  const counts = {};
+  data.nodes.forEach(n => counts[n.type] = (counts[n.type] || 0) + 1);
+  const active = new Set(Object.keys(counts));
+  const side = d3.select("#kg-legend");
+  if (MODULE) {
+    side.append("h3").text("Module");
+    const modN = data.nodes.filter(n => n.module === MODULE).length;
+    const r1 = side.append("div").attr("class", "kg-row");
+    r1.append("span").attr("class", "kg-ring");
+    r1.append("span").text(MODULE.toUpperCase() + " extension");
+    r1.append("span").attr("class", "kg-n").text(modN);
+    const r2 = side.append("div").attr("class", "kg-row");
+    r2.append("span").attr("class", "kg-dot").style("background", "#8d8878").style("opacity", .5);
+    r2.append("span").text("Shared core");
+    r2.append("span").attr("class", "kg-n").text(data.nodes.length - modN);
+  }
+  side.append("h3").text("Node types");
+  Object.keys(typeColor).filter(t => counts[t]).forEach(t => {
+    const r = side.append("div").attr("class", "kg-row").attr("data-type", t)
+      .on("click", function () {
+        active.has(t) ? active.delete(t) : active.add(t);
+        d3.select(this).classed("off", !active.has(t));
+        applyFilter();
+      });
+    r.append("span").attr("class", "kg-dot").style("background", typeColor[t]);
+    r.append("span").text(t);
+    r.append("span").attr("class", "kg-n").text(counts[t]);
+  });
+  const crossCounts = {};
+  crossEdges.forEach(e => crossCounts[e.rel] = (crossCounts[e.rel] || 0) + 1);
+  if (Object.keys(crossCounts).length) {
+    side.append("h3").text("Cross-links");
+    Object.entries(crossCounts).sort((a, b) => b[1] - a[1]).forEach(([rel, n]) => {
+      const r = side.append("div").attr("class", "kg-row");
+      r.append("span").attr("class", "kg-dot").style("background", crossColor[rel] || "#8d8878");
+      r.append("span").text(rel);
+      r.append("span").attr("class", "kg-n").text(n);
+    });
   }
 
-  const KG_MINOR = new Set(["Activity","Capability","RequirementConcept","InformationEntity"]);
-  const kgAlwaysLabelled = d => !KG_MINOR.has(d.type) || d.module !== "core";
+  function applyFilter() {
+    node.classed("kg-faded", d => !active.has(d.type));
+    treeSel.classed("kg-faded", e => !active.has(byId.get(e.source).type) || !active.has(byId.get(e.target).type));
+    crossSel.classed("kg-faded", e => !active.has(byId.get(e.source).type) || !active.has(byId.get(e.target).type));
+  }
 
-  // Labels sit to the right of each node, so a node really occupies a wide box,
-    // not a small circle. Collide is sized from the drawn label rather than the dot,
-    // which is what stops one label being printed over the next.
-  const labelW = d => 6.1 * Math.min(d.label.length, 22) + 8;
-  const simulation = d3.forceSimulation(data.nodes)
-    .force("link", d3.forceLink(data.edges).id(d => d.id)
-      .distance(d => relToGroup[d.rel] === "backbone (taxonomy)" ? 80 : 125).strength(0.32))
-    .force("charge", d3.forceManyBody().strength(-380).distanceMax(700))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("x", d3.forceX(width / 2).strength(0.012))
-    .force("y", d3.forceY(height / 2).strength(0.022))
-    // Collision is sized by whether a node's label is actually drawn at this zoom.
-    // The spine types stay labelled when zoomed out, so they need room for a whole
-    // label; the 49 leaf Activities are unlabelled out here and can pack tightly.
-    // Zooming in resolves their overlap on its own, because labels are held at a
-    // constant pixel size and so take up less graph space the further in you go.
-    .force("collide", d3.forceCollide()
-      .radius(d => kgAlwaysLabelled(d) ? (typeRadius[d.type] || 6) + 12 + labelW(d) * 0.78
-                                       : (typeRadius[d.type] || 6) + 9 + labelW(d) * 0.16)
-      .strength(0.95).iterations(4));
+  // ---- selection ----------------------------------------------------------
+  const detail = document.getElementById("kg-detail");
+  function ancestry(id) { const out = []; let c = parent.get(id); while (c) { out.unshift(c); c = parent.get(c); } return out; }
+  function selectNode(id) {
+    node.classed("kg-sel", false);
+    if (!id) {
+      crossSel.classed("kg-lit", false);
+      applyFilter();
+      detail.innerHTML = "Click any node to trace it through the hierarchy.";
+      return;
+    }
+    const line = new Set([...ancestry(id), id]);
+    (function down(i) { (kids.get(i) || []).forEach(c => { line.add(c); down(c); }); })(id);
+    const linked = crossEdges.filter(e => e.source === id || e.target === id);
+    linked.forEach(e => { line.add(e.source); line.add(e.target); });
+    node.classed("kg-faded", d => !line.has(d.id)).classed("kg-sel", d => d.id === id);
+    treeSel.classed("kg-faded", e => !(line.has(e.source) && line.has(e.target)));
+    crossSel.classed("kg-faded", e => !(e.source === id || e.target === id))
+            .classed("kg-lit", e => e.source === id || e.target === id);
 
-  const link = g.append("g").selectAll("line")
-    .data(data.edges).join("line")
-    .attr("class", d => "kg-link" + (d.module === "core" ? " kg-core" : ""))
-    .attr("stroke", d => d.module === "ut" ? "var(--accent)" : relGroups[relToGroup[d.rel]].color)
-    .attr("stroke-dasharray", d => d.module === "ut" ? "0" : relGroups[relToGroup[d.rel]].dash)
-    .attr("stroke-width", d => d.module === "ut" ? 2.25 : 1)
-    .attr("stroke-opacity", d => d.module === "ut" ? 0.9 : 0.5);
-
-  const node = g.append("g").selectAll("g")
-    .data(data.nodes).join("g")
-    .attr("class", d => "kg-node" + (d.module === "core" ? " kg-core" : "")
-                    + (d.module === "core" && KG_MINOR.has(d.type) ? " kg-minor" : ""))
-    .style("cursor", "pointer")
-    .call(d3.drag()
-      .on("start", (ev, d) => { if (!ev.active) simulation.alphaTarget(0.2).restart(); d.fx = d.x; d.fy = d.y; })
-      .on("drag", (ev, d) => { d.fx = ev.x; d.fy = ev.y; })
-      .on("end", (ev, d) => { if (!ev.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; }));
-
-  // Invisible, larger hit-circle under every node so a small 5-8px dot still
-  // has a comfortably clickable target (mouse and touch alike).
-  node.append("circle")
-    .attr("r", d => (typeRadius[d.type] || 6) + 10)
-    .attr("fill", "transparent")
-    .attr("pointer-events", "all");
-
-  node.append("circle")
-    .attr("r", d => (typeRadius[d.type] || 6) + (d.module === "ut" ? 3 : 0))
-    .attr("fill", d => typeColor[d.type])
-    .attr("stroke", d => d.module === "ut" ? "var(--accent)" : "var(--ground)")
-    .attr("stroke-width", d => d.module === "ut" ? 2.5 : 1.5)
-    .attr("pointer-events", "none");
-
-  const labelText = node.append("text")
-    .attr("x", d => (typeRadius[d.type] || 6) + (d.module === "ut" ? 3 : 0) + 4)
-    .attr("y", 3)
-    .attr("font-weight", d => d.module === "ut" ? 600 : 400)
-    .text(d => d.label.length > 22 ? d.label.slice(0, 21) + "…" : d.label);
-
+    const n = byId.get(id);
+    const path = ancestry(id).map(a => byId.get(a).label);
+    detail.innerHTML =
+      `<div class="t">${n.label}</div><div class="m">${n.type}${n.termId ? " &middot; " + n.termId : ""}</div>` +
+      (path.length ? `<ul>${path.map(p => `<li>${p}</li>`).join("")}</ul>` : "") +
+      (linked.length ? `<h3>Cross-links</h3><ul>${linked.map(e =>
+        `<li>${e.rel} &rarr; ${byId.get(e.source === id ? e.target : e.source).label}</li>`).join("")}</ul>` : "");
+  }
   node.on("click", (ev, d) => { ev.stopPropagation(); selectNode(d.id); });
   svg.on("click", () => selectNode(null));
 
-  // Run part of the layout before the first paint. Without this the reader watches
-  // a spiral untangle for several seconds; d3 dispatches no tick events for these,
-  // so nothing is drawn until the positions are already sensible.
-  simulation.tick(120);
-
-  const LABEL_PX = 11, HALO_PX = 3.5;
-  function scaleLabels(k) {
-    labelText.attr("font-size", LABEL_PX / k).attr("stroke-width", HALO_PX / k);
+  // ---- zoom / fit ---------------------------------------------------------
+  let W = wrap.clientWidth, H = Math.max(560, contentH);
+  const zoomBehavior = d3.zoom().scaleExtent([0.15, 4]).on("zoom", ev => g.attr("transform", ev.transform));
+  svg.call(zoomBehavior);
+  function fit(ids, dur) {
+    const pts = (ids ? data.nodes.filter(n => ids.has(n.id)) : data.nodes)
+      .filter(n => pos.has(n.id)).map(n => pos.get(n.id));
+    if (!pts.length) return;
+    const x0 = Math.min(...pts.map(p => p.x)), x1 = Math.max(...pts.map(p => p.x)) + COL * 0.75;
+    const y0 = Math.min(...pts.map(p => shiftY(p.y))), y1 = Math.max(...pts.map(p => shiftY(p.y)));
+    const k = Math.max(0.15, Math.min(2, Math.min(W / (x1 - x0 + 60), H / (y1 - y0 + 70))));
+    svg.transition().duration(dur ?? 0).call(zoomBehavior.transform, d3.zoomIdentity
+      .translate(W / 2, H / 2).scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
   }
-  scaleLabels(1);
+  fit(null, 0);
 
-  simulation.on("tick", () => {
-    link.attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-    node.attr("transform", d => `translate(${d.x},${d.y})`);
+  document.getElementById("kg-reset").addEventListener("click", () => { selectNode(null); fit(null, 400); });
+  const crossBtn = document.getElementById("kg-cross");
+  crossBtn.addEventListener("click", () => {
+    const on = crossBtn.getAttribute("aria-pressed") === "true";
+    crossBtn.setAttribute("aria-pressed", String(!on));
+    svg.classed("hide-cross", on);
   });
-
-  function applyFilter() {
-    node.classed("kg-dim", d => !activeTypes.has(d.type));
-    link.classed("kg-dim", d => !activeTypes.has(nodeById.get(d.source.id || d.source).type) || !activeTypes.has(nodeById.get(d.target.id || d.target).type));
-  }
-
-  function selectNode(id) {
-    selected = id;
-    const detail = document.getElementById("kg-detail");
-    if (!id) {
-      applyFilter();
-      detail.innerHTML = '<div class="kg-empty">Click any node to inspect it and trace its connections.</div>';
-      return;
-    }
-    const ns = neighbors.get(id);
-    node.classed("kg-dim", d => d.id !== id && !ns.has(d.id));
-    link.classed("kg-dim", d => (d.source.id || d.source) !== id && (d.target.id || d.target) !== id);
-
-    const n = nodeById.get(id);
-    const edges = nodeEdges.get(id).map(e => {
-      const outgoing = (e.source.id || e.source) === id;
-      const otherId = outgoing ? (e.target.id || e.target) : (e.source.id || e.source);
-      const other = nodeById.get(otherId);
-      return { rel: e.rel, outgoing, other, module: e.module };
-    }).sort((a, b) => a.rel.localeCompare(b.rel));
-
-    let html = `<p class="kg-name">${n.label}</p><p class="kg-type">${n.type}</p>`;
-    html += `<span class="kg-badge${n.module === 'ut' ? ' kg-badge-ut' : ''}">${n.module === 'ut' ? 'UT extension' : 'core'}</span>`;
-    if (n.termId) html += `<span class="kg-badge">${n.termId}</span>`;
-    html += `<div class="kg-conn-label">${edges.length} connection${edges.length === 1 ? '' : 's'}</div>`;
-    edges.forEach(e => {
-      html += `<div class="kg-conn" data-id="${e.other.id}">${e.outgoing ? '→' : '←'} <span class="kg-rel">${e.rel}</span> ${e.other.label}</div>`;
-    });
-    detail.innerHTML = html;
-    detail.querySelectorAll(".kg-conn").forEach(el => {
-      el.addEventListener("click", () => selectNode(el.dataset.id));
+  const focusBtn = document.getElementById("kg-focus");
+  if (focusBtn && MODULE) {
+    focusBtn.addEventListener("click", () => {
+      const ids = new Set(data.nodes.filter(n => n.module === MODULE).map(n => n.id));
+      ids.forEach(i => ancestry(i).forEach(a => ids.add(a)));
+      fit(ids, 600);
     });
   }
-
-  // Module legend
-  const moduleLegend = document.getElementById("kg-module-legend");
-  const utCount = data.nodes.filter(n => n.module === "ut").length;
-  const coreCount = data.nodes.filter(n => n.module === "core").length;
-  moduleLegend.innerHTML = `
-    <div class="kg-legend-row" style="cursor:default"><span class="kg-dot" style="background:#0f6e56;box-shadow:0 0 0 2.5px var(--accent)"></span><span class="kg-legend-label">UT extension &mdash; accent ring</span><span class="kg-legend-count">${utCount}</span></div>
-    <div class="kg-legend-row" style="cursor:default"><span class="kg-dot" style="background:var(--surface);box-shadow:0 0 0 1.5px var(--line)"></span><span class="kg-legend-label">Core &mdash; coloured by type, no ring</span><span class="kg-legend-count">${coreCount}</span></div>`;
-
-  const counts = {};
-  data.nodes.forEach(n => counts[n.type] = (counts[n.type] || 0) + 1);
-  const legend = document.getElementById("kg-legend");
-  typeOrder.forEach(t => {
-    if (!counts[t]) return;
-    const row = document.createElement("div");
-    row.className = "kg-legend-row";
-    row.innerHTML = `<span class="kg-dot" style="background:${typeColor[t]}"></span><span class="kg-legend-label">${t}</span><span class="kg-legend-count">${counts[t]}</span>`;
-    row.addEventListener("click", () => {
-      if (activeTypes.has(t)) { activeTypes.delete(t); row.classList.add("kg-off"); }
-      else { activeTypes.add(t); row.classList.remove("kg-off"); }
-      selected = null;
-      applyFilter();
-      document.getElementById("kg-detail").innerHTML = '<div class="kg-empty">Click any node to inspect it and trace its connections.</div>';
-    });
-    legend.appendChild(row);
-  });
-
-  const edgeCounts = {};
-  data.edges.forEach(e => edgeCounts[relToGroup[e.rel]] = (edgeCounts[relToGroup[e.rel]] || 0) + 1);
-  const edgeLegend = document.getElementById("kg-edge-legend");
-  Object.entries(relGroups).forEach(([g2, def]) => {
-    const row = document.createElement("div");
-    row.className = "kg-edge-row";
-    row.innerHTML = `<span class="kg-edge-swatch" style="border-top-color:${def.color};border-top-style:${def.dash === "0" ? "solid" : "dashed"}"></span><span>${g2} (${edgeCounts[g2] || 0})</span>`;
-    edgeLegend.appendChild(row);
-  });
-
-  document.getElementById("kg-reset").addEventListener("click", () => fitToView(null, 400));
-  document.getElementById("kg-clear").addEventListener("click", () => selectNode(null));
-
-  // The 8 UT nodes are easy to lose among 102 core nodes at the default zoom,
-  // so give the viewport a way to frame exactly them (plus their direct core
-  // neighbours) instead of making the point depend on the reader spotting
-  // eight small dots in a 110-node layout.
-  const utNodeIds = data.nodes.filter(n => n.module === "ut").map(n => n.id);
-  function focusUT() {
-    const ids = new Set(utNodeIds.flatMap(id => [id, ...neighbors.get(id)]));
-    fitToView(ids, 650);
-    selectNode(utNodeIds[0]);
-  }
-  document.getElementById("kg-focus-ut").addEventListener("click", focusUT);
-
-  let autoFocused = false;
-  simulation.on("end", () => {
-    if (userMovedView) return;
-    fitToView(null, 500);              // whole graph visible first, guaranteed
-    if (!autoFocused) { autoFocused = true; setTimeout(focusUT, 900); }  // then zoom to the UT module
-  });
-
   new ResizeObserver(() => {
     const w = wrap.clientWidth;
-    if (Math.abs(w - width) > 20) {
-      width = w;
-      simulation.force("center", d3.forceCenter(width / 2, height / 2));
-      simulation.alpha(0.3).restart();
-    }
+    if (Math.abs(w - W) > 20) { W = w; fit(null, 0); }
   }).observe(wrap);
 })();
 </script>
