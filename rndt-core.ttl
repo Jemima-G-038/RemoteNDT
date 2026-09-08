@@ -30,7 +30,7 @@ rndt:ActionArea rdf:type owl:Class ;
 
 rndt:Activity rdf:type owl:Class ;
     rdfs:label "Activity"@en ;
-    rdfs:comment "A concrete, performable task within an Action Area, typically carried out by a Participant."@en .
+    rdfs:comment "A concrete, performable task within an Action Area, carried out by the Role given by performedBy."@en .
 
 rndt:Capability rdf:type owl:Class ;
     rdfs:label "Capability"@en ;
@@ -59,7 +59,11 @@ rndt:AuthorityClass rdf:type owl:Class ;
 
 rndt:Participant rdf:type owl:Class ;
     rdfs:label "Participant"@en ;
-    rdfs:comment "A human role that performs Activities (e.g. Operator, Inspector, Verifier)."@en .
+    rdfs:comment "A named party taking part in the process — in practice a person, reached from an activity-log entry via logPerformedBy or from a procedure via approvedBy. A Participant holds an AuthorityClass (the certification level they carry, via memberOfAuthorityClass) and occupies a Role (the position they fill, via hasRole); those are two independent facts about them and neither is derivable from the other."@en .
+
+rndt:Role rdf:type owl:Class ;
+    rdfs:label "Role"@en ;
+    rdfs:comment "A position in the Remote NDT process, defined by where it is carried out and what it is responsible for. Per NANDTB/29 an Operator is at the deployed location, an Inspector is at base and responsible for interpretation and sentencing, and a Verifier assures test-data integrity and may be an automated system rather than a person. Deliberately distinct from AuthorityClass, which is a certification tier: the two vary independently, and NANDTB/29 makes that explicit by defining six verification models (Inspector, Operator, Dual, Joint, Hybrid and External Verification) that assign the same fixed-authority verification activity to different roles. A certification level therefore cannot be inferred from a role, nor a role from a level."@en .
 
 rndt:Software rdf:type owl:Class ;
     rdfs:label "Software"@en ;
@@ -67,7 +71,7 @@ rndt:Software rdf:type owl:Class ;
 
 rndt:Facility rdf:type owl:Class ;
     rdfs:label "Facility"@en ;
-    rdfs:comment "An organisational site at which an inspection or interpretation is carried out. Introduced to answer CQ-23; Participant is reserved for human roles, so a facility has no existing home."@en .
+    rdfs:comment "An organisational site at which an inspection or interpretation is carried out. Introduced to answer CQ-23; Participant is reserved for named parties and Role for the positions they fill, so a facility has no existing home."@en .
 
 #################################################################
 #    Annotation properties
@@ -117,12 +121,6 @@ rndt:serialNumber rdf:type owl:DatatypeProperty ;
     rdfs:label "serialNumber"@en ;
     rdfs:comment "The serial number uniquely identifying an individual physical component (CQ-17)."@en ;
     rdfs:domain rndt:PhysicalEntity ;
-    rdfs:range xsd:string .
-
-rndt:hasRole rdf:type owl:DatatypeProperty ;
-    rdfs:label "hasRole"@en ;
-    rdfs:comment "The role a Participant occupies, e.g. Operator, Inspector, Verifier."@en ;
-    rdfs:domain rndt:Participant ;
     rdfs:range xsd:string .
 
 rndt:inspectionDate rdf:type owl:DatatypeProperty ;
@@ -220,12 +218,19 @@ rndt:memberOfAuthorityClass rdf:type owl:ObjectProperty ;
 
 # ---- Relationship family: role ----
 
+rndt:hasRole rdf:type owl:ObjectProperty ;
+    rdfs:label "hasRole"@en ;
+    rdfs:comment "Relates a named Participant to the Role they occupy. Previously a datatype property carrying a free-text label, which meant a participant's role could never be joined to the Role individual of the same name — the two vocabularies existed side by side with no path between them, so the role a person holds could not be used to reach the activities that role performs. Distinct from memberOfAuthorityClass, which records the certification level the same person holds."@en ;
+    rndt:relationshipFamily "role"@en ;
+    rdfs:domain rndt:Participant ;
+    rdfs:range rndt:Role .
+
 rndt:performedBy rdf:type owl:ObjectProperty ;
     rdfs:label "performedBy"@en ;
-    rdfs:comment "Relates an Activity to the Participant role that carries it out."@en ;
+    rdfs:comment "Relates an Activity to the Role that carries it out. A schema-level statement about which position is responsible for a kind of work, not about any particular occurrence — logPerformedBy attributes a specific occurrence to a named Participant. The authority level an activity requires is not recorded here: it is already derivable from the activity's place in the taxonomy, via its Action Area's Major Action and that action's authorisedBy."@en ;
     rndt:relationshipFamily "role"@en ;
     rdfs:domain rndt:Activity ;
-    rdfs:range rndt:Participant .
+    rdfs:range rndt:Role .
 
 # ---- Relationship family: evidence / info ----
 
@@ -512,8 +517,10 @@ rndt:InspectionPreparation rdf:type owl:NamedIndividual , rndt:ActionArea ;
 rndt:InspectionReadiness rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Inspection Readiness"@en .
 
-rndt:Inspector rdf:type owl:NamedIndividual , rndt:Participant ;
-    rdfs:label "Inspector"@en .
+rndt:Inspector rdf:type owl:NamedIndividual , rndt:Role ;
+    rndt:exactSourceTerm "Inspector" ;
+    rdfs:label "Inspector"@en ;
+    rdfs:comment "NANDTB/29: an RNDT certified person at base, responsible for interpretation and sentencing. Defined by location and remit, not by certification level."@en .
 
 rndt:InvestigateVerificationFailures rdf:type owl:NamedIndividual , rndt:Activity ;
     rndt:termId "TERM-0302" ;
@@ -622,8 +629,10 @@ rndt:ObserveSystemAlarms rdf:type owl:NamedIndividual , rndt:Activity ;
 rndt:OperationalAndHumanPerformance rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Operational and Human Performance"@en .
 
-rndt:Operator rdf:type owl:NamedIndividual , rndt:Participant ;
-    rdfs:label "Operator"@en .
+rndt:Operator rdf:type owl:NamedIndividual , rndt:Role ;
+    rndt:exactSourceTerm "Operator" ;
+    rdfs:label "Operator"@en ;
+    rdfs:comment "NANDTB/29: an RNDT certified person at the deployed location. Defined by location and remit, not by certification level."@en .
 
 rndt:Oversight rdf:type owl:NamedIndividual , rndt:ProcessStage ;
     rndt:termId "TERM-0234" ;
@@ -731,8 +740,14 @@ rndt:ValidateNewSoftware rdf:type owl:NamedIndividual , rndt:Activity ;
 rndt:VerificationModelAndTechnicalApproval rdf:type owl:NamedIndividual , rndt:ActionArea ;
     rdfs:label "Verification Model and Technical Approval"@en .
 
-rndt:Verifier rdf:type owl:NamedIndividual , rndt:Participant ;
-    rdfs:label "Verifier"@en .
+rndt:Verifier rdf:type owl:NamedIndividual , rndt:Role ;
+    rndt:exactSourceTerm "Verifier" ;
+    rdfs:label "Verifier"@en ;
+    rdfs:comment "NANDTB/29: certified person(s) or an automated system assuring test-data integrity. The one Role the source explicitly permits to be non-human, which is why a Role cannot be equated with a personnel certification level."@en .
+
+rndt:GovernanceAuthority rdf:type owl:NamedIndividual , rndt:Role ;
+    rdfs:label "Governance authority"@en ;
+    rdfs:comment "The position responsible for the Oversight stage — method governance, compliance, performance monitoring, knowledge management and continuous improvement. Introduced by this ontology and NOT drawn from NANDTB/29, whose role set (Operator, Inspector, Verifier) covers inspection execution only and has no term for the governance function; the same reasoning that introduced rndt:Software and rndt:Facility where no source term fitted. Named for the function it performs rather than after Level 3, to avoid implying that a Role and an AuthorityClass are the same thing."@en .
 
 rndt:Verify rdf:type owl:NamedIndividual , rndt:MajorAction ;
     rndt:termId "AUTH-004" ;
@@ -894,3 +909,49 @@ rndt:ProcessReassessment rndt:requiresAction rndt:ReassessVerificationModel .  #
 rndt:ProcessReassessment rndt:requiresAction rndt:UpdateProcedureOrWorkInstruction .  # TERM-0312
 rndt:TechnologyAndChangeControl rndt:requiresAction rndt:ValidateNewEquipment .  # TERM-0314
 rndt:TechnologyAndChangeControl rndt:requiresAction rndt:ValidateNewSoftware .  # TERM-0315
+
+# Role assignment completed for every Activity. Assigned per Action Area, which is
+# the taxonomy's own grouping, so the rule is reproducible rather than case-by-case:
+# assurance areas take the Verifier (NANDTB/29 scopes that role to assuring test-data
+# integrity), the rest of Data Acquisition takes the Operator, Evaluation takes the
+# Inspector, and Oversight takes the GovernanceAuthority. Note the Verifier appears
+# under both Level 1 and Level 2 authority: role and authority level are independent
+# axes, and this is where that shows. The authority a Role must hold is not asserted
+# anywhere -- it is already derivable from each Activity's place in the taxonomy.
+rndt:ObserveAcquiredDataQuality rndt:performedBy rndt:Verifier .
+rndt:ObserveArtefacts rndt:performedBy rndt:Verifier .
+rndt:AuditTestConditions rndt:performedBy rndt:GovernanceAuthority .
+rndt:VerifyEnduringInspectionRecords rndt:performedBy rndt:GovernanceAuthority .
+rndt:MaintainAcceptanceCriteria rndt:performedBy rndt:GovernanceAuthority .
+rndt:MaintainCodesStandardsAndControllingDocuments rndt:performedBy rndt:GovernanceAuthority .
+rndt:MaintainCurrentProceduresAndWorkInstructions rndt:performedBy rndt:GovernanceAuthority .
+rndt:DefineCorrectiveAction rndt:performedBy rndt:GovernanceAuthority .
+rndt:InvestigateVerificationFailures rndt:performedBy rndt:GovernanceAuthority .
+rndt:MonitorChecksumAndAuditTrailFailures rndt:performedBy rndt:GovernanceAuthority .
+rndt:MonitorDataAttribution rndt:performedBy rndt:GovernanceAuthority .
+rndt:ObserveSensorStatus rndt:performedBy rndt:Operator .
+rndt:ObserveSystemAlarms rndt:performedBy rndt:Operator .
+rndt:MonitorInspectionSensitivity rndt:performedBy rndt:GovernanceAuthority .
+rndt:MonitorVerificationFailures rndt:performedBy rndt:GovernanceAuthority .
+rndt:ObserveControlledAreaStatus rndt:performedBy rndt:Operator .
+rndt:ObserveEnvironmentalConditions rndt:performedBy rndt:Operator .
+rndt:MaintainReportsAndDecisions rndt:performedBy rndt:GovernanceAuthority .
+rndt:RetainOriginalInspectionData rndt:performedBy rndt:GovernanceAuthority .
+rndt:SelectNDTMethodAndTechnique rndt:performedBy rndt:GovernanceAuthority .
+rndt:IdentifyAdversePerformanceTrends rndt:performedBy rndt:GovernanceAuthority .
+rndt:MonitorEquipmentAndSystemCapability rndt:performedBy rndt:GovernanceAuthority .
+rndt:MaintainCertificationRecords rndt:performedBy rndt:GovernanceAuthority .
+rndt:MaintainRoleAndAuthorityRecords rndt:performedBy rndt:GovernanceAuthority .
+rndt:PrepareRNDTProcedure rndt:performedBy rndt:GovernanceAuthority .
+rndt:ReassessVerificationModel rndt:performedBy rndt:GovernanceAuthority .
+rndt:UpdateProcedureOrWorkInstruction rndt:performedBy rndt:GovernanceAuthority .
+rndt:ConfirmComplianceNANDTB29 rndt:performedBy rndt:GovernanceAuthority .
+rndt:VerifyPersonnelTraining rndt:performedBy rndt:GovernanceAuthority .
+rndt:AssureElectronicSignatureSecurity rndt:performedBy rndt:GovernanceAuthority .
+rndt:ReviewAndApproveRNDTTaskRiskAssessment rndt:performedBy rndt:GovernanceAuthority .
+rndt:ObserveEnergySourcePosition rndt:performedBy rndt:Operator .
+rndt:ObserveSensorPosition rndt:performedBy rndt:Operator .
+rndt:ValidateNewEquipment rndt:performedBy rndt:GovernanceAuthority .
+rndt:ValidateNewSoftware rndt:performedBy rndt:GovernanceAuthority .
+rndt:ApproveTechnicalValidation rndt:performedBy rndt:GovernanceAuthority .
+rndt:SelectVerificationModel rndt:performedBy rndt:GovernanceAuthority .

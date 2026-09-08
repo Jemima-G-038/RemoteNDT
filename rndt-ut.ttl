@@ -138,3 +138,14 @@ rndt-ut:ApplyTCGCurve rndt:performedBy rndt:Operator .
 rndt-ut:PositionProbe rndt:performedBy rndt:Operator .
 rndt-ut:SetBeamAngle rndt:performedBy rndt:Operator .
 rndt-ut:PerformUTScan rndt:performedBy rndt:Operator .
+
+# Role assignment completed for every Activity. Assigned per Action Area, which is
+# the taxonomy's own grouping, so the rule is reproducible rather than case-by-case:
+# assurance areas take the Verifier (NANDTB/29 scopes that role to assuring test-data
+# integrity), the rest of Data Acquisition takes the Operator, Evaluation takes the
+# Inspector, and Oversight takes the GovernanceAuthority. Note the Verifier appears
+# under both Level 1 and Level 2 authority: role and authority level are independent
+# axes, and this is where that shows. The authority a Role must hold is not asserted
+# anywhere -- it is already derivable from each Activity's place in the taxonomy.
+rndt-ut:VerifyCalibrationVerification rndt:performedBy rndt:Verifier .
+rndt-ut:SizeIndication rndt:performedBy rndt:Inspector .

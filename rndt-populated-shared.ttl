@@ -16,13 +16,13 @@ rndt:LOG_0002 a owl:NamedIndividual ;
 rndt:P_INS_01 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "David Whitfield"@en ;
-    rndt:hasRole "Inspector" ;
+    rndt:hasRole rndt:Inspector ;
     rndt:memberOfAuthorityClass rndt:Level2TechnicalEvaluationAuthority .
 
 rndt:P_OP_03 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Aisha Rahman"@en ;
-    rndt:hasRole "Operator" ;
+    rndt:hasRole rndt:Operator ;
     rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
 
 rndt:SPEC_001 a rndt:InformationEntity,
@@ -32,6 +32,6 @@ rndt:SPEC_001 a rndt:InformationEntity,
 rndt:P_VER_01 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Thomas Okafor"@en ;
-    rndt:hasRole "Verifier" ;
+    rndt:hasRole rndt:Verifier ;
     rndt:memberOfAuthorityClass rndt:Level3GovernanceAndAssuranceAuthority .
 

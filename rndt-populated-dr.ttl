@@ -1375,13 +1375,13 @@ rndt:SW_002 a rndt:Software,
 rndt:P_INS_02 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Helena Novak"@en ;
-    rndt:hasRole "Inspector" ;
+    rndt:hasRole rndt:Inspector ;
     rndt:memberOfAuthorityClass rndt:Level2TechnicalEvaluationAuthority .
 
 rndt:P_OP_01 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Sarah Chen"@en ;
-    rndt:hasRole "Operator" ;
+    rndt:hasRole rndt:Operator ;
     rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
 
 rndt:INSP_001 a rndt:RemoteNDTProcess,
@@ -1504,6 +1504,6 @@ rndt:INSP_009 a rndt:RemoteNDTProcess,
 rndt:P_OP_02 a rndt:Participant,
         owl:NamedIndividual ;
     rdfs:label "Marcus Reid"@en ;
-    rndt:hasRole "Operator" ;
+    rndt:hasRole rndt:Operator ;
     rndt:memberOfAuthorityClass rndt:Level1InspectionExecutionAuthority .
 
